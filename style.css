@@ -1,13 +1,13 @@
 body {
-    font-family: sans-serif;
+    font-family: 'Inter', sans-serif;
     margin: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #F8F9FA; /* Updated background color */
+    color: #212529; /* Updated text color */
 }
 
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: #343A40; /* Updated header background */
+    color: #F8F9FA; /* Updated header text color */
     padding: 1rem 0;
     text-align: center;
 }
@@ -19,7 +19,8 @@ header h1 {
 nav {
     display: flex;
     justify-content: center; /* Center the ul inside nav */
-    background-color: #444;
+    align-items: center; /* Vertically center items */
+    background-color: #495057; /* Updated nav background */
     padding: 0.5rem 0;
 }
 
@@ -35,13 +36,33 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #fff;
+    color: #F8F9FA; /* Updated nav link color */
     text-decoration: none;
     padding: 0.5rem 0; /* Add some padding for easier clicking */
 }
 
 nav ul li a:hover {
+    color: #FFFFFF; /* Updated nav link hover color */
     text-decoration: underline;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: #343A40; /* Dark grey for headings */
+}
+
+/* Specific H1 rule for non-header H1s (if any) */
+/* Example: main h1, section h1 { color: #000000; } */
+
+/* General Links */
+a {
+    color: #495057; /* Medium grey for general links */
+    text-decoration: none; /* No underline by default */
+}
+
+a:hover {
+    color: #212529; /* Darker grey on hover */
+    text-decoration: underline; /* Underline on hover */
 }
 
 main {
@@ -57,11 +78,11 @@ main {
 }
 
 .project {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: #FFFFFF; /* Explicit white background */
+    border: 1px solid #DEE2E6; /* Softer border */
     border-radius: 5px;
     padding: 15px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Subtler shadow */
 }
 
 .project h2 {
@@ -75,29 +96,55 @@ main {
 
 .project a {
     text-decoration: none;
-    color: #337ab7;
+    color: #495057; /* Updated project link color */
     font-weight: bold;
 }
 
 .project a:hover {
+    /* Inherits color from general a:hover */
     text-decoration: underline;
 }
 
 footer {
     text-align: center;
     padding: 1rem 0;
-    background-color: #333;
-    color: #fff;
+    background-color: #343A40; /* Updated footer background */
+    color: #F8F9FA; /* Updated footer text color */
     bottom: 0;
     width: 100%;
     position: relative; /* Changed from fixed to relative */
 }
 
 /* Styling for new sections */
-#about, #skills, #work-experience, #contact {
+#projects, #about, #skills, #work-experience, #contact {
     padding: 20px;
     margin-bottom: 20px;
-    background-color: #e9e9e9;
-    border: 1px solid #ccc;
+    background-color: #FFFFFF; /* White background for sections */
+    border: 1px solid #DEE2E6; /* Softer border for sections */
     border-radius: 5px; /* Added for consistency with .project styling */
 }
+
+/*
+--- Future Button Styles ---
+
+.button-primary {
+  display: inline-block;
+  background-color: #495057; /* Medium grey, could also be #6C757D */
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border: 1px solid #495057; /* Same as background or a shade darker */
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 500; /* Medium weight for Inter */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.button-primary:hover,
+.button-primary:focus {
+  background-color: #343A40; /* Darker grey on hover/focus */
+  border-color: #343A40;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+*/
