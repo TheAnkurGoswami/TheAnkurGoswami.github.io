@@ -437,13 +437,13 @@ main {
 
 #work-experience .timeline-item:nth-child(odd) .timeline-dates {
     /* Content is on LEFT, dates go on RIGHT of center line */
-    left: calc(50% + 25px);
+    left: calc(100% + 20px); /* Positioned relative to the parent .timeline-item's right edge */
     text-align: left;
 }
 
 #work-experience .timeline-item:nth-child(even) .timeline-dates {
     /* Content is on RIGHT, dates go on LEFT of center line */
-    right: calc(50% + 25px);
+    right: calc(100% + 20px); /* Positioned relative to the parent .timeline-item's left edge */
     text-align: right;
 }
 
