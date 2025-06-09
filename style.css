@@ -222,27 +222,89 @@ main {
     gap: 20px;
 }
 
+/* Project Card Styles */
 .project {
-    background-color: #343A40; /* Darker grey for project cards */
-    border: 1px solid #495057; /* Medium grey border for project cards */
-    color: #F8F9FA; /* Light text for project cards */
-    border-radius: 5px;
+    background-color: #343A40;
+    border: 1px solid #495057;
+    color: #F8F9FA;
+    border-radius: 6px; /* Updated */
+    /* padding: 15px; -- Padding will be on content wrapper */
+    overflow: hidden; /* Added */
+    display: flex; /* Added */
+    flex-direction: column; /* Added */
+}
+
+.project img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    /* border-bottom: 1px solid #495057; */ /* Optional separator, not using if card has overflow:hidden and content has padding */
+    /* If image is meant to have only top rounded corners: */
+    /* border-top-left-radius: 6px; */ /* Handled by .project overflow:hidden and img width:100% if image is first child */
+    /* border-top-right-radius: 6px; */
+}
+
+.project-card-content {
     padding: 15px;
-    /* box-shadow removed */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allows pushing links to bottom if card is flex container */
 }
 
-.project h2 {
+.project h2 { /* Title */
     margin-top: 0;
-    /* Color will be handled by the section-specific heading rule or inherit if not overridden */
-}
-
-.project p {
-    font-size: 0.9rem;
     margin-bottom: 10px;
-    /* Color will be inherited from .project's color: #F8F9FA */
+    font-size: 1.3rem;
+    color: #F8F9FA; /* Explicit, though inherited */
 }
 
-/* .project a styling will be handled by the more specific section link styles below */
+.project p { /* Description */
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #CED4DA; /* Slightly less prominent */
+    flex-grow: 1; /* Allow description to take up space, pushing links down */
+}
+
+.project-technologies,
+.project-tags {
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tech-tag,
+.tag { /* Assuming .tag is styled like .tech-tag for now */
+    padding: 5px 10px;
+    background-color: #495057;
+    color: #E0E0E0;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    line-height: 1;
+}
+
+.project-links {
+    margin-top: auto; /* Pushes to the bottom of the card-content if it's a flex column */
+    padding-top: 10px; /* Space above links if there are many tags/techs */
+    display: flex;
+    gap: 15px;
+}
+
+.project-links a {
+    color: #50FA7B;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.project-links a:hover {
+    color: #82fdd1;
+    text-decoration: underline;
+}
+
+/* Old .project a styling, now handled by .project-links a or section-wide link styles */
 /*
 .project a {
     text-decoration: none;

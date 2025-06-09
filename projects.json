@@ -1,0 +1,72 @@
+[
+  {
+    "id": "facenet",
+    "title": "Face-Recognition-using-FaceNet",
+    "description": "Face recognition system built on a pre-trained FaceNet model, supporting both live and image-based recognition. Trained on celebrity faces with state-of-the-art accuracy.",
+    "technologies": ["Python", "FaceNet", "OpenCV", "Keras"],
+    "tags": [],
+    "imageUrl": "path/to/facenet.jpg",
+    "repoUrl": "https://github.com/TheAnkurGoswami/Face-Recognition-using-FaceNet",
+    "liveUrl": null
+  },
+  {
+    "id": "nnfs",
+    "title": "Neural-Networks-from-Scratch",
+    "description": "Simplest implementation of various neural networks built from scratch to understand core concepts.",
+    "technologies": ["Python", "NumPy"],
+    "tags": [],
+    "imageUrl": "path/to/nnfs.jpg",
+    "repoUrl": "https://github.com/TheAnkurGoswami/Neural-Networks-from-Scratch",
+    "liveUrl": null
+  },
+  {
+    "id": "humanviolence",
+    "title": "Human-Violence-Detection",
+    "description": "Detects violent activity in videos using deep learning techniques.",
+    "technologies": ["Python", "OpenCV", "TensorFlow", "Keras"],
+    "tags": [],
+    "imageUrl": "path/to/violence.jpg",
+    "repoUrl": "https://github.com/TheAnkurGoswami/Human-Violence-Detection",
+    "liveUrl": null
+  },
+  {
+    "id": "mocr",
+    "title": "M-OCR",
+    "description": "A simple and digital way to solve mathematical problems using Optical Character Recognition.",
+    "technologies": ["Python", "OCR", "Tesseract", "Streamlit"],
+    "tags": [],
+    "imageUrl": "path/to/mocr.jpg",
+    "repoUrl": "https://github.com/TheAnkurGoswami/M-OCR",
+    "liveUrl": null
+  },
+  {
+    "id": "cowintracker",
+    "title": "CoWIN-Tracker",
+    "description": "Telegram bot to track the availability of COVID-19 vaccines in India using CoWIN API.",
+    "technologies": ["Python", "Telegram Bot", "API"],
+    "tags": [],
+    "imageUrl": "path/to/cowin.jpg",
+    "repoUrl": "https://github.com/TheAnkurGoswami/CoWIN-Tracker",
+    "liveUrl": null
+  },
+  {
+    "id": "covidtrackerbot",
+    "title": "COVID19-Tracker-TG-bot",
+    "description": "Telegram bot for real-time COVID-19 case updates in India.",
+    "technologies": ["Python", "Telegram Bot", "API"],
+    "tags": [],
+    "imageUrl": "path/to/covidtracker.jpg",
+    "repoUrl": "https://github.com/TheAnkurGoswami/COVID19-Tracker-TG-bot",
+    "liveUrl": null
+  },
+  {
+    "id": "numwords",
+    "title": "NumWords",
+    "description": "A simple Python library to convert numbers into their semantic word representation.",
+    "technologies": ["Python"],
+    "tags": [],
+    "imageUrl": "path/to/numwords.jpg",
+    "repoUrl": "https://github.com/TheAnkurGoswami/NumWords",
+    "liveUrl": null
+  }
+]

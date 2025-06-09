@@ -1,62 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Project Loading Logic
     const projectsContainer = document.getElementById('projects-container');
-    const username = 'TheAnkurGoswami'; // Replace this with the actual GitHub username
 
     if (!projectsContainer) {
-        console.error('Projects container not found!');
-        return;
-    }
-
-    if (username === 'YOUR_USERNAME') {
-        projectsContainer.innerHTML = '<p>Please update script.js with your GitHub username to see your projects.</p>';
-        console.warn('GitHub username not set. Please replace "YOUR_USERNAME" in script.js');
-        // Display some dummy projects for layout purposes if no username is set
-        displayDummyProjects(projectsContainer);
-        return;
-    }
-
-    fetch(`https://api.github.com/users/${username}/repos?sort=updated&direction=desc`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`GitHub API error: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(repos => {
-            if (repos.length === 0) {
-                projectsContainer.innerHTML = '<p>No public repositories found for this user.</p>';
-                return;
-            }
-            repos.forEach(repo => {
-                const projectElement = document.createElement('div');
-                projectElement.classList.add('project');
-
-                const title = document.createElement('h2');
-                title.textContent = repo.name;
-
-                const description = document.createElement('p');
-                description.textContent = repo.description || 'No description available.';
-
-                const link = document.createElement('a');
-                link.href = repo.html_url;
-                link.textContent = 'View Project';
-                link.target = '_blank'; // Open in new tab
-
-                projectElement.appendChild(title);
-                projectElement.appendChild(description);
-                projectElement.appendChild(link);
-
-                projectsContainer.appendChild(projectElement);
+        console.error('Projects container not found for rendering projects!');
+    } else {
+        fetch('projects.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(projectsData => {
+                displayProjects(projectsData, projectsContainer);
+            })
+            .catch(error => {
+                console.error('Failed to fetch or parse projects.json:', error);
+                projectsContainer.innerHTML = '<p>Error loading projects. Please check the console.</p>';
             });
-        })
-        .catch(error => {
-            console.error('Failed to fetch projects:', error);
-            projectsContainer.innerHTML = `<p>Error loading projects: ${error.message}. Check the console for more details.</p>`;
-            // Display dummy projects if API fails
-            displayDummyProjects(projectsContainer);
-        });
+    }
 
-    // New Typing Animation Logic
+    // Typing Animation Logic
     const typedElement = document.getElementById('typing-designation');
 
     if (typedElement) {
@@ -134,32 +99,98 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-function displayDummyProjects(container) {
-    const dummyProjects = [
-        { name: 'Sample Project 1', description: 'This is a placeholder for a project description. Replace YOUR_USERNAME in script.js.', html_url: '#' },
-        { name: 'Sample Project 2', description: 'Another example project. The real projects will be fetched from GitHub.', html_url: '#' },
-        { name: 'Sample Project 3', description: 'Configure your GitHub username to see your actual projects listed here.', html_url: '#' }
-    ];
+function displayProjects(projectsData, container) {
+    container.innerHTML = ''; // Clear previous content
 
-    dummyProjects.forEach(repo => {
+    if (!projectsData || !Array.isArray(projectsData) || projectsData.length === 0) {
+        container.innerHTML = '<p>No projects to display at the moment.</p>';
+        return;
+    }
+
+    projectsData.forEach(project => {
         const projectElement = document.createElement('div');
         projectElement.classList.add('project');
 
-        const title = document.createElement('h2');
-        title.textContent = repo.name;
+        if (project.imageUrl) {
+            const img = document.createElement('img');
+            img.src = project.imageUrl;
+            img.alt = project.title ? project.title + " image" : "Project image";
+            // Add error handling for images if desired, e.g., img.onerror = ...
+            projectElement.appendChild(img);
+        }
 
-        const description = document.createElement('p');
-        description.textContent = repo.description;
+        const contentWrapper = document.createElement('div');
+        contentWrapper.classList.add('project-card-content');
 
-        const link = document.createElement('a');
-        link.href = repo.html_url;
-        link.textContent = 'View Project';
-        link.target = '_blank';
+        if (project.title) {
+            const title = document.createElement('h2');
+            title.textContent = project.title;
+            contentWrapper.appendChild(title);
+        }
 
-        projectElement.appendChild(title);
-        projectElement.appendChild(description);
-        projectElement.appendChild(link);
+        if (project.description) {
+            const description = document.createElement('p');
+            description.textContent = project.description;
+            contentWrapper.appendChild(description);
+        }
 
+        if (project.technologies && project.technologies.length > 0) {
+            const techsDiv = document.createElement('div');
+            techsDiv.classList.add('project-technologies');
+            project.technologies.forEach(tech => {
+                const techTag = document.createElement('span');
+                techTag.classList.add('tech-tag');
+                techTag.textContent = tech;
+                techsDiv.appendChild(techTag);
+            });
+            contentWrapper.appendChild(techsDiv);
+        }
+
+        if (project.tags && project.tags.length > 0) {
+            const tagsDiv = document.createElement('div');
+            tagsDiv.classList.add('project-tags');
+            project.tags.forEach(t => {
+                const tag = document.createElement('span');
+                tag.classList.add('tag');
+                tag.textContent = t;
+                tagsDiv.appendChild(tag);
+            });
+            contentWrapper.appendChild(tagsDiv);
+        }
+
+        const linksDiv = document.createElement('div');
+        linksDiv.classList.add('project-links');
+        let hasLinks = false;
+
+        if (project.repoUrl) {
+            const repoLink = document.createElement('a');
+            repoLink.href = project.repoUrl;
+            repoLink.textContent = 'View Repo';
+            repoLink.target = '_blank';
+            repoLink.rel = 'noopener noreferrer';
+            linksDiv.appendChild(repoLink);
+            hasLinks = true;
+        }
+
+        if (project.liveUrl) {
+            if(hasLinks) { // Add a separator if repo link also exists
+                const separator = document.createTextNode(' | ');
+                linksDiv.appendChild(separator);
+            }
+            const liveLink = document.createElement('a');
+            liveLink.href = project.liveUrl;
+            liveLink.textContent = 'Live Demo';
+            liveLink.target = '_blank';
+            liveLink.rel = 'noopener noreferrer';
+            linksDiv.appendChild(liveLink);
+            hasLinks = true;
+        }
+
+        if(hasLinks){
+            contentWrapper.appendChild(linksDiv);
+        }
+
+        projectElement.appendChild(contentWrapper);
         container.appendChild(projectElement);
     });
 }
