@@ -119,10 +119,12 @@ nav ul li a:hover {
     list-style-type: none;
     padding: 0;
     margin: 0;
+    display: block; /* Ensure block behavior */
 }
 
 #sidebar nav li {
     display: block; /* Ensure li elements are block-level */
+    width: 100%; /* Ensure full width */
 }
 
 #sidebar nav a {
