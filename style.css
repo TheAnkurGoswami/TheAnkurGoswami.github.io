@@ -330,6 +330,69 @@ main {
     }
 }
 
+/* Work Experience Timeline Styles */
+#work-experience .timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px 0;
+}
+
+#work-experience .timeline::before {
+    content: '';
+    position: absolute;
+    left: 18px; /* Center of a 4px line, allowing marker to align */
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: #495057; /* Muted grey for the line */
+    border-radius: 2px;
+}
+
+#work-experience .timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+    padding-left: 60px; /* Space for marker + gap */
+}
+
+#work-experience .timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+#work-experience .timeline-marker {
+    position: absolute;
+    left: 10px; /* (18px line left) - (20px marker width / 2) + (4px line width / 2) - 4px marker border = 18 - 10 + 2 - 4 = 6. This needs to be 10px to align a 20px marker with 4px border on an 18px-left line. ((20+2*4)/2) - (4/2) = 14-2 = 12. left: 18-12=6px if marker center on line center. For current plan: left:10px */
+    top: 5px;    /* Align with top of text or content box */
+    width: 20px;
+    height: 20px;
+    background-color: #50FA7B; /* Accent green */
+    border-radius: 50%;
+    border: 4px solid #212529; /* Section background color for a "punch-out" effect */
+    z-index: 1; /* Above the timeline's ::before line */
+}
+
+#work-experience .timeline-content {
+    background-color: #343A40; /* Slightly different dark shade */
+    padding: 20px;
+    border-radius: 6px;
+    position: relative;
+    color: #F8F9FA;
+}
+
+#work-experience .timeline-company {
+    margin: 0 0 8px 0;
+    font-size: 1.25rem;
+    color: #F8F9FA;
+    font-weight: 600;
+}
+
+#work-experience .timeline-dates {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #CED4DA;
+    opacity: 0.8;
+}
+
 /*
 --- Future Button Styles ---
 
