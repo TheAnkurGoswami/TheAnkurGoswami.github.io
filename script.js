@@ -75,6 +75,63 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('Typing designation element not found for animation.');
     }
+
+    // Sidebar Toggle Functionality
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+
+    if (sidebar && sidebarToggle) {
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('expanded');
+            sidebarToggle.classList.toggle('active'); // For 'X' transformation
+
+            // Update aria-expanded attribute for accessibility
+            const isExpanded = sidebar.classList.contains('expanded');
+            sidebarToggle.setAttribute('aria-expanded', isExpanded);
+        });
+    } else {
+        if (!sidebar) console.error('Sidebar element not found!');
+        if (!sidebarToggle) console.error('Sidebar toggle button not found!');
+    }
+
+    // Smooth scrolling for sidebar links & close sidebar on click
+    const sidebarLinks = document.querySelectorAll('#sidebar nav a');
+
+    if (sidebarLinks.length > 0 && sidebar && sidebarToggle) { // Ensure sidebar and toggle exist for closing
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default anchor jump
+
+                const targetId = this.getAttribute('href'); // Get href value (e.g., "#about")
+
+                // Check if it's an internal link
+                if (targetId && targetId.startsWith('#') && targetId.length > 1) {
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        console.warn(`Smooth scroll target not found for ID: ${targetId}`);
+                    }
+                } else if (targetId && !targetId.startsWith('#')) {
+                    // If it's an external link, just navigate
+                    window.location.href = targetId;
+                    return; // Exit, don't try to close sidebar if navigating away
+                }
+
+                // Close the sidebar after clicking a link (for internal links)
+                if (sidebar.classList.contains('expanded')) {
+                    sidebar.classList.remove('expanded');
+                    sidebarToggle.classList.remove('active'); // Reset hamburger icon
+                    sidebarToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+    } else {
+        if (sidebarLinks.length === 0) console.warn('No sidebar links found for smooth scroll/close functionality.');
+    }
 });
 
 function displayDummyProjects(container) {
