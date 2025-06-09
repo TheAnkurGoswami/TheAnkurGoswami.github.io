@@ -288,6 +288,36 @@ footer {
     text-decoration: underline;
 }
 
+/* About Me Section Styles */
+#about .about-me-content {
+    display: flex;
+    gap: 30px; /* Space between columns */
+    align-items: stretch; /* Default, makes columns appear equal height */
+}
+
+#about .about-me-column {
+    flex: 1; /* Each column takes equal width */
+}
+
+#about .about-me-column p {
+    line-height: 1.7;
+    font-size: 1.05rem; /* Slightly larger text in this section */
+    /* Color is inherited from #about section (light text on dark bg) */
+}
+
+#about .highlight-name {
+    color: #50FA7B;    /* Accent green */
+    font-weight: 700;  /* Bold */
+}
+
+/* Responsive adjustments for About Me section */
+@media (max-width: 768px) {
+    #about .about-me-content {
+        flex-direction: column;
+        gap: 20px; /* Adjust gap for stacked layout */
+    }
+}
+
 /*
 --- Future Button Styles ---
 
