@@ -434,15 +434,35 @@ main {
 #work-experience .timeline-details h4 {
     font-size: 1rem;
     font-weight: 600;
-    color: #50FA7B; /* Accent green for sub-project titles */
+    color: #F8F9FA; /* Default color - light */
     margin-top: 15px;
     margin-bottom: 8px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#work-experience .timeline-details h4:hover {
+    color: #50FA7B; /* Accent green on hover */
 }
 
 #work-experience .timeline-details ul {
-    list-style-type: disc; /* Or none if preferred, but disc is standard */
-    padding-left: 20px; /* Indent list items */
-    margin: 0;
+    list-style-type: disc;
+    padding-left: 20px;
+    /* margin: 0; -- Will be controlled by hover state */
+    display: block; /* Important for max-height transition */
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    margin-top: 0; /* No top margin when hidden */
+    margin-bottom: 0; /* No bottom margin when hidden */
+    transition: opacity 0.4s ease-in-out, max-height 0.4s ease-in-out, margin-top 0.4s ease-in-out, margin-bottom 0.4s ease-in-out;
+}
+
+#work-experience .timeline-details h4:hover + ul {
+    opacity: 1;
+    max-height: 1000px; /* Large enough to fit content */
+    margin-top: 8px;    /* Restore or set top margin when visible (matches original h4 margin-bottom) */
+    margin-bottom: 10px; /* Restore or set bottom margin when visible */
 }
 
 #work-experience .timeline-details li {
