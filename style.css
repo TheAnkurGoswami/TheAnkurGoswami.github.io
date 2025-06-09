@@ -121,6 +121,10 @@ nav ul li a:hover {
     margin: 0;
 }
 
+#sidebar nav li {
+    display: block; /* Ensure li elements are block-level */
+}
+
 #sidebar nav a {
     color: #F8F9FA;
     display: block;
