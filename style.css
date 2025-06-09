@@ -1,8 +1,8 @@
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
-    background-color: #F8F9FA; /* Updated background color */
-    color: #212529; /* Updated text color */
+    background-color: #212529; /* CHANGED to dark theme */
+    color: #F8F9FA;      /* CHANGED to light text */
 }
 
 /* --- Hero Section --- */
@@ -55,9 +55,10 @@ body {
     50% { opacity: 0.0; }
 }
 
+/*
 header {
-    background-color: #343A40; /* Updated header background */
-    color: #F8F9FA; /* Updated header text color */
+    background-color: #343A40;
+    color: #F8F9FA;
     padding: 1rem 0;
     text-align: center;
 }
@@ -65,12 +66,15 @@ header {
 header h1 {
     margin: 0;
 }
+*/
 
+/* Old top navigation - commented out as it's removed from HTML */
+/*
 nav {
     display: flex;
-    justify-content: center; /* Center the ul inside nav */
-    align-items: center; /* Vertically center items */
-    background-color: #495057; /* Updated nav background */
+    justify-content: center;
+    align-items: center;
+    background-color: #495057;
     padding: 0.5rem 0;
 }
 
@@ -78,23 +82,24 @@ nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    display: flex; /* Align li elements horizontally */
+    display: flex;
 }
 
 nav ul li {
-    margin: 0 15px; /* Spacing between links */
+    margin: 0 15px;
 }
 
 nav ul li a {
-    color: #F8F9FA; /* Updated nav link color */
+    color: #F8F9FA;
     text-decoration: none;
-    padding: 0.5rem 0; /* Add some padding for easier clicking */
+    padding: 0.5rem 0;
 }
 
 nav ul li a:hover {
-    color: #FFFFFF; /* Updated nav link hover color */
+    color: #FFFFFF;
     text-decoration: underline;
 }
+*/
 
 /* --- Sidebar Styles --- */
 #sidebar {
@@ -211,6 +216,8 @@ main {
     margin: 20px auto;
 }
 
+/* Commented out as #projects section is not active */
+/*
 #projects-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -218,50 +225,37 @@ main {
 }
 
 .project {
-    background-color: #343A40; /* Darker grey for project cards */
-    border: 1px solid #495057; /* Medium grey border for project cards */
-    color: #F8F9FA; /* Light text for project cards */
+    background-color: #343A40;
+    border: 1px solid #495057;
+    color: #F8F9FA;
     border-radius: 5px;
     padding: 15px;
-    /* box-shadow removed */
 }
 
 .project h2 {
     margin-top: 0;
-    /* Color will be handled by the section-specific heading rule or inherit if not overridden */
 }
 
 .project p {
     font-size: 0.9rem;
     margin-bottom: 10px;
-    /* Color will be inherited from .project's color: #F8F9FA */
-}
-
-/* .project a styling will be handled by the more specific section link styles below */
-/*
-.project a {
-    text-decoration: none;
-    color: #495057;
-    font-weight: bold;
-}
-
-.project a:hover {
-    text-decoration: underline;
 }
 */
 
+/*
 footer {
     text-align: center;
     padding: 1rem 0;
-    background-color: #343A40; /* Updated footer background */
-    color: #F8F9FA; /* Updated footer text color */
+    background-color: #343A40;
+    color: #F8F9FA;
     bottom: 0;
     width: 100%;
-    position: relative; /* Changed from fixed to relative */
+    position: relative;
 }
+*/
 
-/* Styling for new sections - Dark Theme */
-#projects, #about, #skills, #work-experience, #education, #contributions, #contact {
+/* Styling for #about section - Dark Theme (other sections are commented out in HTML) */
+#about {
     padding: 20px;
     margin-bottom: 20px;
     background-color: #212529; /* Dark background for sections */
@@ -270,20 +264,19 @@ footer {
     border-radius: 5px;
 }
 
-/* Headings within dark sections */
-#projects h2, #about h2, #skills h2, #work-experience h2, #education h2, #contributions h2, #contact h2,
-#projects h3, #about h3, #skills h3, #work-experience h3, #education h3, #contributions h3, #contact h3 {
+/* Headings within #about section */
+#about h2, #about h3 {
     color: #F8F9FA; /* Light color for headings in dark sections */
 }
 
-/* Links within dark sections */
-#projects a, #about a, #skills a, #work-experience a, #education a, #contributions a, #contact a {
+/* Links within #about section */
+#about a {
     color: #50FA7B; /* Accent green for links in dark sections */
     font-weight: bold;
     text-decoration: none; /* Ensure no default underline from browser */
 }
 
-#projects a:hover, #about a:hover, #skills a:hover, #work-experience a:hover, #education a:hover, #contributions a:hover, #contact a:hover {
+#about a:hover {
     color: #82fdd1; /* Lighter green on hover */
     text-decoration: underline;
 }
