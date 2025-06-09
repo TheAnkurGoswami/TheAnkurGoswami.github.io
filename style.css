@@ -295,17 +295,26 @@ main {
 }
 
 #about .about-me-column p {
-    line-height: 1.7;
-    font-size: 1.05rem; /* Default for paragraphs in about-me columns, e.g., right column */
+    line-height: 1.7; /* Base line-height for paragraphs in about-me columns */
+    /* font-size removed, will be specified by .left or .right column rules */
     /* Color is inherited from #about section (light text on dark bg) */
     /* Default font-weight (400) will apply unless overridden */
 }
 
 /* Specific style for the left column's paragraph */
 #about .about-me-left p {
-    font-size: 1.25rem;  /* Increased size */
+    font-size: 1.8rem;   /* Text in left column */
     font-weight: 500;    /* Medium weight */
-    line-height: 1.7;    /* Maintain consistent line height */
+    line-height: 1.6;    /* Adjusted line height for larger font */
+    text-align: justify;
+}
+
+/* Specific style for the right column's paragraph */
+#about .about-me-right p {
+    font-size: 1.2rem;   /* Text in right column */
+    font-weight: 400;    /* Default/normal weight */
+    line-height: 1.7;    /* Consistent with base */
+    text-align: left;    /* Default text alignment */
 }
 
 #about .highlight-name {
