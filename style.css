@@ -356,6 +356,7 @@ main {
     margin-bottom: 40px;
     width: 50%;
     clear: both; /* Clear floats */
+    box-sizing: border-box; /* Ensure padding doesn't affect width for positioning */
 }
 
 #work-experience .timeline-item:nth-child(odd) {
@@ -421,11 +422,29 @@ main {
     font-weight: 600;
 }
 
+/* New styles for absolutely positioned dates */
 #work-experience .timeline-dates {
-    margin: 0 0 15px 0; /* Added margin-bottom */
-    font-size: 0.9rem;
+    position: absolute;
+    top: 7px; /* Align with marker's top + border, or adjust for best visual */
+    width: 120px; /* Adjust as needed */
+    font-size: 0.85rem;
     color: #CED4DA;
-    opacity: 0.8;
+    opacity: 0.9;
+    padding: 0 5px; /* Add slight horizontal padding */
+    z-index: 2; /* Ensure it's above the timeline line if they overlap */
+    /* margin removed as it's now absolutely positioned */
+}
+
+#work-experience .timeline-item:nth-child(odd) .timeline-dates {
+    /* Content is on LEFT, dates go on RIGHT of center line */
+    left: calc(50% + 25px);
+    text-align: left;
+}
+
+#work-experience .timeline-item:nth-child(even) .timeline-dates {
+    /* Content is on RIGHT, dates go on LEFT of center line */
+    right: calc(50% + 25px);
+    text-align: right;
 }
 
 #work-experience .timeline-details {
