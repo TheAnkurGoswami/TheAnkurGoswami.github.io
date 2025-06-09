@@ -306,7 +306,7 @@ main {
     font-size: 1.8rem;   /* Text in left column */
     font-weight: 500;    /* Medium weight */
     line-height: 1.6;    /* Adjusted line height for larger font */
-    text-align: justify;
+    text-align: right; /* CHANGED from justify */
 }
 
 /* Specific style for the right column's paragraph */
