@@ -296,8 +296,16 @@ main {
 
 #about .about-me-column p {
     line-height: 1.7;
-    font-size: 1.05rem; /* Slightly larger text in this section */
+    font-size: 1.05rem; /* Default for paragraphs in about-me columns, e.g., right column */
     /* Color is inherited from #about section (light text on dark bg) */
+    /* Default font-weight (400) will apply unless overridden */
+}
+
+/* Specific style for the left column's paragraph */
+#about .about-me-left p {
+    font-size: 1.25rem;  /* Increased size */
+    font-weight: 500;    /* Medium weight */
+    line-height: 1.7;    /* Maintain consistent line height */
 }
 
 #about .highlight-name {
