@@ -55,6 +55,26 @@ document.addEventListener('DOMContentLoaded', () => {
             // Display dummy projects if API fails
             displayDummyProjects(projectsContainer);
         });
+
+    // New Typing Animation Logic
+    const typedElement = document.getElementById('typing-designation');
+
+    if (typedElement) {
+        const options = {
+            strings: ['AI Researcher', 'Data Scientist'],
+            typeSpeed: 70, // Speed of typing
+            backSpeed: 50, // Speed of backspacing
+            backDelay: 1500, // Pause before backspacing
+            startDelay: 500, // Pause before starting animation
+            loop: true,      // Loop the animation
+            smartBackspace: true, // Only backspace what doesn't match the next string
+            showCursor: true,
+            cursorChar: '|',
+        };
+        new Typed('#typing-designation', options);
+    } else {
+        console.error('Typing designation element not found for animation.');
+    }
 });
 
 function displayDummyProjects(container) {

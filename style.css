@@ -5,6 +5,43 @@ body {
     color: #212529; /* Updated text color */
 }
 
+/* --- Hero Section --- */
+#hero {
+    height: 100vh;
+    background-color: #212529; /* Dark grey */
+    color: #F8F9FA; /* Light text */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px; /* For smaller screens */
+    font-family: 'Inter', sans-serif; /* Ensure font is applied */
+}
+
+.hero-intro {
+    font-size: clamp(1.2rem, 4vw, 2.5rem); /* Responsive font size */
+    margin-bottom: 5px;
+    font-weight: 300; /* Lighter weight */
+}
+
+.hero-name { /* This is an H1 */
+    font-size: clamp(3rem, 15vw, 9rem); /* Responsive font size, max 9rem */
+    font-weight: 700; /* Bold */
+    margin: 5px 0;
+    line-height: 1.1; /* Adjust line height for large text */
+    /* Color will be inherited from #hero */
+}
+
+.hero-designation {
+    font-size: clamp(1.2rem, 4vw, 2.5rem); /* Similar to intro */
+    margin-top: 10px;
+    font-weight: 300; /* Lighter weight */
+}
+
+/* #typing-designation will inherit styles from .hero-designation */
+/* Specific styles can be added if needed by the typing library */
+
 header {
     background-color: #343A40; /* Updated header background */
     color: #F8F9FA; /* Updated header text color */
