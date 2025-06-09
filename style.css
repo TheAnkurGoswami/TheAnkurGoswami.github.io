@@ -216,8 +216,6 @@ main {
     margin: 20px auto;
 }
 
-/* Commented out as #projects section is not active */
-/*
 #projects-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -225,58 +223,62 @@ main {
 }
 
 .project {
-    background-color: #343A40;
-    border: 1px solid #495057;
-    color: #F8F9FA;
+    background-color: #343A40; /* Darker grey for project cards */
+    border: 1px solid #495057; /* Medium grey border for project cards */
+    color: #F8F9FA; /* Light text for project cards */
     border-radius: 5px;
     padding: 15px;
+    /* box-shadow removed */
 }
 
 .project h2 {
     margin-top: 0;
+    /* Color will be handled by the section-specific heading rule or inherit if not overridden */
 }
 
 .project p {
     font-size: 0.9rem;
     margin-bottom: 10px;
+    /* Color will be inherited from .project's color: #F8F9FA */
 }
-*/
 
+/* .project a styling will be handled by the more specific section link styles below */
 /*
-footer {
-    text-align: center;
-    padding: 1rem 0;
-    background-color: #343A40;
-    color: #F8F9FA;
-    bottom: 0;
-    width: 100%;
-    position: relative;
+.project a {
+    text-decoration: none;
+    color: #495057;
+    font-weight: bold;
+}
+
+.project a:hover {
+    text-decoration: underline;
 }
 */
 
-/* Styling for #about section - Dark Theme (other sections are commented out in HTML) */
-#about {
+/* Styling for new sections - Dark Theme */
+#projects, #about, #skills, #work-experience, #education, #contributions, #contact {
     padding: 20px;
     margin-bottom: 20px;
     background-color: #212529; /* Dark background for sections */
     color: #F8F9FA; /* Light text for sections */
-    border: 1px solid #495057; /* Darker border for sections */
+    /* border: 1px solid #495057; */ /* REMOVED - Darker border for sections */
     border-radius: 5px;
 }
 
-/* Headings within #about section */
-#about h2, #about h3 {
+/* Headings within dark sections */
+#projects h2, #about h2, #skills h2, #work-experience h2, #education h2, #contributions h2, #contact h2,
+#projects h3, #about h3, #skills h3, #work-experience h3, #education h3, #contributions h3, #contact h3 {
     color: #F8F9FA; /* Light color for headings in dark sections */
 }
 
-/* Links within #about section */
-#about a {
+/* Links within dark sections */
+#projects a, #about a, #skills a, #work-experience a, #education a, #contributions a, #contact a {
     color: #50FA7B; /* Accent green for links in dark sections */
     font-weight: bold;
     text-decoration: none; /* Ensure no default underline from browser */
 }
 
-#about a:hover {
+#projects a:hover, #about a:hover, #skills a:hover, #work-experience a:hover, #education a:hover, #contributions a:hover, #contact a:hover {
     color: #82fdd1; /* Lighter green on hover */
     text-decoration: underline;
 }
