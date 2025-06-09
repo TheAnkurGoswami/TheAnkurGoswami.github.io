@@ -336,6 +336,7 @@ main {
     max-width: 800px;
     margin: 30px auto;
     padding: 20px 0;
+    overflow: auto; /* ADDED to contain floated children */
 }
 
 #work-experience .timeline::before {
