@@ -224,7 +224,7 @@ main {
 
 /* Project Card Styles */
 .project {
-    background-color: #343A40;
+    background-color: #1A1A1A; /* CHANGED */
     border: 1px solid #495057;
     color: #F8F9FA;
     border-radius: 6px; /* Updated */
