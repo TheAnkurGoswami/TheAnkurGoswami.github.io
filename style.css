@@ -319,7 +319,7 @@ main {
 
 /* Styling for new sections - Dark Theme */
 #projects, #about, #skills, #work-experience, #education, #contributions, #contact {
-    padding: 20px;
+    padding: 80px 20px; /* Increased top/bottom padding */
     margin-bottom: 20px;
     background-color: #212529; /* Dark background for sections */
     color: #F8F9FA; /* Light text for sections */
@@ -552,6 +552,18 @@ main {
     line-height: 1.6;
     margin-bottom: 6px;
     color: #CED4DA; /* Slightly lighter than main paragraph text if desired */
+}
+
+/* Scroll Animation States */
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(40px); /* Start 40px lower */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-animate.is-visible {
+    opacity: 1;
+    transform: translateY(0); /* End at original position */
 }
 
 /*

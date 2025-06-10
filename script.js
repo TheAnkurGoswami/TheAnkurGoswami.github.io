@@ -97,6 +97,34 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         if (sidebarLinks.length === 0) console.warn('No sidebar links found for smooth scroll/close functionality.');
     }
+
+    // Intersection Observer for Scroll Animations
+    const animatedElements = document.querySelectorAll('.scroll-animate');
+
+    if (animatedElements.length > 0) {
+        const observerOptions = {
+            root: null, // Use the viewport as the root
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the element is visible
+        };
+
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Optional: stop observing once animated
+                }
+            });
+        };
+
+        const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+
+        animatedElements.forEach(el => {
+            scrollObserver.observe(el);
+        });
+    } else {
+        // console.log("No elements to animate on scroll found."); // Optional: for debugging
+    }
 });
 
 function displayProjects(projectsData, container) {
