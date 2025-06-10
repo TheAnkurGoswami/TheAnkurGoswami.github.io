@@ -102,16 +102,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const animatedElements = document.querySelectorAll('.scroll-animate');
 
     if (animatedElements.length > 0) {
+        console.log("Found elements to animate:", animatedElements); // ADD THIS LOG
+
         const observerOptions = {
             root: null, // Use the viewport as the root
             rootMargin: '0px',
-            threshold: 0.1 // Trigger when 10% of the element is visible
+            threshold: 0.01 // CHANGED - Trigger when 1% of the element is visible
         };
 
         const observerCallback = (entries, observer) => {
             entries.forEach(entry => {
+                // ADD THIS BLOCK FOR DETAILED LOGGING
+                console.groupCollapsed(`IntersectionObserver Entry: ${entry.target.id || 'Unnamed Element'}`);
+                console.log("Target:", entry.target);
+                console.log("Is Intersecting:", entry.isIntersecting);
+                console.log("Intersection Ratio:", entry.intersectionRatio);
+                console.log("Bounding Client Rect:", entry.boundingClientRect);
+                console.log("Intersection Rect:", entry.intersectionRect);
+                console.log("Root Bounds:", entry.rootBounds);
+                console.groupEnd();
+
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
+                    console.log("Added 'is-visible' class to:", entry.target.id || entry.target); // LOG CLASS ADDITION
                     observer.unobserve(entry.target); // Optional: stop observing once animated
                 }
             });
@@ -120,10 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
 
         animatedElements.forEach(el => {
+            console.log("Observing element:", el.id || el); // LOG WHICH ELEMENTS ARE BEING OBSERVED
             scrollObserver.observe(el);
         });
+
     } else {
-        // console.log("No elements to animate on scroll found."); // Optional: for debugging
+        console.log("No elements with class '.scroll-animate' found to observe."); // ENSURE THIS LOG IS ACTIVE
     }
 });
 
