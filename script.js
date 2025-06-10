@@ -112,20 +112,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const observerCallback = (entries, observer) => {
             entries.forEach(entry => {
-                // ADD THIS BLOCK FOR DETAILED LOGGING
-                console.groupCollapsed(`IntersectionObserver Entry: ${entry.target.id || 'Unnamed Element'}`);
-                console.log("Target:", entry.target);
-                console.log("Is Intersecting:", entry.isIntersecting);
-                console.log("Intersection Ratio:", entry.intersectionRatio);
-                console.log("Bounding Client Rect:", entry.boundingClientRect);
-                console.log("Intersection Rect:", entry.intersectionRect);
-                console.log("Root Bounds:", entry.rootBounds);
-                console.groupEnd();
+                // Simplified logging for intersection events
+                // console.log(`Element ${entry.target.id || entry.target.classList[0]}: intersecting=${entry.isIntersecting}, ratio=${entry.intersectionRatio.toFixed(2)}`);
 
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    console.log("Added 'is-visible' class to:", entry.target.id || entry.target); // LOG CLASS ADDITION
-                    observer.unobserve(entry.target); // Optional: stop observing once animated
+                    console.log("Added 'is-visible' class to:", entry.target.id || entry.target.classList[0] || entry.target.tagName);
+                    // observer.unobserve(entry.target); // REMOVED to allow re-animation
+                } else {
+                    // If not intersecting, remove 'is-visible' to allow re-animation when scrolling back
+                    entry.target.classList.remove('is-visible');
+                    console.log("Removed 'is-visible' class from:", entry.target.id || entry.target.classList[0] || entry.target.tagName);
                 }
             });
         };
@@ -133,12 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
 
         animatedElements.forEach(el => {
-            console.log("Observing element:", el.id || el); // LOG WHICH ELEMENTS ARE BEING OBSERVED
+            // console.log("Observing element:", el.id || el.classList[0] || el.tagName); // Simplified this log too
             scrollObserver.observe(el);
         });
 
     } else {
-        console.log("No elements with class '.scroll-animate' found to observe."); // ENSURE THIS LOG IS ACTIVE
+        console.log("No elements with class '.scroll-animate' found to observe.");
     }
 });
 
