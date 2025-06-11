@@ -21,6 +21,28 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+    // Work Experience Loading Logic
+    const timelineContainer = document.querySelector('#work-experience .timeline');
+
+    if (!timelineContainer) {
+        console.error('Work experience timeline container not found!');
+    } else {
+        fetch('experience.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(experienceData => {
+                displayExperience(experienceData, timelineContainer);
+            })
+            .catch(error => {
+                console.error('Failed to fetch or parse experience.json:', error);
+                timelineContainer.innerHTML = '<p>Error loading work experience. Please check the console.</p>';
+            });
+    }
+
     // Typing Animation Logic
     const typedElement = document.getElementById('typing-designation');
 
@@ -232,5 +254,64 @@ function displayProjects(projectsData, container) {
 
         projectElement.appendChild(contentWrapper);
         container.appendChild(projectElement);
+    });
+}
+
+function displayExperience(experienceData, container) {
+    container.innerHTML = ''; // Clear previous hardcoded content
+
+    if (!experienceData || !Array.isArray(experienceData) || experienceData.length === 0) {
+        container.innerHTML = '<p>No work experience to display at the moment.</p>';
+        return;
+    }
+
+    experienceData.forEach(exp => {
+        const item = document.createElement('div');
+        item.classList.add('timeline-item');
+
+        const dates = document.createElement('p');
+        dates.classList.add('timeline-dates');
+        dates.textContent = `${exp.startDate} – ${exp.endDate}`;
+        item.appendChild(dates);
+
+        const marker = document.createElement('div');
+        marker.classList.add('timeline-marker');
+        item.appendChild(marker);
+
+        const content = document.createElement('div');
+        content.classList.add('timeline-content');
+
+        const heading = document.createElement('h3');
+        heading.classList.add('timeline-company');
+        // Ensure all parts of the heading are defined before creating text content
+        const role = exp.role || 'N/A';
+        const company = exp.company || 'N/A';
+        const location = exp.location || 'N/A';
+        heading.textContent = `${role}, ${company}, ${location}`;
+        content.appendChild(heading);
+
+        if (exp.details && exp.details.length > 0) {
+            const detailsDiv = document.createElement('div');
+            detailsDiv.classList.add('timeline-details');
+            exp.details.forEach(detail => {
+                if (detail.title) {
+                    const detailTitle = document.createElement('h4');
+                    detailTitle.textContent = detail.title;
+                    detailsDiv.appendChild(detailTitle);
+                }
+                if (detail.points && detail.points.length > 0) {
+                    const pointsUl = document.createElement('ul');
+                    detail.points.forEach(pointText => {
+                        const pointLi = document.createElement('li');
+                        pointLi.textContent = pointText;
+                        pointsUl.appendChild(pointLi);
+                    });
+                    detailsDiv.appendChild(pointsUl);
+                }
+            });
+            content.appendChild(detailsDiv);
+        }
+        item.appendChild(content);
+        container.appendChild(item);
     });
 }
