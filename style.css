@@ -554,6 +554,71 @@ main {
     color: #CED4DA; /* Slightly lighter than main paragraph text if desired */
 }
 
+/* Skills Section Styles */
+#skills .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    padding-top: 30px;
+}
+
+/* Responsive adjustments for Skills Grid */
+@media (max-width: 1024px) {
+    #skills .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    #skills .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    #skills .skills-grid {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 15px;
+    }
+}
+
+#skills .skill-item {
+    background-color: #343A40;
+    border-radius: 8px;
+    padding: 20px 15px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 170px;
+    color: #F8F9FA;
+}
+
+#skills .skill-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 15px rgba(80, 250, 123, 0.1);
+}
+
+#skills .skill-logo {
+    height: 60px;
+    width: 60px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+#skills .skill-name {
+    color: #F8F9FA;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 /* Scroll Animation States */
 .scroll-animate {
     opacity: 0;

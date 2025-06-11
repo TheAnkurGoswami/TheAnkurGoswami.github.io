@@ -21,6 +21,28 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+    // Skills Loading Logic
+    const skillsGridContainer = document.getElementById('skills-grid');
+
+    if (!skillsGridContainer) {
+        console.error('Skills grid container not found!');
+    } else {
+        fetch('skills.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(skillsData => {
+                displaySkills(skillsData, skillsGridContainer);
+            })
+            .catch(error => {
+                console.error('Failed to fetch or parse skills.json:', error);
+                skillsGridContainer.innerHTML = '<p>Error loading skills. Please check the console.</p>';
+            });
+    }
+
     // Work Experience Loading Logic
     const timelineContainer = document.querySelector('#work-experience .timeline');
 
@@ -254,6 +276,40 @@ function displayProjects(projectsData, container) {
 
         projectElement.appendChild(contentWrapper);
         container.appendChild(projectElement);
+    });
+}
+
+function displaySkills(skillsData, container) {
+    container.innerHTML = ''; // Clear previous content
+
+    if (!skillsData || !Array.isArray(skillsData) || skillsData.length === 0) {
+        container.innerHTML = '<p>No skills to display at the moment.</p>';
+        return;
+    }
+
+    skillsData.forEach(skill => {
+        const skillItem = document.createElement('div');
+        skillItem.classList.add('skill-item');
+
+        if (skill.logoUrl) {
+            const skillLogo = document.createElement('img');
+            skillLogo.classList.add('skill-logo');
+            skillLogo.src = skill.logoUrl;
+            skillLogo.alt = skill.name ? skill.name + " logo" : "Skill logo";
+            skillItem.appendChild(skillLogo);
+        }
+
+        if (skill.name) {
+            const skillName = document.createElement('p');
+            skillName.classList.add('skill-name');
+            skillName.textContent = skill.name;
+            skillItem.appendChild(skillName);
+        }
+
+        // Only append if the item is not empty
+        if (skillItem.hasChildNodes()) {
+             container.appendChild(skillItem);
+        }
     });
 }
 
