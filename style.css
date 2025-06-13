@@ -320,11 +320,14 @@ main {
 /* Styling for new sections - Dark Theme */
 #projects, #about, #skills, #work-experience, #education, #contributions, #contact {
     padding: 80px 20px; /* Increased top/bottom padding */
-    margin-bottom: 20px;
     background-color: #212529; /* Dark background for sections */
     color: #F8F9FA; /* Light text for sections */
     /* border: 1px solid #495057; */ /* REMOVED - Darker border for sections */
     border-radius: 5px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 /* Headings within dark sections */
