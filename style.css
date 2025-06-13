@@ -397,8 +397,9 @@ main {
     position: relative;
     max-width: 800px;
     margin: 30px auto;
-    padding: 20px 0;
-    overflow: auto; /* ADDED to contain floated children */
+    padding: 20px 30px; /* CHANGED to add horizontal padding */
+    overflow: auto;
+    box-sizing: border-box; /* ADDED */
 }
 
 #work-experience .timeline::before {
@@ -635,23 +636,23 @@ main {
 
 /* New Scroll Animation System */
 .js-scroll-animate {
-    opacity: 0; /* UNCOMMENTED */
+    /* opacity: 0; */ /* COMMENTED OUT FOR DEBUGGING */
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 /* Default slide-from-bottom for sections */
 .js-scroll-animate.slide-from-bottom {
-    transform: translateY(40px); /* UNCOMMENTED */
+    /* transform: translateY(40px); */ /* COMMENTED OUT FOR DEBUGGING */
 }
 
 /* For timeline items - slide from left */
 .js-scroll-animate.slide-from-left {
-    transform: translateX(-50px); /* UNCOMMENTED */
+    /* transform: translateX(-50px); */ /* COMMENTED OUT FOR DEBUGGING */
 }
 
 /* For timeline items - slide from right */
 .js-scroll-animate.slide-from-right {
-    transform: translateX(50px); /* UNCOMMENTED */
+    /* transform: translateX(50px); */ /* COMMENTED OUT FOR DEBUGGING */
 }
 
 /* Common visible state */
@@ -659,6 +660,22 @@ main {
     opacity: 1;
     transform: translateX(0) translateY(0); /* Ensures both X and Y transforms end at 0 */
 }
+
+/* --- TEMPORARY DEBUG STYLES FOR TIMELINE --- */
+#work-experience .timeline-item {
+    border: 2px dashed red !important;
+    /* box-sizing: border-box; is already present */
+}
+
+#work-experience .timeline-content {
+    background-color: rgba(0, 0, 255, 0.3) !important; /* Semi-transparent blue */
+    border: 1px solid blue !important;
+}
+
+#work-experience .timeline-details ul li {
+    word-break: break-all; /* To prevent long words from breaking layout */
+}
+/* --- END TEMPORARY DEBUG STYLES --- */
 
 /*
 --- Future Button Styles ---
