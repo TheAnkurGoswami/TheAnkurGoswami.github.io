@@ -397,9 +397,9 @@ main {
     position: relative;
     max-width: 800px;
     margin: 30px auto;
-    padding: 20px 30px; /* CHANGED to add horizontal padding */
-    overflow: auto;
-    box-sizing: border-box; /* ADDED */
+    padding: 20px 30px;
+    overflow-x: hidden; /* CHANGED */
+    box-sizing: border-box;
 }
 
 #work-experience .timeline::before {
@@ -661,20 +661,21 @@ main {
     transform: translateX(0) translateY(0); /* Ensures both X and Y transforms end at 0 */
 }
 
-/* --- TEMPORARY DEBUG STYLES FOR TIMELINE --- */
+/* --- TEMPORARY DEBUG STYLES FOR TIMELINE (Commented Out) --- */
+/*
 #work-experience .timeline-item {
     border: 2px dashed red !important;
-    /* box-sizing: border-box; is already present */
 }
 
 #work-experience .timeline-content {
-    background-color: rgba(0, 0, 255, 0.3) !important; /* Semi-transparent blue */
+    background-color: rgba(0, 0, 255, 0.3) !important;
     border: 1px solid blue !important;
 }
 
 #work-experience .timeline-details ul li {
-    word-break: break-all; /* To prevent long words from breaking layout */
+    word-break: break-all;
 }
+*/
 /* --- END TEMPORARY DEBUG STYLES --- */
 
 /*
