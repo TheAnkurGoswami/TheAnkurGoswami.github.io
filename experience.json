@@ -1,0 +1,104 @@
+[
+  {
+    "company": "EXL",
+    "role": "Data Scientist",
+    "location": "India",
+    "startDate": "Aug 2024",
+    "endDate": "Present",
+    "details": []
+  },
+  {
+    "company": "Aidetic",
+    "role": "Data Scientist",
+    "location": "India",
+    "startDate": "Mar 2023",
+    "endDate": "Jul 2024",
+    "details": [
+      {
+        "title": "Vivian Chatbot",
+        "points": [
+          "Crafted a chatbot trained on company documents using Langchain, LLMs, and ChromaDB.",
+          "Developed a custom agent for parsing web pages linked within the documents.",
+          "Integrated Django websockets to stream tokens in real-time, enabling responsive interactions."
+        ]
+      },
+      {
+        "title": "Invoice & Contract QA System",
+        "points": [
+          "Built a customizable end-to-end RAG system using Computer Vision for invoice and contract parsing.",
+          "Used Sentence Transformers for retrieval and LLMs with prompt engineering for accurate responses.",
+          "Achieved ~95% accuracy on invoices and 85% on contracts.",
+          "Implemented round-robin queuing with RabbitMQ and PostgreSQL for efficient request handling.",
+          "Decomposed the system into microservices for modularity and scalability."
+        ]
+      },
+      {
+        "title": "Social Media RAG System POC",
+        "points": [
+          "Built a RAG system for social media using Langchain and Neo4j for analytics on user profiles and posts.",
+          "Used Router chains to generate trendy captions based on engagement metrics."
+        ]
+      },
+      {
+        "title": "Profile Impersonation Detection",
+        "points": [
+          "Developed an API to detect impersonations using textual similarity on usernames and bios.",
+          "Fine-tuned a Vision Transformer (HuggingFace + PyTorch) for image similarity on profile pictures."
+        ]
+      }
+    ]
+  },
+  {
+    "company": "Accern",
+    "role": "Data Engineer",
+    "location": "India",
+    "startDate": "Jun 2021",
+    "endDate": "Feb 2023",
+    "details": [
+      {
+        "title": "Sentiment Analysis on Financial News",
+        "points": [
+          "Built a financial news sentiment classifier using BERT (base) with custom layers.",
+          "Achieved 93% accuracy and F1-score."
+        ]
+      },
+      {
+        "title": "XYME-backend (Predictive Modeling Framework)",
+        "points": [
+          "Integrated MLPs, boosting models, and ML features into Accern's No-Code AI platform backend.",
+          "Implemented Kafka-based notifications and deployed the system on Kubernetes."
+        ]
+      },
+      {
+        "title": "Accern Data Client",
+        "points": [
+          "Created a Python library (published on PyPI) for streamlined access to Accern’s data feed.",
+          "The library reduced manual ingestion time by 90% by handling data parsing and formatting automatically."
+        ]
+      },
+      {
+        "title": "ESG Dashboard POC",
+        "points": [
+          "Fetched ESG data via API, processed it, and stored it in Snowflake weekly.",
+          "Created dashboards in ThoughtSpot leading to deal closures worth $155k and $60k."
+        ]
+      }
+    ]
+  },
+  {
+    "company": "IISc Bangalore",
+    "role": "Research Intern",
+    "location": "India",
+    "startDate": "Dec 2019",
+    "endDate": "Feb 2020",
+    "details": [
+      {
+        "title": "Real-time Human Violence Detection System",
+        "points": [
+          "Built a real-time violence detection system using CCTV/drone footage and OpenPose.",
+          "Used joint coordinates to train RNNs (TensorFlow/Keras), achieving 84% classification accuracy."
+        ]
+      }
+    ]
+  }
+]

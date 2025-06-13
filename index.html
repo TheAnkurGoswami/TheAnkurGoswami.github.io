@@ -4,18 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>My Portfolio</h1>
-    </header>
-    <main id="projects-container">
-        <!-- Projects will be loaded here by JavaScript -->
+    <button id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <aside id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#work-experience">Work Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contributions">Contributions</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <section id="hero">
+        <div class="hero-content">
+            <p class="hero-intro">Hi, my name is</p>
+            <h1 class="hero-name">Ankur Goswami</h1>
+            <h2 class="hero-designation"><span id="typing-designation"></span></h2>
+        </div>
+    </section>
+
+    <main>
+        <section id="about" class="js-scroll-animate slide-from-bottom">
+            <h2>About Me</h2>
+            <div class="about-me-content">
+                <div class="about-me-column about-me-left">
+                    <p>Hi, I'm <span class="highlight-name">Ankur</span> — I teach machines to think, so we can spend more time doing what matters.</p>
+                </div>
+                <div class="about-me-column about-me-right">
+                    <p>As a Data Scientist with 4 years of experience, I love transforming messy data into smart, automated solutions using the latest in AI. Whether it’s building models, optimizing workflows, or crafting data-driven products, I strive to make technology work for people. I’m excited by challenges that push the limits of what AI can do in the real world.</p>
+                </div>
+            </div>
+        </section>
+        <section id="work-experience">
+            <h2>Work Experience</h2>
+            <div class="timeline">
+                <!-- This div is now empty. JavaScript will populate it. -->
+            </div>
+        </section>
+        <section id="projects" class="js-scroll-animate slide-from-bottom">
+            <div id="projects-container">
+                <!-- Projects will be loaded here by JavaScript -->
+            </div>
+        </section>
+        <section id="skills" class="js-scroll-animate slide-from-bottom">
+            <h2>Skills</h2>
+            <div id="skills-grid" class="skills-grid">
+                <!-- This div is now empty. JavaScript will populate it. -->
+            </div>
+        </section>
+        <section id="education" class="js-scroll-animate slide-from-bottom">
+            <h2>Education</h2>
+            <p>Education details coming soon.</p>
+        </section>
+        <section id="contributions" class="js-scroll-animate slide-from-bottom">
+            <h2>Contributions</h2>
+            <p>Contributions details coming soon.</p>
+        </section>
+        <section id="contact" class="js-scroll-animate slide-from-bottom">
+            <h2>Contact</h2>
+            <p>Contact section coming soon.</p>
+        </section>
     </main>
-    <footer>
-        <p>&copy; 2023 My Name</p>
-    </footer>
+
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

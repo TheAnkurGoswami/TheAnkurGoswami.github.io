@@ -1,19 +1,213 @@
 body {
-    font-family: sans-serif;
+    font-family: 'Inter', sans-serif;
     margin: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #212529; /* CHANGED to dark theme */
+    color: #F8F9FA;      /* CHANGED to light text */
 }
 
+/* --- Hero Section --- */
+#hero {
+    height: 100vh;
+    background-color: #212529; /* Dark grey */
+    color: #F8F9FA; /* Light text */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px; /* For smaller screens */
+    font-family: 'Inter', sans-serif; /* Ensure font is applied */
+}
+
+.hero-intro {
+    font-size: clamp(0.8rem, 2.5vw, 1.5rem); /* Adjusted responsive font size */
+    margin-bottom: 5px;
+    font-weight: 300; /* Lighter weight */
+    color: #CED4DA; /* Hero intro text color */
+}
+
+.hero-name { /* This is an H1 */
+    font-size: clamp(2.5rem, 5vw, 4.5rem); /* Adjusted responsive font size */
+    font-weight: 700; /* Bold */
+    margin: 5px 0;
+    line-height: 1.1; /* Adjust line height for large text */
+    color: #FFFFFF; /* Hero name text color */
+}
+
+.hero-designation {
+    font-size: clamp(1.2rem, 4vw, 2.5rem); /* Similar to intro */
+    margin-top: 10px;
+    font-weight: 300; /* Lighter weight */
+    color: #50FA7B; /* Hero designation text color (green) */
+}
+
+/* #typing-designation will inherit styles from .hero-designation */
+/* Specific styles can be added if needed by the typing library */
+
+/* Typed.js Cursor Styling */
+.typed-cursor {
+    color: #50FA7B; /* Match designation green */
+    opacity: 1;
+    animation: typedjsBlink 0.7s infinite;
+}
+
+@keyframes typedjsBlink {
+    50% { opacity: 0.0; }
+}
+
+/*
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: #343A40;
+    color: #F8F9FA;
     padding: 1rem 0;
     text-align: center;
 }
 
 header h1 {
     margin: 0;
+}
+*/
+
+/* Old top navigation - commented out as it's removed from HTML */
+/*
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #495057;
+    padding: 0.5rem 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #F8F9FA;
+    text-decoration: none;
+    padding: 0.5rem 0;
+}
+
+nav ul li a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+*/
+
+/* --- Sidebar Styles --- */
+#sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 300px; /* CHANGED from 250px */
+    background-color: #343A40;
+    padding-top: 60px; /* Space for toggle or top content */
+    transform: translateX(-100%); /* Collapsed by default */
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    overflow-y: auto; /* Allow scrolling if many links */
+}
+
+#sidebar.expanded {
+    transform: translateX(0);
+}
+
+#sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: block; /* Ensure block behavior */
+}
+
+#sidebar nav li {
+    display: block; /* Ensure li elements are block-level */
+    width: 100%; /* Ensure full width */
+}
+
+#sidebar nav a {
+    color: #F8F9FA;
+    display: block;
+    padding: 12px 20px;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+    border-bottom: 1px solid #495057; /* Subtle separator */
+    font-size: 1.15rem; /* ADDED */
+}
+
+#sidebar nav ul li:last-child a {
+    border-bottom: none; /* Remove border from last item */
+}
+
+#sidebar nav a:hover {
+    color: #50FA7B; /* Accent green */
+    background-color: rgba(80, 250, 123, 0.08); /* Very subtle green background */
+}
+
+/* --- Sidebar Toggle Button Styles --- */
+#sidebar-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001; /* Above sidebar */
+    background: #343A40;
+    border: none;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#sidebar-toggle span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #F8F9FA;
+    border-radius: 1px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Active state for toggle icon (transform to 'X') */
+#sidebar-toggle.active span:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
+}
+
+#sidebar-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+#sidebar-toggle.active span:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: #343A40; /* Dark grey for headings */
+}
+
+/* Specific H1 rule for non-header H1s (if any) */
+/* Example: main h1, section h1 { color: #000000; } */
+
+/* General Links */
+a {
+    color: #495057; /* Medium grey for general links */
+    text-decoration: none; /* No underline by default */
+}
+
+a:hover {
+    color: #212529; /* Darker grey on hover */
+    text-decoration: underline; /* Underline on hover */
 }
 
 main {
@@ -28,39 +222,483 @@ main {
     gap: 20px;
 }
 
+/* Project Card Styles */
 .project {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    background-color: #1A1A1A; /* CHANGED */
+    border: 1px solid #495057;
+    color: #F8F9FA;
+    border-radius: 6px; /* Updated */
+    /* padding: 15px; -- Padding will be on content wrapper */
+    overflow: hidden; /* Added */
+    display: flex; /* Added */
+    flex-direction: column; /* Added */
+}
+
+.project img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    /* border-bottom: 1px solid #495057; */ /* Optional separator, not using if card has overflow:hidden and content has padding */
+    /* If image is meant to have only top rounded corners: */
+    /* border-top-left-radius: 6px; */ /* Handled by .project overflow:hidden and img width:100% if image is first child */
+    /* border-top-right-radius: 6px; */
+}
+
+.project-card-content {
     padding: 15px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allows pushing links to bottom if card is flex container */
 }
 
-.project h2 {
+.project h2 { /* Title */
     margin-top: 0;
-}
-
-.project p {
-    font-size: 0.9rem;
     margin-bottom: 10px;
+    font-size: 1.3rem;
+    color: #F8F9FA; /* Explicit, though inherited */
 }
 
+.project p { /* Description */
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #CED4DA; /* Slightly less prominent */
+    flex-grow: 1; /* Allow description to take up space, pushing links down */
+}
+
+.project-technologies,
+.project-tags {
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tech-tag,
+.tag { /* Assuming .tag is styled like .tech-tag for now */
+    padding: 5px 10px;
+    background-color: #495057;
+    color: #E0E0E0;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    line-height: 1;
+}
+
+.project-links {
+    margin-top: auto; /* Pushes to the bottom of the card-content if it's a flex column */
+    padding-top: 10px; /* Space above links if there are many tags/techs */
+    display: flex;
+    gap: 15px;
+}
+
+.project-links a {
+    color: #50FA7B;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.project-links a:hover {
+    color: #82fdd1;
+    text-decoration: underline;
+}
+
+/* Old .project a styling, now handled by .project-links a or section-wide link styles */
+/*
 .project a {
     text-decoration: none;
-    color: #337ab7;
+    color: #495057;
     font-weight: bold;
 }
 
 .project a:hover {
     text-decoration: underline;
 }
+*/
 
-footer {
-    text-align: center;
-    padding: 1rem 0;
-    background-color: #333;
-    color: #fff;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+/* Styling for new sections - Dark Theme */
+#projects, #about, #skills, #work-experience, #education, #contributions, #contact {
+    padding: 80px 20px; /* Increased top/bottom padding */
+    margin-bottom: 20px;
+    background-color: #212529; /* Dark background for sections */
+    color: #F8F9FA; /* Light text for sections */
+    /* border: 1px solid #495057; */ /* REMOVED - Darker border for sections */
+    border-radius: 5px;
 }
+
+/* Headings within dark sections */
+#projects h2, #about h2, #skills h2, #work-experience h2, #education h2, #contributions h2, #contact h2,
+#projects h3, #about h3, #skills h3, #work-experience h3, #education h3, #contributions h3, #contact h3 {
+    color: #F8F9FA; /* Light color for headings in dark sections */
+}
+
+/* Links within dark sections */
+#projects a, #about a, #skills a, #work-experience a, #education a, #contributions a, #contact a {
+    color: #50FA7B; /* Accent green for links in dark sections */
+    font-weight: bold;
+    text-decoration: none; /* Ensure no default underline from browser */
+}
+
+#projects a:hover, #about a:hover, #skills a:hover, #work-experience a:hover, #education a:hover, #contributions a:hover, #contact a:hover {
+    color: #82fdd1; /* Lighter green on hover */
+    text-decoration: underline;
+}
+
+/* About Me Section Styles */
+#about .about-me-content {
+    display: flex;
+    gap: 30px; /* Space between columns */
+    align-items: stretch; /* Default, makes columns appear equal height */
+}
+
+#about .about-me-column {
+    flex: 1; /* Each column takes equal width */
+}
+
+#about .about-me-column p {
+    line-height: 1.7; /* Base line-height for paragraphs in about-me columns */
+    /* font-size removed, will be specified by .left or .right column rules */
+    /* Color is inherited from #about section (light text on dark bg) */
+    /* Default font-weight (400) will apply unless overridden */
+}
+
+/* Specific style for the left column's paragraph */
+#about .about-me-left p {
+    font-size: 1.8rem;   /* Text in left column */
+    font-weight: 500;    /* Medium weight */
+    line-height: 1.6;    /* Adjusted line height for larger font */
+    text-align: right; /* CHANGED from justify */
+}
+
+/* Specific style for the right column's paragraph */
+#about .about-me-right p {
+    font-size: 1.2rem;   /* Text in right column */
+    font-weight: 400;    /* Default/normal weight */
+    line-height: 1.7;    /* Consistent with base */
+    text-align: left;    /* Default text alignment */
+}
+
+#about .highlight-name {
+    color: #50FA7B;    /* Accent green */
+    font-weight: 700;  /* Bold */
+}
+
+/* Responsive adjustments for About Me section */
+@media (max-width: 768px) {
+    #about .about-me-content {
+        flex-direction: column;
+        gap: 20px; /* Adjust gap for stacked layout */
+    }
+}
+
+/* Work Experience Timeline Styles */
+#work-experience .timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px 30px;
+    overflow-x: hidden; /* CHANGED */
+    box-sizing: border-box;
+}
+
+#work-experience .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* Accurately center the line */
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: #495057; /* Muted grey for the line */
+    border-radius: 2px;
+}
+
+#work-experience .timeline-item {
+    position: relative; /* Already relative, good */
+    margin-bottom: 40px;
+    width: 50%;
+    clear: both; /* Clear floats */
+    box-sizing: border-box; /* Ensure padding doesn't affect width for positioning */
+}
+
+#work-experience .timeline-item:nth-child(odd) {
+    float: left;
+    text-align: right; /* Aligns the .timeline-content box edge */
+    padding-right: 40px; /* Space from content to central line */
+    clear: right;
+}
+
+#work-experience .timeline-item:nth-child(even) {
+    float: right;
+    text-align: left; /* Aligns the .timeline-content box edge */
+    padding-left: 40px; /* Space from content to central line */
+    clear: left;
+}
+
+#work-experience .timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Clearfix for floated timeline items */
+#work-experience .timeline-item::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#work-experience .timeline-marker {
+    position: absolute;
+    /* left: 10px; */ /* Removed, will be set by odd/even rules */
+    top: 5px;    /* Align with top of text or content box */
+    width: 20px;
+    height: 20px;
+    background-color: #50FA7B; /* Accent green */
+    border-radius: 50%;
+    border: 4px solid #212529; /* Section background color for a "punch-out" effect */
+    z-index: 1; /* Above the timeline's ::before line */
+}
+
+#work-experience .timeline-item:nth-child(odd) .timeline-marker {
+    right: -14px; /* (marker_width(20)/2 + marker_border(4)) = 10 + 4 = 14 */
+    left: auto;
+}
+
+#work-experience .timeline-item:nth-child(even) .timeline-marker {
+    left: -14px; /* (marker_width(20)/2 + marker_border(4)) = 10 + 4 = 14 */
+    right: auto;
+}
+
+#work-experience .timeline-content {
+    background-color: #343A40; /* Slightly different dark shade */
+    padding: 20px;
+    border-radius: 6px;
+    position: relative;
+    color: #F8F9FA;
+    text-align: left !important; /* Ensure text inside content box is LTR */
+}
+
+#work-experience .timeline-company {
+    margin: 0 0 8px 0;
+    font-size: 1.25rem;
+    color: #F8F9FA;
+    font-weight: 600;
+}
+
+/* New styles for absolutely positioned dates */
+#work-experience .timeline-dates {
+    position: absolute;
+    top: 7px; /* Align with marker's top + border, or adjust for best visual */
+    width: 120px; /* Adjust as needed */
+    font-size: 0.85rem;
+    color: #CED4DA;
+    opacity: 0.9;
+    padding: 0 5px; /* Add slight horizontal padding */
+    z-index: 2; /* Ensure it's above the timeline line if they overlap */
+    /* margin removed as it's now absolutely positioned */
+}
+
+#work-experience .timeline-item:nth-child(odd) .timeline-dates {
+    /* Content is on LEFT, dates go on RIGHT of center line */
+    left: calc(100% + 20px); /* Positioned relative to the parent .timeline-item's right edge */
+    text-align: left;
+}
+
+#work-experience .timeline-item:nth-child(even) .timeline-dates {
+    /* Content is on RIGHT, dates go on LEFT of center line */
+    right: calc(100% + 20px); /* Positioned relative to the parent .timeline-item's left edge */
+    text-align: right;
+}
+
+#work-experience .timeline-details {
+    margin-top: 10px;
+}
+
+#work-experience .timeline-details h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #F8F9FA; /* Default color - light */
+    margin-top: 15px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#work-experience .timeline-details h4:hover {
+    color: #50FA7B; /* Accent green on hover */
+}
+
+#work-experience .timeline-details ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    /* margin: 0; -- Will be controlled by hover state */
+    display: block; /* Important for max-height transition */
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    margin-top: 0; /* No top margin when hidden */
+    margin-bottom: 0; /* No bottom margin when hidden */
+    transition: opacity 0.4s ease-in-out, max-height 0.4s ease-in-out, margin-top 0.4s ease-in-out, margin-bottom 0.4s ease-in-out;
+}
+
+#work-experience .timeline-details h4:hover + ul {
+    opacity: 1;
+    max-height: 1000px; /* Large enough to fit content */
+    margin-top: 8px;    /* Restore or set top margin when visible (matches original h4 margin-bottom) */
+    margin-bottom: 10px; /* Restore or set bottom margin when visible */
+}
+
+#work-experience .timeline-details li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 6px;
+    color: #CED4DA; /* Slightly lighter than main paragraph text if desired */
+}
+
+/* Skills Section Styles */
+#skills .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    padding-top: 30px;
+}
+
+/* Responsive adjustments for Skills Grid */
+@media (max-width: 1024px) {
+    #skills .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    #skills .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    #skills .skills-grid {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 15px;
+    }
+}
+
+#skills .skill-item {
+    background-color: #343A40;
+    border-radius: 8px;
+    padding: 20px 15px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 170px;
+    color: #F8F9FA;
+}
+
+#skills .skill-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 15px rgba(80, 250, 123, 0.1);
+}
+
+#skills .skill-logo {
+    height: 60px;
+    width: 60px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+#skills .skill-name {
+    color: #F8F9FA;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Old Scroll Animation States - Commented Out */
+/*
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-animate.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+*/
+
+/* New Scroll Animation System */
+.js-scroll-animate {
+    opacity: 0; /* UNCOMMENTED */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Default slide-from-bottom for sections */
+.js-scroll-animate.slide-from-bottom {
+    transform: translateY(40px); /* UNCOMMENTED */
+}
+
+/* For timeline items - slide from left */
+.js-scroll-animate.slide-from-left {
+    transform: translateX(-50px); /* UNCOMMENTED */
+}
+
+/* For timeline items - slide from right */
+.js-scroll-animate.slide-from-right {
+    transform: translateX(50px); /* UNCOMMENTED */
+}
+
+/* Common visible state */
+.js-scroll-animate.is-visible {
+    opacity: 1;
+    transform: translateX(0) translateY(0); /* Ensures both X and Y transforms end at 0 */
+}
+
+/* --- TEMPORARY DEBUG STYLES FOR TIMELINE (Commented Out) --- */
+/*
+#work-experience .timeline-item {
+    border: 2px dashed red !important;
+}
+
+#work-experience .timeline-content {
+    background-color: rgba(0, 0, 255, 0.3) !important;
+    border: 1px solid blue !important;
+}
+
+#work-experience .timeline-details ul li {
+    word-break: break-all;
+}
+*/
+/* --- END TEMPORARY DEBUG STYLES --- */
+
+/*
+--- Future Button Styles ---
+
+.button-primary {
+  display: inline-block;
+  background-color: #495057; /* Medium grey, could also be #6C757D */
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border: 1px solid #495057; /* Same as background or a shade darker */
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 500; /* Medium weight for Inter */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.button-primary:hover,
+.button-primary:focus {
+  background-color: #343A40; /* Darker grey on hover/focus */
+  border-color: #343A40;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+*/

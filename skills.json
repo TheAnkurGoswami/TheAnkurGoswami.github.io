@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Generative AI",
+    "logoUrl": "images/logos/generative-ai.png"
+  },
+  {
+    "name": "OpenCV",
+    "logoUrl": "images/logos/computer-vision.png"
+  },
+  {
+    "name": "Natural Language Processing (NLP)",
+    "logoUrl": "images/logos/nlp.png"
+  },
+  {
+    "name": "Langchain",
+    "logoUrl": "images/logos/langchain.png"
+  },
+  {
+    "name": "HuggingFace",
+    "logoUrl": "images/logos/huggingface.png"
+  },
+  {
+    "name": "TensorFlow",
+    "logoUrl": "images/logos/tensorflow.png"
+  },
+  {
+    "name": "PyTorch",
+    "logoUrl": "images/logos/pytorch.png"
+  },
+  {
+    "name": "FastAPI",
+    "logoUrl": "images/logos/fastapi.png"
+  },
+  {
+    "name": "Django",
+    "logoUrl": "images/logos/django.png"
+  },
+  {
+    "name": "Git/GitHub",
+    "logoUrl": "images/logos/github.png"
+  },
+  {
+    "name": "Bitbucket",
+    "logoUrl": "images/logos/bitbucket.png"
+  },
+  {
+    "name": "Docker",
+    "logoUrl": "images/logos/docker.png"
+  },
+  {
+    "name": "Jira",
+    "logoUrl": "images/logos/jira.png"
+  },
+  {
+    "name": "Kafka",
+    "logoUrl": "images/logos/kafka.png"
+  },
+  {
+    "name": "C",
+    "logoUrl": "images/logos/c.png"
+  },
+  {
+    "name": "C++",
+    "logoUrl": "images/logos/cpp.png"
+  },
+  {
+    "name": "Python",
+    "logoUrl": "images/logos/python.png"
+  },
+  {
+    "name": "SQL",
+    "logoUrl": "images/logos/sql.png"
+  }
+]
