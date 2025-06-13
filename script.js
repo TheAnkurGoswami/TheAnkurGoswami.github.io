@@ -143,10 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Intersection Observer for Scroll Animations
-    const animatedElements = document.querySelectorAll('.scroll-animate');
+    const animatedElements = document.querySelectorAll('.js-scroll-animate'); // UPDATED SELECTOR
 
     if (animatedElements.length > 0) {
-        console.log("Found elements to animate:", animatedElements); // ADD THIS LOG
+        // console.log("Found elements to animate:", animatedElements); // Keep this for debugging if needed, or remove
 
         const observerOptions = {
             root: null, // Use the viewport as the root
@@ -174,12 +174,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
 
         animatedElements.forEach(el => {
-            // console.log("Observing element:", el.id || el.classList[0] || el.tagName); // Simplified this log too
+            // console.log("Observing element:", el.id || el.classList[0] || el.tagName);
             scrollObserver.observe(el);
         });
 
     } else {
-        console.log("No elements with class '.scroll-animate' found to observe.");
+        console.log("No elements with class '.js-scroll-animate' found to observe."); // UPDATED LOG MESSAGE
     }
 });
 
@@ -321,9 +321,17 @@ function displayExperience(experienceData, container) {
         return;
     }
 
-    experienceData.forEach(exp => {
+    experienceData.forEach((exp, index) => { // Added index here
         const item = document.createElement('div');
         item.classList.add('timeline-item');
+        item.classList.add('js-scroll-animate'); // ADDED - base animation class
+
+        // ADDED - directional animation class
+        if (index % 2 === 0) { // 0, 2, 4... are effectively :nth-child(odd) -> slide from left
+            item.classList.add('slide-from-left');
+        } else { // 1, 3, 5... are effectively :nth-child(even) -> slide from right
+            item.classList.add('slide-from-right');
+        }
 
         const dates = document.createElement('p');
         dates.classList.add('timeline-dates');

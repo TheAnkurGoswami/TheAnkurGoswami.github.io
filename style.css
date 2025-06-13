@@ -619,16 +619,45 @@ main {
     margin-bottom: 0;
 }
 
-/* Scroll Animation States */
+/* Old Scroll Animation States - Commented Out */
+/*
 .scroll-animate {
     opacity: 0;
-    transform: translateY(40px); /* Start 40px lower */
+    transform: translateY(40px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .scroll-animate.is-visible {
     opacity: 1;
-    transform: translateY(0); /* End at original position */
+    transform: translateY(0);
+}
+*/
+
+/* New Scroll Animation System */
+.js-scroll-animate {
+    opacity: 0;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Default slide-from-bottom for sections */
+.js-scroll-animate.slide-from-bottom {
+    transform: translateY(40px); /* Start 40px lower */
+}
+
+/* For timeline items - slide from left */
+.js-scroll-animate.slide-from-left {
+    transform: translateX(-50px); /* Start 50px to the left */
+}
+
+/* For timeline items - slide from right */
+.js-scroll-animate.slide-from-right {
+    transform: translateX(50px); /* Start 50px to the right */
+}
+
+/* Common visible state */
+.js-scroll-animate.is-visible {
+    opacity: 1;
+    transform: translateX(0) translateY(0); /* Ensures both X and Y transforms end at 0 */
 }
 
 /*
