@@ -142,31 +142,31 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sidebarLinks.length === 0) console.warn('No sidebar links found for smooth scroll/close functionality.');
     }
 
-    // Intersection Observer for Scroll Animations
-    const animatedElements = document.querySelectorAll('.js-scroll-animate'); // UPDATED SELECTOR
+    // Call animation initializer after a short delay to ensure DOM is likely populated
+    setTimeout(initializeScrollAnimations, 500);
+});
+
+function initializeScrollAnimations() {
+    const animatedElements = document.querySelectorAll('.js-scroll-animate');
 
     if (animatedElements.length > 0) {
-        // console.log("Found elements to animate:", animatedElements); // Keep this for debugging if needed, or remove
+        // console.log("Found elements to animate for IntersectionObserver:", animatedElements);
 
         const observerOptions = {
-            root: null, // Use the viewport as the root
+            root: null,
             rootMargin: '0px',
-            threshold: 0.01 // CHANGED - Trigger when 1% of the element is visible
+            threshold: 0.01
         };
 
         const observerCallback = (entries, observer) => {
             entries.forEach(entry => {
-                // Simplified logging for intersection events
-                // console.log(`Element ${entry.target.id || entry.target.classList[0]}: intersecting=${entry.isIntersecting}, ratio=${entry.intersectionRatio.toFixed(2)}`);
-
+                // console.log(`Intersection for ${entry.target.id || entry.target.className}: ${entry.isIntersecting}`);
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    console.log("Added 'is-visible' class to:", entry.target.id || entry.target.classList[0] || entry.target.tagName);
-                    // observer.unobserve(entry.target); // REMOVED to allow re-animation
+                    // console.log("Added 'is-visible' class to:", entry.target.id || entry.target.classList[0] || entry.target.tagName);
                 } else {
-                    // If not intersecting, remove 'is-visible' to allow re-animation when scrolling back
                     entry.target.classList.remove('is-visible');
-                    console.log("Removed 'is-visible' class from:", entry.target.id || entry.target.classList[0] || entry.target.tagName);
+                    // console.log("Removed 'is-visible' class from:", entry.target.id || entry.target.classList[0] || entry.target.tagName);
                 }
             });
         };
@@ -179,9 +179,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     } else {
-        console.log("No elements with class '.js-scroll-animate' found to observe."); // UPDATED LOG MESSAGE
+        console.log("No elements with class '.js-scroll-animate' found to observe at time of init.");
     }
-});
+}
 
 function displayProjects(projectsData, container) {
     container.innerHTML = ''; // Clear previous content
