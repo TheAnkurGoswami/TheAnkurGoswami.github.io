@@ -635,23 +635,23 @@ main {
 
 /* New Scroll Animation System */
 .js-scroll-animate {
-    opacity: 0;
+    /* opacity: 0; */ /* COMMENTED OUT FOR DEBUGGING */
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 /* Default slide-from-bottom for sections */
 .js-scroll-animate.slide-from-bottom {
-    transform: translateY(40px); /* Start 40px lower */
+    /* transform: translateY(40px); */ /* COMMENTED OUT FOR DEBUGGING */
 }
 
 /* For timeline items - slide from left */
 .js-scroll-animate.slide-from-left {
-    transform: translateX(-50px); /* Start 50px to the left */
+    /* transform: translateX(-50px); */ /* COMMENTED OUT FOR DEBUGGING */
 }
 
 /* For timeline items - slide from right */
 .js-scroll-animate.slide-from-right {
-    transform: translateX(50px); /* Start 50px to the right */
+    /* transform: translateX(50px); */ /* COMMENTED OUT FOR DEBUGGING */
 }
 
 /* Common visible state */
