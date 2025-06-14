@@ -348,8 +348,8 @@ main {
 }
 
 .active-section {
-    opacity: 1;
-    visibility: visible;
+    opacity: 1 !important;
+    visibility: visible !important;
     z-index: 1;
 }
 
