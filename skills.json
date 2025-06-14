@@ -12,12 +12,12 @@
     "logoUrl": "logos/huggingface.png"
   },
   {
-    "name": "Git/GitHub",
-    "logoUrl": "logos/github.png"
-  },
-  {
     "name": "Langchain",
     "logoUrl": "logos/langchain.png"
+  },
+  {
+    "name": "Git/GitHub",
+    "logoUrl": "logos/github.png"
   },
   {
     "name": "Docker",
@@ -28,35 +28,15 @@
     "logoUrl": "logos/aws.png"
   },
   {
-    "name": "Generative AI",
-    "logoUrl": "images/logos/generative-ai.png"
-  },
-  {
     "name": "OpenCV",
-    "logoUrl": "images/logos/computer-vision.png"
+    "logoUrl": "logos/opencv.png"
   },
   {
-    "name": "Natural Language Processing (NLP)",
-    "logoUrl": "images/logos/nlp.png"
-  },
-  {
-    "name": "FastAPI",
-    "logoUrl": "images/logos/fastapi.png"
-  },
-  {
-    "name": "Jira",
-    "logoUrl": "images/logos/jira.png"
+    "name": "Gradio",
+    "logoUrl": "logos/gradio.png"
   },
   {
     "name": "Kafka",
-    "logoUrl": "images/logos/kafka.png"
-  },
-  {
-    "name": "C",
-    "logoUrl": "images/logos/c.png"
-  },
-  {
-    "name": "C++",
-    "logoUrl": "images/logos/cpp.png"
+    "logoUrl": "logos/kafka.png"
   }
 ]
