@@ -1,157 +1,175 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Project Loading Logic
+    // --- Existing Project, Skills, Experience Loading Logic ---
+    // (Copied from original script.js, ensure these are still relevant and working)
     const projectsContainer = document.getElementById('projects-container');
-
-    if (!projectsContainer) {
-        console.error('Projects container not found for rendering projects!');
-    } else {
+    if (projectsContainer) {
         fetch('projects.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(projectsData => {
-                displayProjects(projectsData, projectsContainer);
-            })
-            .catch(error => {
-                console.error('Failed to fetch or parse projects.json:', error);
-                projectsContainer.innerHTML = '<p>Error loading projects. Please check the console.</p>';
-            });
+            .then(response => response.ok ? response.json() : Promise.reject(response.status))
+            .then(data => displayProjects(data, projectsContainer))
+            .catch(error => console.error('Failed to load projects.json:', error));
     }
 
-    // Skills Loading Logic
     const skillsGridContainer = document.getElementById('skills-grid');
-
-    if (!skillsGridContainer) {
-        console.error('Skills grid container not found!');
-    } else {
+    if (skillsGridContainer) {
         fetch('skills.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(skillsData => {
-                displaySkills(skillsData, skillsGridContainer);
-            })
-            .catch(error => {
-                console.error('Failed to fetch or parse skills.json:', error);
-                skillsGridContainer.innerHTML = '<p>Error loading skills. Please check the console.</p>';
-            });
+            .then(response => response.ok ? response.json() : Promise.reject(response.status))
+            .then(data => displaySkills(data, skillsGridContainer))
+            .catch(error => console.error('Failed to load skills.json:', error));
     }
 
-    // Work Experience Loading Logic
     const timelineContainer = document.querySelector('#work-experience .timeline');
-
-    if (!timelineContainer) {
-        console.error('Work experience timeline container not found!');
-    } else {
+    if (timelineContainer) {
         fetch('experience.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(experienceData => {
-                displayExperience(experienceData, timelineContainer);
-            })
-            .catch(error => {
-                console.error('Failed to fetch or parse experience.json:', error);
-                timelineContainer.innerHTML = '<p>Error loading work experience. Please check the console.</p>';
-            });
+            .then(response => response.ok ? response.json() : Promise.reject(response.status))
+            .then(data => displayExperience(data, timelineContainer)) // Keep existing animation classes for experience items
+            .catch(error => console.error('Failed to load experience.json:', error));
     }
 
-    // Typing Animation Logic
+    // Typing Animation Logic (from original script)
     const typedElement = document.getElementById('typing-designation');
-
     if (typedElement) {
-        const options = {
-            strings: ['AI Researcher', 'Data Scientist'],
-            typeSpeed: 70, // Speed of typing
-            backSpeed: 50, // Speed of backspacing
-            backDelay: 1500, // Pause before backspacing
-            startDelay: 500, // Pause before starting animation
-            loop: true,      // Loop the animation
-            smartBackspace: true, // Only backspace what doesn't match the next string
-            showCursor: true,
-            cursorChar: '|',
-        };
-        new Typed('#typing-designation', options);
-    } else {
-        console.error('Typing designation element not found for animation.');
+        new Typed('#typing-designation', {
+            strings: ['AI Researcher', 'Data Scientist'], typeSpeed: 70, backSpeed: 50,
+            backDelay: 1500, startDelay: 500, loop: true, smartBackspace: true,
+            showCursor: true, cursorChar: '|',
+        });
     }
 
-    // Sidebar Toggle Functionality
+    // Sidebar Toggle Functionality (from original script)
     const sidebar = document.getElementById('sidebar');
     const sidebarToggle = document.getElementById('sidebar-toggle');
-
     if (sidebar && sidebarToggle) {
         sidebarToggle.addEventListener('click', () => {
             sidebar.classList.toggle('expanded');
-            sidebarToggle.classList.toggle('active'); // For 'X' transformation
-
-            // Update aria-expanded attribute for accessibility
-            const isExpanded = sidebar.classList.contains('expanded');
-            sidebarToggle.setAttribute('aria-expanded', isExpanded);
+            sidebarToggle.classList.toggle('active');
+            sidebarToggle.setAttribute('aria-expanded', sidebar.classList.contains('expanded'));
         });
-    } else {
-        if (!sidebar) console.error('Sidebar element not found!');
-        if (!sidebarToggle) console.error('Sidebar toggle button not found!');
     }
 
-    // Smooth scrolling for sidebar links & close sidebar on click
+    // --- Full Page Scroll Navigation Logic ---
+    const sections = [
+        document.getElementById('hero'),
+        document.getElementById('about'),
+        document.getElementById('work-experience'),
+        document.getElementById('projects'),
+        document.getElementById('skills'),
+        document.getElementById('education'),
+        document.getElementById('contributions'),
+        document.getElementById('contact')
+    ].filter(section => section !== null); // Filter out nulls if some sections are missing
+
     const sidebarLinks = document.querySelectorAll('#sidebar nav a');
+    let currentSectionIndex = 0;
+    let scrollTimeout;
 
-    if (sidebarLinks.length > 0 && sidebar && sidebarToggle) { // Ensure sidebar and toggle exist for closing
-        sidebarLinks.forEach(link => {
+    if (sections.length === 0) {
+        console.error("No sections found for full page scroll navigation.");
+        return;
+    }
+
+    function debounce(func, delay) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    function updateSidebar(activeIndex) {
+        sidebarLinks.forEach((link, index) => {
+            if (index === activeIndex) {
+                link.classList.add('active'); // Add 'active' class to current section's link
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    function changeSection(newIndex) {
+        if (newIndex === currentSectionIndex || newIndex < 0 || newIndex >= sections.length) {
+            return; // No change or out of bounds
+        }
+
+        const currentSection = sections[currentSectionIndex];
+        const newSection = sections[newIndex];
+
+        currentSection.classList.remove('active-section');
+        // currentSection.style.zIndex = 0; // Managed by active-section class removal
+
+        newSection.classList.add('active-section');
+        // newSection.style.zIndex = 1; // Managed by active-section class
+
+        currentSectionIndex = newIndex;
+        window.location.hash = newSection.id;
+        updateSidebar(currentSectionIndex);
+    }
+
+    function handleScroll(event) {
+        event.preventDefault(); // Prevent default window scroll
+
+        let newIndex = currentSectionIndex;
+        if (event.deltaY > 0) { // Scrolling down
+            if (currentSectionIndex < sections.length - 1) {
+                newIndex++;
+            }
+        } else { // Scrolling up
+            if (currentSectionIndex > 0) {
+                newIndex--;
+            }
+        }
+        changeSection(newIndex);
+    }
+
+    const debouncedScrollHandler = debounce(handleScroll, 150); // Adjust delay as needed
+
+    // Initial setup
+    document.body.style.overflow = 'hidden'; // Prevent body scrollbar
+    if (sections.length > 0) {
+        // Check hash on load
+        const hash = window.location.hash.substring(1);
+        const hashIndex = sections.findIndex(s => s.id === hash);
+        if (hashIndex !== -1) {
+            currentSectionIndex = hashIndex;
+        }
+        sections[currentSectionIndex].classList.add('active-section');
+        updateSidebar(currentSectionIndex);
+    }
+
+    window.addEventListener('wheel', debouncedScrollHandler, { passive: false });
+
+    // Modify existing sidebar link click handlers
+    if (sidebarLinks.length > 0 && sidebar && sidebarToggle) {
+        sidebarLinks.forEach((link, index) => { // Assuming link order matches section order
             link.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default anchor jump
+                event.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetIndex = sections.findIndex(s => s.id === targetId);
 
-                const targetId = this.getAttribute('href'); // Get href value (e.g., "#about")
-
-                // Check if it's an internal link
-                if (targetId && targetId.startsWith('#') && targetId.length > 1) {
-                    const targetElement = document.querySelector(targetId);
-
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    } else {
-                        console.warn(`Smooth scroll target not found for ID: ${targetId}`);
-                    }
-                } else if (targetId && !targetId.startsWith('#')) {
-                    // If it's an external link, just navigate
-                    window.location.href = targetId;
-                    return; // Exit, don't try to close sidebar if navigating away
+                if (targetIndex !== -1 && targetIndex !== currentSectionIndex) {
+                    changeSection(targetIndex);
                 }
 
-                // Close the sidebar after clicking a link (for internal links)
+                // Close the sidebar after clicking a link
                 if (sidebar.classList.contains('expanded')) {
                     sidebar.classList.remove('expanded');
-                    sidebarToggle.classList.remove('active'); // Reset hamburger icon
+                    sidebarToggle.classList.remove('active');
                     sidebarToggle.setAttribute('aria-expanded', 'false');
                 }
             });
         });
-    } else {
-        if (sidebarLinks.length === 0) console.warn('No sidebar links found for smooth scroll/close functionality.');
     }
 
-    // Call animation initializer after a short delay to ensure DOM is likely populated
+    /* // --- Commenting out the old scroll animation system ---
     setTimeout(initializeScrollAnimations, 500);
+    */
 });
 
+/*
+// --- Old scroll animation system (Commented Out) ---
 function initializeScrollAnimations() {
     const animatedElements = document.querySelectorAll('.js-scroll-animate');
 
     if (animatedElements.length > 0) {
-        // console.log("Found elements to animate for IntersectionObserver:", animatedElements);
-
         const observerOptions = {
             root: null,
             rootMargin: '0px',
@@ -160,222 +178,136 @@ function initializeScrollAnimations() {
 
         const observerCallback = (entries, observer) => {
             entries.forEach(entry => {
-                // console.log(`Intersection for ${entry.target.id || entry.target.className}: ${entry.isIntersecting}`);
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    // console.log("Added 'is-visible' class to:", entry.target.id || entry.target.classList[0] || entry.target.tagName);
                 } else {
-                    entry.target.classList.remove('is-visible');
-                    // console.log("Removed 'is-visible' class from:", entry.target.id || entry.target.classList[0] || entry.target.tagName);
+                    // Optional: remove class if you want animation to reverse when scrolling out
+                    // entry.target.classList.remove('is-visible');
                 }
             });
         };
 
         const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
-
-        animatedElements.forEach(el => {
-            // console.log("Observing element:", el.id || el.classList[0] || el.tagName);
-            scrollObserver.observe(el);
-        });
-
-    } else {
-        console.log("No elements with class '.js-scroll-animate' found to observe at time of init.");
+        animatedElements.forEach(el => scrollObserver.observe(el));
     }
 }
+*/
+
+// --- displayProjects, displaySkills, displayExperience functions (Copied from original script.js) ---
+// Ensure these functions are defined in the global scope or passed around if needed by fetched data.
+// For displayExperience, the js-scroll-animate classes are still added. These might need adjustment
+// if they interfere with the full-page transitions or if their visibility logic is no longer desired.
 
 function displayProjects(projectsData, container) {
-    container.innerHTML = ''; // Clear previous content
-
+    container.innerHTML = '';
     if (!projectsData || !Array.isArray(projectsData) || projectsData.length === 0) {
-        container.innerHTML = '<p>No projects to display at the moment.</p>';
-        return;
+        container.innerHTML = '<p>No projects to display.</p>'; return;
     }
-
     projectsData.forEach(project => {
-        const projectElement = document.createElement('div');
-        projectElement.classList.add('project');
-
+        const el = document.createElement('div'); el.classList.add('project');
         if (project.imageUrl) {
-            const img = document.createElement('img');
-            img.src = project.imageUrl;
+            const img = document.createElement('img'); img.src = project.imageUrl;
             img.alt = project.title ? project.title + " image" : "Project image";
-            // Add error handling for images if desired, e.g., img.onerror = ...
-            projectElement.appendChild(img);
+            el.appendChild(img);
         }
-
-        const contentWrapper = document.createElement('div');
-        contentWrapper.classList.add('project-card-content');
-
-        if (project.title) {
-            const title = document.createElement('h2');
-            title.textContent = project.title;
-            contentWrapper.appendChild(title);
-        }
-
-        if (project.description) {
-            const description = document.createElement('p');
-            description.textContent = project.description;
-            contentWrapper.appendChild(description);
-        }
-
+        const content = document.createElement('div'); content.classList.add('project-card-content');
+        if (project.title) { const h2 = document.createElement('h2'); h2.textContent = project.title; content.appendChild(h2); }
+        if (project.description) { const p = document.createElement('p'); p.textContent = project.description; content.appendChild(p); }
         if (project.technologies && project.technologies.length > 0) {
-            const techsDiv = document.createElement('div');
-            techsDiv.classList.add('project-technologies');
-            project.technologies.forEach(tech => {
-                const techTag = document.createElement('span');
-                techTag.classList.add('tech-tag');
-                techTag.textContent = tech;
-                techsDiv.appendChild(techTag);
-            });
-            contentWrapper.appendChild(techsDiv);
+            const techs = document.createElement('div'); techs.classList.add('project-technologies');
+            project.technologies.forEach(t => { const s = document.createElement('span'); s.classList.add('tech-tag'); s.textContent = t; techs.appendChild(s); });
+            content.appendChild(techs);
         }
-
         if (project.tags && project.tags.length > 0) {
-            const tagsDiv = document.createElement('div');
-            tagsDiv.classList.add('project-tags');
-            project.tags.forEach(t => {
-                const tag = document.createElement('span');
-                tag.classList.add('tag');
-                tag.textContent = t;
-                tagsDiv.appendChild(tag);
-            });
-            contentWrapper.appendChild(tagsDiv);
+            const tags = document.createElement('div'); tags.classList.add('project-tags');
+            project.tags.forEach(t => { const s = document.createElement('span'); s.classList.add('tag'); s.textContent = t; tags.appendChild(s); });
+            content.appendChild(tags);
         }
-
-        const linksDiv = document.createElement('div');
-        linksDiv.classList.add('project-links');
-        let hasLinks = false;
-
-        if (project.repoUrl) {
-            const repoLink = document.createElement('a');
-            repoLink.href = project.repoUrl;
-            repoLink.textContent = 'View Repo';
-            repoLink.target = '_blank';
-            repoLink.rel = 'noopener noreferrer';
-            linksDiv.appendChild(repoLink);
-            hasLinks = true;
-        }
-
-        if (project.liveUrl) {
-            if(hasLinks) { // Add a separator if repo link also exists
-                const separator = document.createTextNode(' | ');
-                linksDiv.appendChild(separator);
-            }
-            const liveLink = document.createElement('a');
-            liveLink.href = project.liveUrl;
-            liveLink.textContent = 'Live Demo';
-            liveLink.target = '_blank';
-            liveLink.rel = 'noopener noreferrer';
-            linksDiv.appendChild(liveLink);
-            hasLinks = true;
-        }
-
-        if(hasLinks){
-            contentWrapper.appendChild(linksDiv);
-        }
-
-        projectElement.appendChild(contentWrapper);
-        container.appendChild(projectElement);
+        const links = document.createElement('div'); links.classList.add('project-links'); let hasL = false;
+        if (project.repoUrl) { const a = document.createElement('a'); a.href = project.repoUrl; a.textContent = 'View Repo'; a.target = '_blank'; links.appendChild(a); hasL = true; }
+        if (project.liveUrl) { if(hasL) links.appendChild(document.createTextNode(' | ')); const a = document.createElement('a'); a.href = project.liveUrl; a.textContent = 'Live Demo'; a.target = '_blank'; links.appendChild(a); hasL = true; }
+        if(hasL) content.appendChild(links);
+        el.appendChild(content); container.appendChild(el);
     });
 }
 
 function displaySkills(skillsData, container) {
-    container.innerHTML = ''; // Clear previous content
-
+    container.innerHTML = '';
     if (!skillsData || !Array.isArray(skillsData) || skillsData.length === 0) {
-        container.innerHTML = '<p>No skills to display at the moment.</p>';
-        return;
+        container.innerHTML = '<p>No skills to display.</p>'; return;
     }
-
     skillsData.forEach(skill => {
-        const skillItem = document.createElement('div');
-        skillItem.classList.add('skill-item');
-
-        if (skill.logoUrl) {
-            const skillLogo = document.createElement('img');
-            skillLogo.classList.add('skill-logo');
-            skillLogo.src = skill.logoUrl;
-            skillLogo.alt = skill.name ? skill.name + " logo" : "Skill logo";
-            skillItem.appendChild(skillLogo);
-        }
-
-        if (skill.name) {
-            const skillName = document.createElement('p');
-            skillName.classList.add('skill-name');
-            skillName.textContent = skill.name;
-            skillItem.appendChild(skillName);
-        }
-
-        // Only append if the item is not empty
-        if (skillItem.hasChildNodes()) {
-             container.appendChild(skillItem);
-        }
+        const item = document.createElement('div'); item.classList.add('skill-item');
+        if (skill.logoUrl) { const img = document.createElement('img'); img.classList.add('skill-logo'); img.src = skill.logoUrl; img.alt = skill.name ? skill.name + " logo" : "Skill logo"; item.appendChild(img); }
+        if (skill.name) { const p = document.createElement('p'); p.classList.add('skill-name'); p.textContent = skill.name; item.appendChild(p); }
+        if (item.hasChildNodes()) container.appendChild(item);
     });
 }
 
 function displayExperience(experienceData, container) {
-    container.innerHTML = ''; // Clear previous hardcoded content
-
+    container.innerHTML = '';
     if (!experienceData || !Array.isArray(experienceData) || experienceData.length === 0) {
-        container.innerHTML = '<p>No work experience to display at the moment.</p>';
-        return;
+        container.innerHTML = '<p>No work experience to display.</p>'; return;
     }
+    experienceData.forEach((exp, index) => {
+        const item = document.createElement('div'); item.classList.add('timeline-item');
+        // Keep existing scroll animations for individual timeline items if desired.
+        // These animate *within* the work-experience section.
+        item.classList.add('js-scroll-animate');
+        if (index % 2 === 0) item.classList.add('slide-from-left');
+        else item.classList.add('slide-from-right');
 
-    experienceData.forEach((exp, index) => { // Added index here
-        const item = document.createElement('div');
-        item.classList.add('timeline-item');
-        item.classList.add('js-scroll-animate'); // ADDED - base animation class
-
-        // ADDED - directional animation class
-        if (index % 2 === 0) { // 0, 2, 4... are effectively :nth-child(odd) -> slide from left
-            item.classList.add('slide-from-left');
-        } else { // 1, 3, 5... are effectively :nth-child(even) -> slide from right
-            item.classList.add('slide-from-right');
-        }
-
-        const dates = document.createElement('p');
-        dates.classList.add('timeline-dates');
-        dates.textContent = `${exp.startDate} – ${exp.endDate}`;
-        item.appendChild(dates);
-
-        const marker = document.createElement('div');
-        marker.classList.add('timeline-marker');
-        item.appendChild(marker);
-
-        const content = document.createElement('div');
-        content.classList.add('timeline-content');
-
-        const heading = document.createElement('h3');
-        heading.classList.add('timeline-company');
-        // Ensure all parts of the heading are defined before creating text content
-        const role = exp.role || 'N/A';
-        const company = exp.company || 'N/A';
-        const location = exp.location || 'N/A';
-        heading.textContent = `${role}, ${company}, ${location}`;
-        content.appendChild(heading);
-
+        const dates = document.createElement('p'); dates.classList.add('timeline-dates'); dates.textContent = `${exp.startDate} – ${exp.endDate}`; item.appendChild(dates);
+        const marker = document.createElement('div'); marker.classList.add('timeline-marker'); item.appendChild(marker);
+        const content = document.createElement('div'); content.classList.add('timeline-content');
+        const h3 = document.createElement('h3'); h3.classList.add('timeline-company');
+        h3.textContent = `${exp.role || 'N/A'}, ${exp.company || 'N/A'}, ${exp.location || 'N/A'}`; content.appendChild(h3);
         if (exp.details && exp.details.length > 0) {
-            const detailsDiv = document.createElement('div');
-            detailsDiv.classList.add('timeline-details');
+            const detailsDiv = document.createElement('div'); detailsDiv.classList.add('timeline-details');
             exp.details.forEach(detail => {
-                if (detail.title) {
-                    const detailTitle = document.createElement('h4');
-                    detailTitle.textContent = detail.title;
-                    detailsDiv.appendChild(detailTitle);
-                }
+                if (detail.title) { const h4 = document.createElement('h4'); h4.textContent = detail.title; detailsDiv.appendChild(h4); }
                 if (detail.points && detail.points.length > 0) {
-                    const pointsUl = document.createElement('ul');
-                    detail.points.forEach(pointText => {
-                        const pointLi = document.createElement('li');
-                        pointLi.textContent = pointText;
-                        pointsUl.appendChild(pointLi);
-                    });
-                    detailsDiv.appendChild(pointsUl);
+                    const ul = document.createElement('ul');
+                    detail.points.forEach(pt => { const li = document.createElement('li'); li.textContent = pt; ul.appendChild(li); });
+                    detailsDiv.appendChild(ul);
                 }
             });
             content.appendChild(detailsDiv);
         }
-        item.appendChild(content);
-        container.appendChild(item);
+        item.appendChild(content); container.appendChild(item);
     });
+
+    // Re-initialize the IntersectionObserver for these newly added .js-scroll-animate elements
+    // This part is tricky because initializeScrollAnimations was fully commented out.
+    // For the experience items to still animate, that logic needs to be callable here.
+    // For now, this might mean those animations won't work unless initializeScrollAnimations is restored
+    // and made smarter to only apply to elements *within* sections, not the sections themselves.
+    // A simpler immediate fix is to remove 'js-scroll-animate' from experience items if we don't want to fix this now.
+    // OR, we can define a more targeted scroll animation initializer here.
+    initializeInternalScrollAnimations(container);
+
+}
+
+// More targeted scroll animation initializer for dynamic content within sections
+function initializeInternalScrollAnimations(parentElement) {
+    const animatedElements = parentElement.querySelectorAll('.js-scroll-animate');
+    if (animatedElements.length > 0) {
+        const observerOptions = {
+            root: null, // observes intersections relative to the viewport
+            rootMargin: '0px',
+            threshold: 0.1 // visible by 10%
+        };
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // observer.unobserve(entry.target); // Optional: stop observing once visible
+                } else {
+                     entry.target.classList.remove('is-visible'); // Re-animate if it goes out of view and back
+                }
+            });
+        };
+        const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+        animatedElements.forEach(el => scrollObserver.observe(el));
+    }
 }
