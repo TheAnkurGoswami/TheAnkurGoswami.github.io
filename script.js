@@ -36,6 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(skillsData => {
                 displaySkills(skillsData, skillsGridContainer);
+                // After skills are displayed, position them.
+                if (skillsGridContainer.children.length > 0) {
+                    positionSkillsInCloud();
+                }
             })
             .catch(error => {
                 console.error('Failed to fetch or parse skills.json:', error);
@@ -144,7 +148,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Call animation initializer after a short delay to ensure DOM is likely populated
     setTimeout(initializeScrollAnimations, 500);
+
+    // Add resize listener for skills cloud, debounced for performance
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(positionSkillsInCloud, 250); // Debounce for 250ms
+    });
 });
+
+// --- SKILLS CLOUD POSITIONING ---
+function positionSkillsInCloud() {
+    const container = document.getElementById('skills-grid');
+    if (!container) {
+        console.error('Skills grid container not found for positioning.');
+        return;
+    }
+
+    const items = container.querySelectorAll('.skill-item');
+    if (items.length === 0) {
+        // console.log('No skill items found to position.'); // Can be noisy on initial load before displaySkills
+        return;
+    }
+
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
+    const edgeMargin = 20; // Pixels from the edge
+
+    items.forEach(item => {
+        const itemWidth = item.offsetWidth;
+        const itemHeight = item.offsetHeight;
+
+        if (itemWidth === 0 || itemHeight === 0) {
+            // console.warn('Skill item has zero dimensions, cannot position accurately yet.', item);
+            // This can happen if images inside skill-item haven't loaded their dimensions.
+            // A more robust solution might involve waiting for images to load or setting explicit sizes.
+            // For now, we'll attempt to position, but it might be imperfect.
+        }
+
+        // Ensure items are not placed outside bounds, even if item dimensions are larger than available space
+        const maxLeft = Math.max(0, containerWidth - itemWidth - edgeMargin);
+        const maxTop = Math.max(0, containerHeight - itemHeight - edgeMargin);
+
+        // Calculate random top and left positions
+        // Ensure left/top are not negative if container is smaller than item + margins
+        const left = Math.max(edgeMargin, Math.random() * (maxLeft - edgeMargin) + edgeMargin);
+        const top = Math.max(edgeMargin, Math.random() * (maxTop - edgeMargin) + edgeMargin);
+
+        item.style.left = `${left}px`;
+        item.style.top = `${top}px`;
+        item.style.zIndex = Math.floor(Math.random() * 5) + 1; // Random z-index between 1 and 5
+    });
+}
+
 
 function initializeScrollAnimations() {
     const animatedElements = document.querySelectorAll('.js-scroll-animate');
@@ -311,6 +367,12 @@ function displaySkills(skillsData, container) {
              container.appendChild(skillItem);
         }
     });
+    // Call positionSkillsInCloud again IF skills were just added and it's not the initial DOMContentLoaded call
+    // This ensures that if displaySkills is called at other times, positions are updated.
+    // However, the primary call is after fetch in DOMContentLoaded.
+    // if (document.readyState === 'complete' && container.children.length > 0) {
+    //    positionSkillsInCloud();
+    // }
 }
 
 function displayExperience(experienceData, container) {

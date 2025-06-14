@@ -557,64 +557,32 @@ main {
 
 /* Skills Section Styles */
 #skills .skills-grid {
-    display: flex; /* CHANGED from grid */
-    flex-wrap: wrap; /* Allow items to wrap */
-    justify-content: center; /* Center items horizontally */
-    align-items: center; /* Center items vertically */
-    gap: 30px 40px; /* Random-like gap */
-    padding-top: 30px;
+    position: relative; /* For absolute positioning of skill items */
+    min-height: 400px; /* Provisional height, might be adjusted by JS */
+    padding-top: 30px; /* Keep padding if desired for overall section spacing */
+    /* Removed flex, flex-wrap, justify-content, align-items, gap */
+    /* Media queries for previous grid layout are already commented out or removed */
 }
-
-/* Responsive adjustments for Skills Grid are largely handled by flex-wrap,
-   but we can remove or simplify existing media queries if they are no longer needed
-   or conflict with the flex layout. For now, let's remove them. */
-/*
-@media (max-width: 1024px) {
-    #skills .skills-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-    }
-}
-
-@media (max-width: 768px) {
-    #skills .skills-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    #skills .skills-grid {
-        grid-template-columns: repeat(1, 1fr);
-        gap: 15px;
-    }
-}
-*/
 
 #skills .skill-item {
-    background-color: #343A40;
-    border-radius: 8px;
-    padding: 20px 15px;
-    text-align: center;
-    /* Added opacity to transition for skill name fade-in/out */
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, opacity 0.2s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    /* min-height might not be necessary, can be adjusted later if needed */
-    color: #F8F9FA;
-    position: relative; /* For absolute positioning of skill-name */
+    position: absolute; /* Key for JS positioning */
+    text-align: center; /* Helps align skill-name if it's part of the item flow */
+    /* Removed background-color, border-radius, padding, box-shadow from item */
+    /* transition for opacity can be removed if not used for fading the whole item */
+    /* Removed min-height */
+    /* color: #F8F9FA; - This might not be needed if only logo and name (which has its own color) are visible */
+    /* display: flex, flex-direction, align-items, justify-content removed as item is now simpler */
 }
 
 #skills .skill-item:hover {
-    transform: scale(1.05); /* Existing overall item scale */
-    box-shadow: 0px 6px 15px rgba(80, 250, 123, 0.1); /* Existing shadow */
+    /* transform: scale(1.05); Removed, hover effect focused on logo */
+    /* box-shadow: 0px 6px 15px rgba(80, 250, 123, 0.1); Removed, hover effect focused on logo */
 }
 
 /* Hover effect for logo within skill-item */
 #skills .skill-item:hover .skill-logo {
     transform: scale(1.2); /* Enlarge logo */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional: shadow on logo hover */
 }
 
 /* Hover effect for skill name within skill-item */
@@ -624,12 +592,13 @@ main {
 }
 
 #skills .skill-logo {
+    display: block; /* Ensure block behavior for margin auto to work */
+    margin: 0 auto; /* Center logo if skill-item is not text-aligned or for explicit control */
     height: 4rem;
     width: 4rem;
     object-fit: contain;
-    margin-bottom: 10px; /* Keep existing margin or adjust as needed */
-    /* margin-right: 0.5rem; Removed as individual item centering is handled by flex on skill-item */
-    transition: transform 0.2s ease-in-out; /* Smooth scaling for logo */
+    margin-bottom: 10px; /* Keep existing margin or adjust as needed for spacing name */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Added box-shadow transition */
 }
 
 #skills .skill-name {
