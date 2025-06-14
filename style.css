@@ -702,3 +702,59 @@ main {
   text-decoration: none;
 }
 */
+
+/* Contributions Section */
+#contributions-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding-top: 30px; /* Spacing from the "Contributions" h2, adjust as needed */
+}
+
+.contribution-item {
+    background-color: #1A1A1A; /* Matches .project background */
+    border: 1px solid #495057; /* Matches .project border */
+    color: #F8F9FA; /* Light text */
+    border-radius: 6px; /* Matches .project border-radius */
+    padding: 20px; /* A bit more padding than 15px for better internal spacing */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contribution-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Similar to a project hover, can be adjusted */
+}
+
+.contribution-item h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.3rem; /* Consistent with .project h2 */
+    color: #F8F9FA; /* Ensures it's light, though inherited */
+}
+
+/* Links within h3 will inherit from section general link styles (#contributions a) */
+/* .contribution-item h3 a { color: #50FA7B; ... } is handled by #contributions a */
+
+.contribution-item p:first-of-type { /* Assuming description is the first p after h3 */
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #CED4DA; /* Consistent with .project p (description) */
+    margin-bottom: 15px;
+    flex-grow: 1; /* Allows description to take available space */
+}
+
+.contribution-item p:last-of-type { /* Assuming role is the last p */
+    font-size: 0.85rem;
+    color: #ADB5BD; /* Muted color for role */
+    margin-top: auto; /* Pushes role to the bottom */
+    padding-top: 10px; /* Space above the role text */
+    border-top: 1px solid #343A40; /* Subtle separator line, matches timeline content bg */
+}
+
+/* The <strong> tag within the role <p> will be bold by default.
+   If specific color needed for "Role:", it can be targeted, e.g.,
+   .contribution-item p:last-of-type strong { color: #BD93F9; }
+   similar to other strong highlighted texts if that's the desired style.
+*/

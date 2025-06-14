@@ -65,6 +65,23 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+    // Fetch and display contributions
+    const contributionsContainer = document.getElementById('contributions-container');
+    if (contributionsContainer) {
+        fetch('contributions.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => displayContributions(data, contributionsContainer))
+            .catch(error => {
+                console.error('Error loading contributions:', error);
+                contributionsContainer.innerHTML = '<p>Error loading contributions. Please try again later.</p>';
+            });
+    }
+
     // Typing Animation Logic
     const typedElement = document.getElementById('typing-designation');
 
@@ -377,5 +394,43 @@ function displayExperience(experienceData, container) {
         }
         item.appendChild(content);
         container.appendChild(item);
+    });
+}
+
+function displayContributions(contributionsData, container) {
+    container.innerHTML = ''; // Clear existing content
+
+    if (!contributionsData || !contributionsData.contributions || contributionsData.contributions.length === 0) {
+        container.innerHTML = '<p>No contributions to display at the moment.</p>';
+        return;
+    }
+
+    contributionsData.contributions.forEach(contribution => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'contribution-item'; // Added a class for potential styling
+
+        const projectName = document.createElement('h3');
+        if (contribution.projectUrl) {
+            const link = document.createElement('a');
+            link.href = contribution.projectUrl;
+            link.textContent = contribution.projectName;
+            link.target = '_blank'; // Open in new tab
+            link.rel = 'noopener noreferrer'; // Security best practice
+            projectName.appendChild(link);
+        } else {
+            projectName.textContent = contribution.projectName;
+        }
+        itemDiv.appendChild(projectName);
+
+        const description = document.createElement('p');
+        description.textContent = contribution.description;
+        itemDiv.appendChild(description);
+
+        const role = document.createElement('p');
+        // Added <strong> for emphasis on "Role:"
+        role.innerHTML = `<strong>Role:</strong> ${contribution.role}`;
+        itemDiv.appendChild(role);
+
+        container.appendChild(itemDiv);
     });
 }
