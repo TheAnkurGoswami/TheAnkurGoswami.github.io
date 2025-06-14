@@ -565,9 +565,14 @@ main {
 }
 
 #skills .skill-item {
-    position: absolute; /* Key for JS positioning */
-    text-align: center; /* Helps align skill-name if it's part of the item flow */
-    /* Removed background-color, border-radius, padding, box-shadow from item */
+    position: absolute !important; /* Key for JS positioning */
+    text-align: center !important; /* Helps align skill-name */
+    background: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important; /* Remove any margin on the item itself */
     /* transition for opacity can be removed if not used for fading the whole item */
     /* Removed min-height */
     /* color: #F8F9FA; - This might not be needed if only logo and name (which has its own color) are visible */
@@ -575,14 +580,18 @@ main {
 }
 
 #skills .skill-item:hover {
-    /* transform: scale(1.05); Removed, hover effect focused on logo */
-    /* box-shadow: 0px 6px 15px rgba(80, 250, 123, 0.1); Removed, hover effect focused on logo */
+    /* All hover effects are now on child elements like .skill-logo or .skill-name */
+    /* transform: scale(1.05); Removed */
+    /* box-shadow: ... Removed */
 }
 
 /* Hover effect for logo within skill-item */
 #skills .skill-item:hover .skill-logo {
     transform: scale(1.2); /* Enlarge logo */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional: shadow on logo hover */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Shadow on logo hover */
+    /* Ensure no accidental background or border on hover */
+    background: none !important;
+    border: none !important;
 }
 
 /* Hover effect for skill name within skill-item */
@@ -592,13 +601,17 @@ main {
 }
 
 #skills .skill-logo {
-    display: block; /* Ensure block behavior for margin auto to work */
-    margin: 0 auto; /* Center logo if skill-item is not text-aligned or for explicit control */
-    height: 4rem;
-    width: 4rem;
-    object-fit: contain;
-    margin-bottom: 10px; /* Keep existing margin or adjust as needed for spacing name */
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Added box-shadow transition */
+    display: block !important; /* Ensure block behavior */
+    margin: 0 auto !important; /* Center logo */
+    height: 4rem !important; /* Keep specified height */
+    width: 4rem !important; /* Keep specified width */
+    object-fit: contain !important; /* Keep object-fit */
+    margin-bottom: 10px !important; /* Keep existing margin or adjust as needed for spacing name */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+    background: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important; /* Default state: no shadow */
 }
 
 #skills .skill-name {
