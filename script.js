@@ -174,30 +174,76 @@ function positionSkillsInCloud() {
     const containerWidth = container.offsetWidth;
     const containerHeight = container.offsetHeight;
     const edgeMargin = 20; // Pixels from the edge
+    const placedItemsRects = [];
+    const maxAttempts = 100; // Max attempts to find a non-overlapping position
 
     items.forEach(item => {
         const itemWidth = item.offsetWidth;
         const itemHeight = item.offsetHeight;
 
         if (itemWidth === 0 || itemHeight === 0) {
-            // console.warn('Skill item has zero dimensions, cannot position accurately yet.', item);
-            // This can happen if images inside skill-item haven't loaded their dimensions.
-            // A more robust solution might involve waiting for images to load or setting explicit sizes.
-            // For now, we'll attempt to position, but it might be imperfect.
+            console.warn('Skill item has zero dimensions, will use default position.', item);
+            // Fallback: position it somewhere, or it'll be stuck at 0,0
+            item.style.left = `${edgeMargin}px`;
+            item.style.top = `${edgeMargin}px`;
+            item.style.zIndex = Math.floor(Math.random() * 5) + 1;
+            return; // Skip overlap logic for this item
         }
 
-        // Ensure items are not placed outside bounds, even if item dimensions are larger than available space
-        const maxLeft = Math.max(0, containerWidth - itemWidth - edgeMargin);
-        const maxTop = Math.max(0, containerHeight - itemHeight - edgeMargin);
+        let foundPosition = false;
+        let currentLeft, currentTop;
 
-        // Calculate random top and left positions
-        // Ensure left/top are not negative if container is smaller than item + margins
-        const left = Math.max(edgeMargin, Math.random() * (maxLeft - edgeMargin) + edgeMargin);
-        const top = Math.max(edgeMargin, Math.random() * (maxTop - edgeMargin) + edgeMargin);
+        for (let attempts = 0; attempts < maxAttempts; attempts++) {
+            // Calculate random top and left positions
+            const maxPossibleLeft = Math.max(0, containerWidth - itemWidth - edgeMargin);
+            const maxPossibleTop = Math.max(0, containerHeight - itemHeight - edgeMargin);
 
-        item.style.left = `${left}px`;
-        item.style.top = `${top}px`;
-        item.style.zIndex = Math.floor(Math.random() * 5) + 1; // Random z-index between 1 and 5
+            currentLeft = Math.max(edgeMargin, Math.random() * (maxPossibleLeft - edgeMargin) + edgeMargin);
+            currentTop = Math.max(edgeMargin, Math.random() * (maxPossibleTop - edgeMargin) + edgeMargin);
+
+            const currentRect = {
+                x1: currentLeft,
+                y1: currentTop,
+                x2: currentLeft + itemWidth,
+                y2: currentTop + itemHeight
+            };
+
+            let isOverlapping = false;
+            for (const placedRect of placedItemsRects) {
+                // Check for overlap
+                const overlap = !(currentRect.x2 < placedRect.x1 ||
+                                  currentRect.x1 > placedRect.x2 ||
+                                  currentRect.y2 < placedRect.y1 ||
+                                  currentRect.y1 > placedRect.y2);
+                if (overlap) {
+                    isOverlapping = true;
+                    break;
+                }
+            }
+
+            if (!isOverlapping) {
+                placedItemsRects.push(currentRect);
+                item.style.left = `${currentLeft}px`;
+                item.style.top = `${currentTop}px`;
+                item.style.zIndex = Math.floor(Math.random() * 5) + 1;
+                foundPosition = true;
+                break; // Found a position
+            }
+        }
+
+        if (!foundPosition) {
+            // Fallback: If maxAttempts reached, place at last attempted position (might overlap)
+            console.warn(`Could not find a non-overlapping position for item after ${maxAttempts} attempts. Placing at last tried spot.`, item);
+            item.style.left = `${currentLeft}px`;
+            item.style.top = `${currentTop}px`;
+            item.style.zIndex = Math.floor(Math.random() * 5) + 1;
+            // Optionally, still add its rect to prevent others from trying to avoid this forced position too much,
+            // or leave it out if you prefer new items to try to avoid it. For now, let's add it.
+            placedItemsRects.push({
+                x1: currentLeft, y1: currentTop,
+                x2: currentLeft + itemWidth, y2: currentTop + itemHeight
+            });
+        }
     });
 }
 
