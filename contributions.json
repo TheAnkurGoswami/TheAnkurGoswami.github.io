@@ -1,22 +1,16 @@
 {
   "contributions": [
     {
-      "projectName": "Sample Project Alpha",
-      "projectUrl": "https://github.com/example/project-alpha",
-      "description": "Contributed to the core module by refactoring the authentication system and improving data validation.",
-      "role": "Core Developer"
-    },
-    {
-      "projectName": "Beta Utilities Library",
-      "projectUrl": "https://github.com/example/beta-utils",
-      "description": "Added several new utility functions for string manipulation and date processing. Also wrote unit tests for these functions.",
+      "projectName": "Langchain",
+      "projectUrl": "https://github.com/langchain-ai/langchain",
+      "description": "Bug Fixes & new feature additions.",
       "role": "Contributor"
     },
     {
-      "projectName": "Gamma Framework Documentation",
-      "projectUrl": "https://example.com/gamma-framework/docs",
-      "description": "Improved the developer documentation by adding examples, clarifying complex sections, and fixing typos.",
-      "role": "Documentation Writer"
+      "projectName": "Accern Data Client",
+      "projectUrl": "https://github.com/Accern/accern-data-client",
+      "description": "Created and maintained a public Python library hosted on PyPI for streamlined consumption of Accern’s data feed.",
+      "role": "Core Developer"
     }
   ]
 }
