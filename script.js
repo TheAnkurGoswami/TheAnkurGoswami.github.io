@@ -36,6 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(skillsData => {
                 displaySkills(skillsData, skillsGridContainer);
+                // After skills are displayed, position them.
+                if (skillsGridContainer.children.length > 0) {
+                    positionSkillsInCloud();
+                }
             })
             .catch(error => {
                 console.error('Failed to fetch or parse skills.json:', error);
@@ -144,7 +148,105 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Call animation initializer after a short delay to ensure DOM is likely populated
     setTimeout(initializeScrollAnimations, 500);
+
+    // Add resize listener for skills cloud, debounced for performance
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(positionSkillsInCloud, 250); // Debounce for 250ms
+    });
 });
+
+// --- SKILLS CLOUD POSITIONING ---
+function positionSkillsInCloud() {
+    const container = document.getElementById('skills-grid');
+    if (!container) {
+        console.error('Skills grid container not found for positioning.');
+        return;
+    }
+
+    const items = container.querySelectorAll('.skill-item');
+    if (items.length === 0) {
+        // console.log('No skill items found to position.'); // Can be noisy on initial load before displaySkills
+        return;
+    }
+
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
+    const edgeMargin = 20; // Pixels from the edge
+    const placedItemsRects = [];
+    const maxAttempts = 100; // Max attempts to find a non-overlapping position
+
+    items.forEach(item => {
+        const itemWidth = item.offsetWidth;
+        const itemHeight = item.offsetHeight;
+
+        if (itemWidth === 0 || itemHeight === 0) {
+            console.warn('Skill item has zero dimensions, will use default position.', item);
+            // Fallback: position it somewhere, or it'll be stuck at 0,0
+            item.style.left = `${edgeMargin}px`;
+            item.style.top = `${edgeMargin}px`;
+            item.style.zIndex = Math.floor(Math.random() * 5) + 1;
+            return; // Skip overlap logic for this item
+        }
+
+        let foundPosition = false;
+        let currentLeft, currentTop;
+
+        for (let attempts = 0; attempts < maxAttempts; attempts++) {
+            // Calculate random top and left positions
+            const maxPossibleLeft = Math.max(0, containerWidth - itemWidth - edgeMargin);
+            const maxPossibleTop = Math.max(0, containerHeight - itemHeight - edgeMargin);
+
+            currentLeft = Math.max(edgeMargin, Math.random() * (maxPossibleLeft - edgeMargin) + edgeMargin);
+            currentTop = Math.max(edgeMargin, Math.random() * (maxPossibleTop - edgeMargin) + edgeMargin);
+
+            const currentRect = {
+                x1: currentLeft,
+                y1: currentTop,
+                x2: currentLeft + itemWidth,
+                y2: currentTop + itemHeight
+            };
+
+            let isOverlapping = false;
+            for (const placedRect of placedItemsRects) {
+                // Check for overlap
+                const overlap = !(currentRect.x2 < placedRect.x1 ||
+                                  currentRect.x1 > placedRect.x2 ||
+                                  currentRect.y2 < placedRect.y1 ||
+                                  currentRect.y1 > placedRect.y2);
+                if (overlap) {
+                    isOverlapping = true;
+                    break;
+                }
+            }
+
+            if (!isOverlapping) {
+                placedItemsRects.push(currentRect);
+                item.style.left = `${currentLeft}px`;
+                item.style.top = `${currentTop}px`;
+                item.style.zIndex = Math.floor(Math.random() * 5) + 1;
+                foundPosition = true;
+                break; // Found a position
+            }
+        }
+
+        if (!foundPosition) {
+            // Fallback: If maxAttempts reached, place at last attempted position (might overlap)
+            console.warn(`Could not find a non-overlapping position for item after ${maxAttempts} attempts. Placing at last tried spot.`, item);
+            item.style.left = `${currentLeft}px`;
+            item.style.top = `${currentTop}px`;
+            item.style.zIndex = Math.floor(Math.random() * 5) + 1;
+            // Optionally, still add its rect to prevent others from trying to avoid this forced position too much,
+            // or leave it out if you prefer new items to try to avoid it. For now, let's add it.
+            placedItemsRects.push({
+                x1: currentLeft, y1: currentTop,
+                x2: currentLeft + itemWidth, y2: currentTop + itemHeight
+            });
+        }
+    });
+}
+
 
 function initializeScrollAnimations() {
     const animatedElements = document.querySelectorAll('.js-scroll-animate');
@@ -311,6 +413,12 @@ function displaySkills(skillsData, container) {
              container.appendChild(skillItem);
         }
     });
+    // Call positionSkillsInCloud again IF skills were just added and it's not the initial DOMContentLoaded call
+    // This ensures that if displaySkills is called at other times, positions are updated.
+    // However, the primary call is after fetch in DOMContentLoaded.
+    // if (document.readyState === 'complete' && container.children.length > 0) {
+    //    positionSkillsInCloud();
+    // }
 }
 
 function displayExperience(experienceData, container) {
