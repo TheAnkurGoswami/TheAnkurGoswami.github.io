@@ -38,5 +38,36 @@
   {
     "name": "Kafka",
     "logoUrl": "logos/kafka.png"
+  },
+  {
+    "name": "Elasticsearch",
+    "logoUrl": "logos/elasticsearch.png"
+  },
+  {
+    "name": "FastAPI",
+    "logoUrl": "logos/fastapi.png"
+  },
+  {"name": "RabbitMQ",
+    "logoUrl": "logos/rabbitmq.png"
+  },
+  {
+    "name": "Redis",
+    "logoUrl": "logos/redis.png"
+  },
+  {
+    "name": "NumPy",
+    "logoUrl": "logos/numpy.png"
+  },
+  {
+    "name": "Pandas",
+    "logoUrl": "logos/pandas.png"
+  },
+  {
+    "name": "Scikit-learn",
+    "logoUrl": "logos/scikit-learn.png"
+  },
+  {
+    "nam": "Streamlit",
+    "logoUrl": "logos/streamlit.png"
   }
 ]
