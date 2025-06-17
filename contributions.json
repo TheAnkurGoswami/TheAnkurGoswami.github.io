@@ -1,0 +1,16 @@
+{
+  "contributions": [
+    {
+      "projectName": "Langchain",
+      "projectUrl": "https://github.com/langchain-ai/langchain",
+      "description": "Bug Fixes & new feature additions.",
+      "role": "Contributor"
+    },
+    {
+      "projectName": "Accern Data Client",
+      "projectUrl": "https://github.com/Accern/accern-data-client",
+      "description": "Created and maintained a public Python library hosted on PyPI for streamlined consumption of Accern’s data feed.",
+      "role": "Core Developer"
+    }
+  ]
+}
