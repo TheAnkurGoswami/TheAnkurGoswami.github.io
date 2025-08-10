@@ -813,7 +813,7 @@ main {
     #work-experience .timeline-marker,
     #work-experience .timeline-item:nth-child(odd) .timeline-marker,
     #work-experience .timeline-item:nth-child(even) .timeline-marker {
-        left: 8px; /* CORRECTED: Simple position, should be correct now */
+        left: -22px; /* Final correction accounting for parent container padding */
         right: auto;
         z-index: 2; /* Ensure marker is above the line */
     }
