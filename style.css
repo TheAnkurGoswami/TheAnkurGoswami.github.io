@@ -395,37 +395,47 @@ main {
         gap: 20px; /* Adjust gap for stacked layout */
     }
 
-    /* --- Responsive Timeline --- */
+    /* --- Responsive Timeline (Flexbox approach) --- */
     #work-experience .timeline {
+        /* The ::before pseudo-element for the line needs a non-static parent */
+        position: relative;
         padding: 20px 10px;
     }
+
     #work-experience .timeline::before {
+        /* This is the vertical line */
         left: 20px;
-        transform: translateX(0);
+        transform: none;
     }
+
     #work-experience .timeline-item:nth-child(odd),
     #work-experience .timeline-item:nth-child(even) {
-        width: 100%;
+        position: relative; /* For the marker positioning */
         float: none;
+        clear: both;
+        width: 100%;
         text-align: left;
         padding-left: 50px;
         padding-right: 15px;
-        clear: both;
+        left: auto; /* Reset horizontal positioning from desktop */
+        right: auto; /* Reset horizontal positioning from desktop */
     }
+
     #work-experience .timeline-item:nth-child(odd) .timeline-marker,
     #work-experience .timeline-item:nth-child(even) .timeline-marker {
-        left: 6px;
+        /* The item has 50px left padding. The line is at 20px. The marker is 20px wide.
+           To center the marker on the line, its left edge should be at 10px. */
+        left: 10px;
+        top: 5px; /* Keep vertical alignment */
     }
+
     #work-experience .timeline-item:nth-child(odd) .timeline-dates,
     #work-experience .timeline-item:nth-child(even) .timeline-dates {
-        position: static; /* Override absolute positioning */
-        top: auto;
-        left: auto;
-        right: auto;
-        text-align: left;
-        width: auto;
-        margin-bottom: 5px; /* Add space below the date */
+        position: static;
+        margin-bottom: 5px;
         padding: 0;
+        width: auto;
+        text-align: left;
     }
 
     #about .about-me-left p {
