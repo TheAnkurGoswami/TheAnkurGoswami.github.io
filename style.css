@@ -431,11 +431,10 @@ main {
 
     #work-experience .timeline-item:nth-child(odd) .timeline-dates,
     #work-experience .timeline-item:nth-child(even) .timeline-dates {
-        position: static;
-        margin-bottom: 5px;
-        padding: 0;
-        width: auto;
-        text-align: left;
+        /* This is now a child of timeline-content, so it will inherit position */
+        font-size: 0.85rem;
+        color: #CED4DA;
+        margin-bottom: 10px; /* Space between date and title */
     }
 
     #about .about-me-left p {

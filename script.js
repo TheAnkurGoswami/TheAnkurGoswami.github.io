@@ -458,17 +458,17 @@ function displayExperience(experienceData, container) {
             item.classList.add('slide-from-right');
         }
 
-        const dates = document.createElement('p');
-        dates.classList.add('timeline-dates');
-        dates.textContent = `${exp.startDate} – ${exp.endDate}`;
-        item.appendChild(dates);
-
         const marker = document.createElement('div');
         marker.classList.add('timeline-marker');
         item.appendChild(marker);
 
         const content = document.createElement('div');
         content.classList.add('timeline-content');
+
+        const dates = document.createElement('p');
+        dates.classList.add('timeline-dates');
+        dates.textContent = `${exp.startDate} – ${exp.endDate}`;
+        content.appendChild(dates);
 
         const heading = document.createElement('h3');
         heading.classList.add('timeline-company');
