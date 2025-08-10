@@ -796,6 +796,7 @@ main {
         text-align: left;
         padding-left: 60px;
         padding-right: 15px; /* Add some padding on the right */
+        position: relative; /* Ensure this is set for child absolute positioning */
     }
 
     #work-experience .timeline-item:nth-child(odd) {
@@ -805,7 +806,7 @@ main {
     #work-experience .timeline-marker,
     #work-experience .timeline-item:nth-child(odd) .timeline-marker,
     #work-experience .timeline-item:nth-child(even) .timeline-marker {
-        left: 8px; /* Corrected position to center the marker on the line */
+        left: -52px; /* Corrected position to account for parent padding */
         right: auto;
     }
 
@@ -822,6 +823,6 @@ main {
 
     /* Animation override: all items slide from right */
     #work-experience .timeline-item.js-scroll-animate.slide-from-left {
-        transform: translateX(50px);
+        transform: translateX(50px) !important;
     }
 }
