@@ -780,3 +780,48 @@ main {
 #sidebar nav a[href="#contact"] {
     display: none !important;
 }
+
+@media (max-width: 768px) {
+    #work-experience .timeline::before {
+        left: 20px;
+        transform: translateX(0);
+    }
+
+    #work-experience .timeline-item,
+    #work-experience .timeline-item:nth-child(odd),
+    #work-experience .timeline-item:nth-child(even) {
+        width: 100%;
+        float: none;
+        clear: both;
+        text-align: left;
+        padding-left: 60px;
+        padding-right: 15px; /* Add some padding on the right */
+    }
+
+    #work-experience .timeline-item:nth-child(odd) {
+        text-align: left;
+    }
+
+    #work-experience .timeline-marker,
+    #work-experience .timeline-item:nth-child(odd) .timeline-marker,
+    #work-experience .timeline-item:nth-child(even) .timeline-marker {
+        left: 6px; /* (20px line left - (20px marker width / 2) - 4px border) */
+        right: auto;
+    }
+
+    #work-experience .timeline-dates,
+    #work-experience .timeline-item:nth-child(odd) .timeline-dates,
+    #work-experience .timeline-item:nth-child(even) .timeline-dates {
+        position: static; /* Change from absolute to static */
+        text-align: left;
+        width: auto;
+        margin-bottom: 5px;
+        font-weight: normal;
+        color: #CED4DA; /* Revert to default date color */
+    }
+
+    /* Animation override: all items slide from right */
+    #work-experience .js-scroll-animate.slide-from-left {
+        transform: translateX(50px);
+    }
+}
