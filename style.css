@@ -780,3 +780,73 @@ main {
 #sidebar nav a[href="#contact"] {
     display: none !important;
 }
+
+@media (max-width: 768px) {
+    /* Reposition the main timeline bar to the left */
+    #work-experience .timeline::before {
+        left: 20px;
+        transform: translateX(0);
+    }
+
+    /* --- Refactored Timeline Item Layout for Mobile --- */
+    /* Remove padding from the item itself to simplify positioning context */
+    #work-experience .timeline-item,
+    #work-experience .timeline-item:nth-child(odd),
+    #work-experience .timeline-item:nth-child(even) {
+        width: 100%;
+        float: none;
+        clear: both;
+        padding-left: 0; /* REMOVED padding */
+        padding-right: 0; /* REMOVED padding */
+        text-align: left;
+        position: relative;
+    }
+
+    /* Indent the content and dates instead of padding the whole item */
+    #work-experience .timeline-content,
+    #work-experience .timeline-dates {
+        margin-left: 60px; /* NEW: Indent content */
+        margin-right: 15px; /* NEW: Add some right margin for spacing */
+    }
+
+    /* Position the marker simply, now that parent has no padding */
+    #work-experience .timeline-marker,
+    #work-experience .timeline-item:nth-child(odd) .timeline-marker,
+    #work-experience .timeline-item:nth-child(even) .timeline-marker {
+        left: -22px; /* Final correction accounting for parent container padding */
+        right: auto;
+        z-index: 2; /* Ensure marker is above the line */
+    }
+
+    /* Make dates static and position them within the new indented flow */
+    #work-experience .timeline-dates,
+    #work-experience .timeline-item:nth-child(odd) .timeline-dates,
+    #work-experience .timeline-item:nth-child(even) .timeline-dates {
+        position: static;
+        width: auto;
+        margin-bottom: 5px;
+        /* Revert font style to match desktop version */
+        font-weight: normal;
+        color: #CED4DA;
+        opacity: 0.9;
+        /* Reset properties from desktop view */
+        text-align: left !important;
+        left: auto !important;
+        right: auto !important;
+    }
+
+    /* --- Force Animation Properties --- */
+    /* Ensure all items slide in from the right */
+    #work-experience .timeline-item.js-scroll-animate.slide-from-left,
+    #work-experience .timeline-item.js-scroll-animate.slide-from-right {
+        opacity: 0;
+        transform: translateX(50px) !important;
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out !important;
+    }
+
+    /* The visible state just needs to reset the transform and opacity */
+    #work-experience .timeline-item.js-scroll-animate.is-visible {
+        opacity: 1;
+        transform: translateX(0) !important;
+    }
+}
