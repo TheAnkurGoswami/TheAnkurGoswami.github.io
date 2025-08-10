@@ -805,7 +805,7 @@ main {
     #work-experience .timeline-marker,
     #work-experience .timeline-item:nth-child(odd) .timeline-marker,
     #work-experience .timeline-item:nth-child(even) .timeline-marker {
-        left: 6px; /* (20px line left - (20px marker width / 2) - 4px border) */
+        left: 8px; /* Corrected position to center the marker on the line */
         right: auto;
     }
 
@@ -821,7 +821,7 @@ main {
     }
 
     /* Animation override: all items slide from right */
-    #work-experience .js-scroll-animate.slide-from-left {
+    #work-experience .timeline-item.js-scroll-animate.slide-from-left {
         transform: translateX(50px);
     }
 }
