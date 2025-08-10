@@ -782,47 +782,65 @@ main {
 }
 
 @media (max-width: 768px) {
+    /* Reposition the main timeline bar to the left */
     #work-experience .timeline::before {
         left: 20px;
         transform: translateX(0);
     }
 
+    /* --- Refactored Timeline Item Layout for Mobile --- */
+    /* Remove padding from the item itself to simplify positioning context */
     #work-experience .timeline-item,
     #work-experience .timeline-item:nth-child(odd),
     #work-experience .timeline-item:nth-child(even) {
         width: 100%;
         float: none;
         clear: both;
+        padding-left: 0; /* REMOVED padding */
+        padding-right: 0; /* REMOVED padding */
         text-align: left;
-        padding-left: 60px;
-        padding-right: 15px; /* Add some padding on the right */
-        position: relative; /* Ensure this is set for child absolute positioning */
+        position: relative;
     }
 
-    #work-experience .timeline-item:nth-child(odd) {
-        text-align: left;
+    /* Indent the content and dates instead of padding the whole item */
+    #work-experience .timeline-content,
+    #work-experience .timeline-dates {
+        margin-left: 60px; /* NEW: Indent content */
+        margin-right: 15px; /* NEW: Add some right margin for spacing */
     }
 
+    /* Position the marker simply, now that parent has no padding */
     #work-experience .timeline-marker,
     #work-experience .timeline-item:nth-child(odd) .timeline-marker,
     #work-experience .timeline-item:nth-child(even) .timeline-marker {
-        left: -52px; /* Corrected position to account for parent padding */
+        left: 8px; /* CORRECTED: Simple position, should be correct now */
         right: auto;
+        z-index: 2; /* Ensure marker is above the line */
     }
 
+    /* Make dates static and position them within the new indented flow */
     #work-experience .timeline-dates,
     #work-experience .timeline-item:nth-child(odd) .timeline-dates,
     #work-experience .timeline-item:nth-child(even) .timeline-dates {
-        position: static; /* Change from absolute to static */
-        text-align: left;
+        position: static;
         width: auto;
         margin-bottom: 5px;
-        font-weight: normal;
-        color: #CED4DA; /* Revert to default date color */
+        font-weight: bold; /* Make dates stand out more */
+        color: #50FA7B; /* Use accent color for dates */
     }
 
-    /* Animation override: all items slide from right */
-    #work-experience .timeline-item.js-scroll-animate.slide-from-left {
+    /* --- Force Animation Properties --- */
+    /* Ensure all items slide in from the right */
+    #work-experience .timeline-item.js-scroll-animate.slide-from-left,
+    #work-experience .timeline-item.js-scroll-animate.slide-from-right {
+        opacity: 0;
         transform: translateX(50px) !important;
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out !important;
+    }
+
+    /* The visible state just needs to reset the transform and opacity */
+    #work-experience .timeline-item.js-scroll-animate.is-visible {
+        opacity: 1;
+        transform: translateX(0) !important;
     }
 }
