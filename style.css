@@ -827,6 +827,10 @@ main {
         margin-bottom: 5px;
         font-weight: bold; /* Make dates stand out more */
         color: #50FA7B; /* Use accent color for dates */
+        /* NEW: Reset properties from desktop view */
+        text-align: left !important;
+        left: auto !important;
+        right: auto !important;
     }
 
     /* --- Force Animation Properties --- */
