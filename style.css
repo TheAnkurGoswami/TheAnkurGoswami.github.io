@@ -390,6 +390,52 @@ main {
         flex-direction: column;
         gap: 20px; /* Adjust gap for stacked layout */
     }
+
+    #work-experience .timeline::before {
+        left: 20px; /* Move line to the left */
+        transform: translateX(0);
+    }
+
+    #work-experience .timeline-item,
+    #work-experience .timeline-item:nth-child(odd),
+    #work-experience .timeline-item:nth-child(even) {
+        width: 100%;
+        float: none;
+        padding-left: 50px; /* Space for the line and marker */
+        padding-right: 0;
+        text-align: left;
+    }
+
+    #work-experience .timeline-item:nth-child(odd) .timeline-marker,
+    #work-experience .timeline-item:nth-child(even) .timeline-marker {
+        left: 10px; /* Position marker on the new line */
+        right: auto;
+    }
+
+    #work-experience .timeline-item:nth-child(odd) .timeline-dates,
+    #work-experience .timeline-item:nth-child(even) .timeline-dates {
+        position: relative; /* Make dates flow in content */
+        left: auto;
+        right: auto;
+        top: auto;
+        width: auto;
+        text-align: left;
+        margin-bottom: 8px; /* Add some space below the date */
+        font-weight: bold;
+    }
+
+    main {
+        padding: 0.5rem;
+        margin: 10px auto;
+    }
+
+    #projects, #about, #skills, #work-experience, #education, #contributions, #contact {
+        padding: 40px 10px;
+    }
+
+    #sidebar {
+        width: 100%;
+    }
 }
 
 /* Work Experience Timeline Styles */
@@ -771,12 +817,3 @@ main {
    similar to other strong highlighted texts if that's the desired style.
 */
 
-/* --- HIDE SECTIONS --- */
-#education,
-#projects,
-#contact,
-#sidebar nav a[href="#projects"],
-#sidebar nav a[href="#education"],
-#sidebar nav a[href="#contact"] {
-    display: none !important;
-}
