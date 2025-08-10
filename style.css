@@ -418,13 +418,13 @@ main {
     }
     #work-experience .timeline-item:nth-child(odd) .timeline-dates,
     #work-experience .timeline-item:nth-child(even) .timeline-dates {
-        position: relative;
-        left: 0;
+        position: static; /* Override absolute positioning */
+        top: auto;
+        left: auto;
         right: auto;
-        top: -10px; /* Adjust position for flow */
         text-align: left;
         width: auto;
-        margin-bottom: 10px;
+        margin-bottom: 5px; /* Add space below the date */
         padding: 0;
     }
 
