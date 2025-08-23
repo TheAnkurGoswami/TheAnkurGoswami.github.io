@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Attention Visualization</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="App-header">
+        <h1>Flash Attention Visualization</h1>
+        <p>Step 1: Calculate Logits</p>
+    </header>
+
+    <div class="controls">
+        <div class="control-group">
+            <button id="prev-q">&lt;</button>
+            <span id="q-block-info">Q Block: 0 / ?</span>
+            <button id="next-q">&gt;</button>
+        </div>
+        <div class="control-group">
+            <button id="prev-kv">&lt;</button>
+            <span id="kv-block-info">K Block: 0 / ?</span>
+            <button id="next-kv">&gt;</button>
+        </div>
+    </div>
+
+    <div class="computation">
+        <div id="q-matrix" class="matrix-container"><h4>Query (Q)</h4></div>
+        <div class="symbol">@</div>
+        <div id="k-matrix" class="matrix-container"><h4>Key Transposed (K^T)</h4></div>
+        <div class="symbol">=</div>
+        <div id="logits-matrix" class="matrix-container"><h4>Logits (S)</h4></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
