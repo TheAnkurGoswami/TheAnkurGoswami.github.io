@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Global State and Parameters ---
-    let q_proj, k_proj, k_T_proj;
+    let q_proj, k_proj, k_T_proj, max_logits, softmax_normalizers;
     const block_size_q = 2;
     const block_size_kv = 3;
     let seq_len, d_model, n_blocks_q, n_blocks_kv;
@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const qMatrixContainer = document.getElementById('q-matrix');
     const kMatrixContainer = document.getElementById('k-matrix');
     const logitsMatrixContainer = document.getElementById('logits-matrix');
+    const maxLogitMatrixContainer = document.getElementById('max-logit-matrix');
+    const rowSumMatrixContainer = document.getElementById('row-sum-matrix');
     const qBlockInfo = document.getElementById('q-block-info');
     const kvBlockInfo = document.getElementById('kv-block-info');
     const prevQBtn = document.getElementById('prev-q');
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             table += `<tr class="${rowClass}">`;
             for (let j = 0; j < data[0].length; j++) {
                 const colClass = (highlightCol && j >= highlightCol[0] && j < highlightCol[1]) ? 'highlight-col' : '';
-                const cellValue = !isNaN(data[i][j]) ? data[i][j].toFixed(2) : '';
+                const cellValue = data[i][j] === -Infinity ? '-&infin;' : (!isNaN(data[i][j]) ? data[i][j].toFixed(2) : '');
                 table += `<td class="${colClass}">${cellValue}</td>`;
             }
             table += '</tr>';
@@ -70,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMatrix(qMatrixContainer, q_proj, 'Query (Q)', [start_q, end_q]);
         renderMatrix(kMatrixContainer, k_T_proj, 'Key Transposed (K^T)', null, [start_kv, end_kv]);
         renderMatrix(logitsMatrixContainer, logits_plot_mat, 'Logits (S)', [start_q, end_q], [start_kv, end_kv]);
+        renderMatrix(maxLogitMatrixContainer, max_logits, 'Max Logit (m)');
+        renderMatrix(rowSumMatrixContainer, softmax_normalizers, 'Row Sum (l)');
         
         updateControls();
     };
@@ -95,6 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
         d_model = q_proj[0].length;
         n_blocks_q = Math.ceil(seq_len / block_size_q);
         n_blocks_kv = Math.ceil(seq_len / block_size_kv);
+
+        max_logits = new Array(seq_len).fill(0).map(() => [-Infinity]);
+        softmax_normalizers = new Array(seq_len).fill(0).map(() => [0]);
 
         prevQBtn.addEventListener('click', () => {
             if (blockQ > 0) {
