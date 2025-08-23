@@ -3,29 +3,34 @@ document.addEventListener('DOMContentLoaded', () => {
     let q_proj, k_proj, k_T_proj, max_logits, softmax_normalizers;
     const block_size_q = 2;
     const block_size_kv = 3;
-    let seq_len, d_model, n_blocks_q, n_blocks_kv;
-    let blockQ = 0;
-    let blockKV = 0;
+    let seq_len, d_model, n_blocks_q, n_blocks_kv, total_steps;
+    let current_step = 0;
 
     // --- DOM Elements ---
+    const resetBtn = document.getElementById('reset-btn');
+    const nextStepBtn = document.getElementById('next-step-btn');
+    const stepInfo = document.getElementById('step-info');
     const qMatrixContainer = document.getElementById('q-matrix');
     const kMatrixContainer = document.getElementById('k-matrix');
     const logitsMatrixContainer = document.getElementById('logits-matrix');
     const maxLogitMatrixContainer = document.getElementById('max-logit-matrix');
     const rowSumMatrixContainer = document.getElementById('row-sum-matrix');
-    const qBlockInfo = document.getElementById('q-block-info');
-    const kvBlockInfo = document.getElementById('kv-block-info');
-    const prevQBtn = document.getElementById('prev-q');
-    const nextQBtn = document.getElementById('next-q');
-    const prevKVBtn = document.getElementById('prev-kv');
-    const nextKVBtn = document.getElementById('next-kv');
+    const sBlockContextContainer = document.getElementById('s-block-context');
+    const pMatrixContainer = document.getElementById('p-matrix');
+    const blockMaxLogitMatrixContainer = document.getElementById('block-max-logit-matrix');
+    const blockRowSumMatrixContainer = document.getElementById('block-row-sum-matrix');
+    const mOldContainer = document.getElementById('m-old-matrix');
+    const lOldContainer = document.getElementById('l-old-matrix');
+    const blockMaxLogitContextContainer = document.getElementById('block-max-logit-context');
+    const blockRowSumContextContainer = document.getElementById('block-row-sum-context');
+    const mNewContainer = document.getElementById('m-new-matrix');
+    const lNewContainer = document.getElementById('l-new-matrix');
 
     // --- Utility Functions ---
-    const transpose = (matrix) => {
-        return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
-    };
+    const transpose = (matrix) => matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
 
     const renderMatrix = (container, data, title, highlightRow = null, highlightCol = null) => {
+        if (!container) return;
         let table = '<table>';
         for (let i = 0; i < data.length; i++) {
             const rowClass = (highlightRow && i >= highlightRow[0] && i < highlightRow[1]) ? 'highlight-row' : '';
@@ -42,7 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Core Logic ---
-    const calculateAndRender = () => {
+    const calculateAndRender = (step) => {
+        if (step >= total_steps) return;
+
+        const blockKV = step % n_blocks_kv;
+        const blockQ = Math.floor(step / n_blocks_kv);
+
         const start_q = blockQ * block_size_q;
         const end_q = Math.min(start_q + block_size_q, seq_len);
         const q_block = q_proj.slice(start_q, end_q);
@@ -68,23 +78,91 @@ document.addEventListener('DOMContentLoaded', () => {
                 logits_plot_mat[start_q + i][start_kv + j] = logits[i][j];
             }
         }
+        
+        const block_max_logit = logits.map(row => Math.max(...row));
+        const p_matrix = logits.map((row, i) => row.map(val => Math.exp(val - block_max_logit[i])));
+        const block_row_sum = p_matrix.map(row => row.reduce((sum, val) => sum + val, 0));
+        const block_max_logit_col = block_max_logit.map(val => [val]);
+        const block_row_sum_col = block_row_sum.map(val => [val]);
 
+        const m_old_slice = JSON.parse(JSON.stringify(max_logits.slice(start_q, end_q)));
+        const l_old_slice = JSON.parse(JSON.stringify(softmax_normalizers.slice(start_q, end_q)));
+
+        for (let i = 0; i < q_block.length; i++) {
+            const row_idx = start_q + i;
+            const prev_max_logit = max_logits[row_idx][0];
+            const current_block_max_logit = block_max_logit[i];
+            const new_max_logit = Math.max(prev_max_logit, current_block_max_logit);
+            
+            const rescale_factor_prev = Math.exp(prev_max_logit - new_max_logit);
+            const rescale_factor_block = Math.exp(current_block_max_logit - new_max_logit);
+            
+            const block_rowsum_old = softmax_normalizers[row_idx][0];
+            const current_block_row_sum = block_row_sum[i];
+            
+            const new_rowsum = (rescale_factor_prev * block_rowsum_old) + (rescale_factor_block * current_block_row_sum);
+            
+            max_logits[row_idx][0] = new_max_logit;
+            softmax_normalizers[row_idx][0] = new_rowsum;
+        }
+
+        const m_new_slice = max_logits.slice(start_q, end_q);
+        const l_new_slice = softmax_normalizers.slice(start_q, end_q);
+
+        // --- Rendering ---
+        renderMatrix(maxLogitMatrixContainer, max_logits, 'Max Logit (m)', [start_q, end_q]);
+        renderMatrix(rowSumMatrixContainer, softmax_normalizers, 'Row Sum (l)', [start_q, end_q]);
+        
         renderMatrix(qMatrixContainer, q_proj, 'Query (Q)', [start_q, end_q]);
         renderMatrix(kMatrixContainer, k_T_proj, 'Key Transposed (K^T)', null, [start_kv, end_kv]);
         renderMatrix(logitsMatrixContainer, logits_plot_mat, 'Logits (S)', [start_q, end_q], [start_kv, end_kv]);
-        renderMatrix(maxLogitMatrixContainer, max_logits, 'Max Logit (m)');
-        renderMatrix(rowSumMatrixContainer, softmax_normalizers, 'Row Sum (l)');
+
+        renderMatrix(sBlockContextContainer, logits, 'Logits (S) Block');
+        renderMatrix(blockMaxLogitMatrixContainer, block_max_logit_col, 'Block Max Logit');
         
-        updateControls();
+        renderMatrix(mOldContainer, m_old_slice, 'Old m');
+        renderMatrix(blockMaxLogitContextContainer, block_max_logit_col, 'Block Max Logit');
+        renderMatrix(mNewContainer, m_new_slice, 'New m');
+
+        renderMatrix(pMatrixContainer, p_matrix, 'Unnormalized Weights (P)');
+        renderMatrix(blockRowSumMatrixContainer, block_row_sum_col, 'Block Row Sum');
+
+        renderMatrix(lOldContainer, l_old_slice, 'Old l');
+        renderMatrix(blockRowSumContextContainer, block_row_sum_col, 'Block Row Sum');
+        renderMatrix(lNewContainer, l_new_slice, 'New l');
+        
+        updateControls(step + 1);
     };
     
-    const updateControls = () => {
-        qBlockInfo.textContent = `Q Block: ${blockQ} / ${n_blocks_q - 1}`;
-        kvBlockInfo.textContent = `K Block: ${blockKV} / ${n_blocks_kv - 1}`;
-        prevQBtn.disabled = blockQ === 0;
-        nextQBtn.disabled = blockQ === n_blocks_q - 1;
-        prevKVBtn.disabled = blockKV === 0;
-        nextKVBtn.disabled = blockKV === n_blocks_kv - 1;
+    const updateControls = (step) => {
+        stepInfo.textContent = `Step: ${step} / ${total_steps}`;
+        nextStepBtn.disabled = step >= total_steps;
+        resetBtn.disabled = step === 0;
+    };
+
+    const reset = () => {
+        current_step = 0;
+        max_logits = new Array(seq_len).fill(0).map(() => [-Infinity]);
+        softmax_normalizers = new Array(seq_len).fill(0).map(() => [0]);
+        
+        renderMatrix(maxLogitMatrixContainer, max_logits, 'Max Logit (m)');
+        renderMatrix(rowSumMatrixContainer, softmax_normalizers, 'Row Sum (l)');
+        renderMatrix(qMatrixContainer, q_proj, 'Query (Q)');
+        renderMatrix(kMatrixContainer, k_T_proj, 'Key Transposed (K^T)');
+        renderMatrix(logitsMatrixContainer, new Array(seq_len).fill(0).map(() => new Array(seq_len).fill(NaN)), 'Logits (S)');
+        
+        sBlockContextContainer.innerHTML = '<h4>Logits (S) Block</h4>';
+        blockMaxLogitMatrixContainer.innerHTML = '<h4>Block Max Logit</h4>';
+        mOldContainer.innerHTML = '<h4>Old m</h4>';
+        blockMaxLogitContextContainer.innerHTML = '<h4>Block Max Logit</h4>';
+        mNewContainer.innerHTML = '<h4>New m</h4>';
+        pMatrixContainer.innerHTML = '<h4>Unnormalized Weights (P)</h4>';
+        blockRowSumMatrixContainer.innerHTML = '<h4>Block Row Sum</h4>';
+        lOldContainer.innerHTML = '<h4>Old l</h4>';
+        blockRowSumContextContainer.innerHTML = '<h4>Block Row Sum</h4>';
+        lNewContainer.innerHTML = '<h4>New l</h4>';
+
+        updateControls(current_step);
     };
 
     // --- Initialization ---
@@ -99,36 +177,18 @@ document.addEventListener('DOMContentLoaded', () => {
         d_model = q_proj[0].length;
         n_blocks_q = Math.ceil(seq_len / block_size_q);
         n_blocks_kv = Math.ceil(seq_len / block_size_kv);
+        total_steps = n_blocks_q * n_blocks_kv;
+        
+        nextStepBtn.addEventListener('click', () => {
+            if (current_step < total_steps) {
+                calculateAndRender(current_step);
+                current_step++;
+            }
+        });
+        
+        resetBtn.addEventListener('click', reset);
 
-        max_logits = new Array(seq_len).fill(0).map(() => [-Infinity]);
-        softmax_normalizers = new Array(seq_len).fill(0).map(() => [0]);
-
-        prevQBtn.addEventListener('click', () => {
-            if (blockQ > 0) {
-                blockQ--;
-                calculateAndRender();
-            }
-        });
-        nextQBtn.addEventListener('click', () => {
-            if (blockQ < n_blocks_q - 1) {
-                blockQ++;
-                calculateAndRender();
-            }
-        });
-        prevKVBtn.addEventListener('click', () => {
-            if (blockKV > 0) {
-                blockKV--;
-                calculateAndRender();
-            }
-        });
-        nextKVBtn.addEventListener('click', () => {
-            if (blockKV < n_blocks_kv - 1) {
-                blockKV++;
-                calculateAndRender();
-            }
-        });
-
-        calculateAndRender();
+        reset();
     };
 
     init();

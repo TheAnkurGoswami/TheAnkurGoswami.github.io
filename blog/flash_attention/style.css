@@ -6,28 +6,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #eef1f5;
   color: #333;
-  padding: 1rem;
-  text-align: center;
+  margin: 0;
 }
 
 .App-header {
   background-color: #282c34;
-  padding: 20px;
+  padding: 1rem 2rem;
   color: white;
-  margin-bottom: 2rem;
-  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.App-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
 }
 
 .controls {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  gap: 1rem;
 }
 
 .control-group {
@@ -113,4 +112,56 @@ tr > .highlight-col {
   font-size: 2.5rem;
   font-weight: bold;
   color: #555;
+}
+
+.symbol-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #555;
+  text-align: center;
+}
+
+.sub-step {
+  padding-left: 3rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  width: 100%;
+}
+
+.page-container {
+  display: flex;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  align-self: flex-start;
+}
+
+.sidebar h3 {
+    text-align: center;
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.main-content {
+  flex-grow: 1;
+}
+
+.main-content h4 {
+    text-align: center;
 }
