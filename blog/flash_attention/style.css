@@ -115,11 +115,22 @@ tr > .highlight-col {
   font-size: 2.5rem;
   font-weight: bold;
   color: #555;
+  align-self: center;
 }
 
-/* Final Operator Styling */
+.symbol-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #555;
+  text-align: center;
+}
+
 .final-op {
-    align-items: stretch; /* Make children stretch to full height */
+    align-items: stretch;
 }
 
 .op-name {
@@ -133,7 +144,7 @@ tr > .highlight-col {
 }
 
 .op-paren {
-    font-size: 8rem; /* Large font size for parentheses */
+    font-size: 8rem;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const logitsMatrixContainer = document.getElementById('logits-matrix');
     const maxLogitMatrixContainer = document.getElementById('max-logit-matrix');
     const rowSumMatrixContainer = document.getElementById('row-sum-matrix');
+    const sBlockDisplayContainer = document.getElementById('s-block-display');
+    const mBlockDisplayContainer = document.getElementById('m-block-display');
+    const sMinusMMatrixContainer = document.getElementById('s-minus-m-matrix');
+    const pMatrixContainer = document.getElementById('p-matrix');
     const mOldContainer = document.getElementById('m-old-matrix');
     const lOldContainer = document.getElementById('l-old-matrix');
     const blockMaxLogitContextContainer = document.getElementById('block-max-logit-context');
@@ -77,40 +81,31 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const block_max_logit = logits.map(row => Math.max(...row));
         const block_max_logit_col = block_max_logit.map(val => [val]);
+        const s_minus_m = logits.map((row, i) => row.map(val => val - block_max_logit[i]));
+        const p_matrix = s_minus_m.map(row => row.map(val => Math.exp(val)));
         
-        const m_old_slice = JSON.parse(JSON.stringify(max_logits.slice(start_q, end_q)));
+        const m_old_slice = max_logits.slice(start_q, end_q).map(row => [...row]);
         
         for (let i = 0; i < q_block.length; i++) {
             const row_idx = start_q + i;
-            const prev_max_logit = max_logits[row_idx][0];
-            const current_block_max_logit = block_max_logit[i];
-            max_logits[row_idx][0] = Math.max(prev_max_logit, current_block_max_logit);
+            max_logits[row_idx][0] = Math.max(m_old_slice[i][0], block_max_logit[i]);
         }
 
         const m_new_slice = max_logits.slice(start_q, end_q);
-        
-        // --- Rendering for m update ---
-        renderMatrix(mOldContainer, m_old_slice, 'Old m');
-        renderMatrix(blockMaxLogitContextContainer, block_max_logit_col, 'Block Max');
-        renderMatrix(mNewContainer, m_new_slice, 'New m');
 
-
-        // --- Second part of calculation for l update ---
-        const p_matrix = logits.map((row, i) => row.map(val => Math.exp(val - block_max_logit[i])));
+        const l_old_slice = softmax_normalizers.slice(start_q, end_q).map(row => [...row]);
         const block_row_sum = p_matrix.map(row => row.reduce((sum, val) => sum + val, 0));
         const block_row_sum_col = block_row_sum.map(val => [val]);
 
-        const l_old_slice = JSON.parse(JSON.stringify(softmax_normalizers.slice(start_q, end_q)));
-        
         for (let i = 0; i < q_block.length; i++) {
             const row_idx = start_q + i;
-            const new_max_logit = max_logits[row_idx][0];
-            const prev_max_logit = m_old_slice[i][0]; // Use the value from before the update
+            const new_max_logit = m_new_slice[i][0];
+            const prev_max_logit = m_old_slice[i][0];
             
             const rescale_factor_prev = Math.exp(prev_max_logit - new_max_logit);
             const rescale_factor_block = Math.exp(block_max_logit[i] - new_max_logit);
             
-            const block_rowsum_old = softmax_normalizers[row_idx][0];
+            const block_rowsum_old = l_old_slice[i][0];
             const current_block_row_sum = block_row_sum[i];
             
             softmax_normalizers[row_idx][0] = (rescale_factor_prev * block_rowsum_old) + (rescale_factor_block * current_block_row_sum);
@@ -118,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const l_new_slice = softmax_normalizers.slice(start_q, end_q);
 
-        // --- Final Rendering ---
+        // --- Rendering ---
         renderMatrix(maxLogitMatrixContainer, max_logits, 'Max Logit (m)', [start_q, end_q]);
         renderMatrix(rowSumMatrixContainer, softmax_normalizers, 'Row Sum (l)', [start_q, end_q]);
         
@@ -126,8 +121,17 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMatrix(kMatrixContainer, k_T_proj, 'Key Transposed (K^T)', null, [start_kv, end_kv]);
         renderMatrix(logitsMatrixContainer, logits_plot_mat, 'Logits (S)', [start_q, end_q], [start_kv, end_kv]);
 
+        renderMatrix(sBlockDisplayContainer, logits, 'S<sub>block</sub>');
+        renderMatrix(mBlockDisplayContainer, block_max_logit_col, 'm<sub>block</sub>');
+        renderMatrix(sMinusMMatrixContainer, s_minus_m, 'Result');
+        renderMatrix(pMatrixContainer, p_matrix, 'P');
+        
+        renderMatrix(mOldContainer, m_old_slice, 'Old m');
+        renderMatrix(blockMaxLogitContextContainer, block_max_logit_col, 'm<sub>block</sub>');
+        renderMatrix(mNewContainer, m_new_slice, 'New m');
+
         renderMatrix(lOldContainer, l_old_slice, 'Old l');
-        renderMatrix(blockRowSumContextContainer, block_row_sum_col, 'Block Row Sum');
+        renderMatrix(blockRowSumContextContainer, block_row_sum_col, 'l<sub>block</sub>');
         renderMatrix(lNewContainer, l_new_slice, 'New l');
     };
     
@@ -135,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const display_step = step + 1;
         stepInfo.textContent = `Step: ${display_step} / ${total_steps}`;
 
-        if (step === -1) { // Initial state
+        if (step === -1) {
             stepInfo.textContent = `Step: 0 / ${total_steps}`;
             resetBtn.disabled = true;
         } else {
@@ -156,17 +160,20 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMatrix(kMatrixContainer, k_T_proj, 'Key Transposed (K^T)');
         renderMatrix(logitsMatrixContainer, new Array(seq_len).fill(0).map(() => new Array(seq_len).fill(NaN)), 'Logits (S)');
         
+        sBlockDisplayContainer.innerHTML = '<h4>S<sub>block</sub></h4>';
+        mBlockDisplayContainer.innerHTML = '<h4>m<sub>block</sub></h4>';
+        sMinusMMatrixContainer.innerHTML = '<h4>Result</h4>';
+        pMatrixContainer.innerHTML = '<h4>P</h4>';
         mOldContainer.innerHTML = '<h4>Old m</h4>';
-        blockMaxLogitContextContainer.innerHTML = '<h4>Block Max</h4>';
+        mBlockContextContainer.innerHTML = '<h4>m<sub>block</sub></h4>';
         mNewContainer.innerHTML = '<h4>New m</h4>';
         lOldContainer.innerHTML = '<h4>Old l</h4>';
-        blockRowSumContextContainer.innerHTML = '<h4>Block Sum</h4>';
+        lBlockContextContainer.innerHTML = '<h4>l<sub>block</sub></h4>';
         lNewContainer.innerHTML = '<h4>New l</h4>';
 
         updateControls(current_step);
     };
 
-    // --- Initialization ---
     const init = async () => {
         const response = await fetch('data.json');
         const data = await response.json();
