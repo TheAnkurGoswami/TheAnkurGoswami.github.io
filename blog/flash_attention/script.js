@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         renderMatrix(sBlockForMCalcContainer, logits, 'S<sub>block</sub>');
         renderMatrix(mBlockResultContainer, block_max_logit_col, 'm<sub>block</sub>');
-        
+
         renderMatrix(sBlockDisplayContainer, logits, 'S<sub>block</sub>');
         renderMatrix(mBlockDisplayContainer, block_max_logit_col, 'm<sub>block</sub>');
         renderMatrix(sMinusMMatrixContainer, s_minus_m, 'Result');
