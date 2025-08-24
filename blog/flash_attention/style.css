@@ -156,3 +156,9 @@ tr > .highlight-col {
 .op-arrow {
     font-size: 2.5rem;
 }
+
+.final-op-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

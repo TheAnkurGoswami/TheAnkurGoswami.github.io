@@ -58,23 +58,26 @@
                     <div class="symbol-group"><span class="symbol">&rarr;</span><br>sum(axis=1)</div>
                     <div id="l-block-result" class="matrix-container"></div>
                 </div>
-                <div class="computation-row final-op">
-                    <div class="graphical-op" data-op="max">
-                        <div id="m-old-matrix" class="matrix-container"></div>
-                        <div class="symbol">+</div>
-                        <div id="m-block-context" class="matrix-container"></div>
+                <div class="computation-row">
+                    <div class="final-op-group">
+                        <div class="graphical-op" data-op="max">
+                            <div id="m-old-matrix" class="matrix-container"></div>
+                            <div class="symbol">+</div>
+                            <div id="m-block-context" class="matrix-container"></div>
+                        </div>
+                        <div class="symbol op-arrow">&rarr;</div>
+                        <div id="m-new-matrix" class="matrix-container"></div>
                     </div>
-                    <div class="symbol op-arrow">&rarr;</div>
-                    <div id="m-new-matrix" class="matrix-container"></div>
-                </div>
-                <div class="computation-row final-op">
-                    <div class="graphical-op" data-op="rescale_sum">
-                        <div id="l-old-matrix" class="matrix-container"></div>
-                        <div class="symbol">+</div>
-                        <div id="l-block-context" class="matrix-container"></div>
+                    <div class="symbol" style="font-size: 4rem;">;</div>
+                    <div class="final-op-group">
+                         <div class="graphical-op" data-op="rescale_sum">
+                            <div id="l-old-matrix" class="matrix-container"></div>
+                            <div class="symbol">+</div>
+                            <div id="l-block-context" class="matrix-container"></div>
+                        </div>
+                        <div class="symbol op-arrow">&rarr;</div>
+                        <div id="l-new-matrix" class="matrix-container"></div>
                     </div>
-                    <div class="symbol op-arrow">&rarr;</div>
-                    <div id="l-new-matrix" class="matrix-container"></div>
                 </div>
             </div>
         </main>
