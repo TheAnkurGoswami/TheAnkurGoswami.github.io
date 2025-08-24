@@ -15,14 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const logitsMatrixContainer = document.getElementById('logits-matrix');
     const maxLogitMatrixContainer = document.getElementById('max-logit-matrix');
     const rowSumMatrixContainer = document.getElementById('row-sum-matrix');
+    const sBlockForMCalcContainer = document.getElementById('s-block-for-m-calc');
+    const mBlockResultContainer = document.getElementById('m-block-result');
     const sBlockDisplayContainer = document.getElementById('s-block-display');
     const mBlockDisplayContainer = document.getElementById('m-block-display');
     const sMinusMMatrixContainer = document.getElementById('s-minus-m-matrix');
     const pMatrixContainer = document.getElementById('p-matrix');
+    const pMatrixForLCalcContainer = document.getElementById('p-matrix-for-l-calc');
+    const lBlockResultContainer = document.getElementById('l-block-result');
     const mOldContainer = document.getElementById('m-old-matrix');
     const lOldContainer = document.getElementById('l-old-matrix');
-    const blockMaxLogitContextContainer = document.getElementById('block-max-logit-context');
-    const blockRowSumContextContainer = document.getElementById('block-row-sum-context');
+    const mBlockContextContainer = document.getElementById('m-block-context');
+    const lBlockContextContainer = document.getElementById('l-block-context');
     const mNewContainer = document.getElementById('m-new-matrix');
     const lNewContainer = document.getElementById('l-new-matrix');
 
@@ -83,6 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const block_max_logit_col = block_max_logit.map(val => [val]);
         const s_minus_m = logits.map((row, i) => row.map(val => val - block_max_logit[i]));
         const p_matrix = s_minus_m.map(row => row.map(val => Math.exp(val)));
+        const block_row_sum = p_matrix.map(row => row.reduce((sum, val) => sum + val, 0));
+        const block_row_sum_col = block_row_sum.map(val => [val]);
         
         const m_old_slice = max_logits.slice(start_q, end_q).map(row => [...row]);
         
@@ -94,8 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const m_new_slice = max_logits.slice(start_q, end_q);
 
         const l_old_slice = softmax_normalizers.slice(start_q, end_q).map(row => [...row]);
-        const block_row_sum = p_matrix.map(row => row.reduce((sum, val) => sum + val, 0));
-        const block_row_sum_col = block_row_sum.map(val => [val]);
 
         for (let i = 0; i < q_block.length; i++) {
             const row_idx = start_q + i;
@@ -120,18 +124,25 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMatrix(qMatrixContainer, q_proj, 'Query (Q)', [start_q, end_q]);
         renderMatrix(kMatrixContainer, k_T_proj, 'Key Transposed (K^T)', null, [start_kv, end_kv]);
         renderMatrix(logitsMatrixContainer, logits_plot_mat, 'Logits (S)', [start_q, end_q], [start_kv, end_kv]);
-
+        
+        renderMatrix(sBlockForMCalcContainer, logits, 'S<sub>block</sub>');
+        renderMatrix(mBlockResultContainer, block_max_logit_col, 'm<sub>block</sub>');
+        
         renderMatrix(sBlockDisplayContainer, logits, 'S<sub>block</sub>');
         renderMatrix(mBlockDisplayContainer, block_max_logit_col, 'm<sub>block</sub>');
         renderMatrix(sMinusMMatrixContainer, s_minus_m, 'Result');
+        
         renderMatrix(pMatrixContainer, p_matrix, 'P');
         
+        renderMatrix(pMatrixForLCalcContainer, p_matrix, 'P');
+        renderMatrix(lBlockResultContainer, block_row_sum_col, 'l<sub>block</sub>');
+        
         renderMatrix(mOldContainer, m_old_slice, 'Old m');
-        renderMatrix(blockMaxLogitContextContainer, block_max_logit_col, 'm<sub>block</sub>');
+        renderMatrix(mBlockContextContainer, block_max_logit_col, 'm<sub>block</sub>');
         renderMatrix(mNewContainer, m_new_slice, 'New m');
 
         renderMatrix(lOldContainer, l_old_slice, 'Old l');
-        renderMatrix(blockRowSumContextContainer, block_row_sum_col, 'l<sub>block</sub>');
+        renderMatrix(lBlockContextContainer, block_row_sum_col, 'l<sub>block</sub>');
         renderMatrix(lNewContainer, l_new_slice, 'New l');
     };
     
@@ -160,10 +171,14 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMatrix(kMatrixContainer, k_T_proj, 'Key Transposed (K^T)');
         renderMatrix(logitsMatrixContainer, new Array(seq_len).fill(0).map(() => new Array(seq_len).fill(NaN)), 'Logits (S)');
         
+        sBlockForMCalcContainer.innerHTML = '<h4>S<sub>block</sub></h4>';
+        mBlockResultContainer.innerHTML = '<h4>m<sub>block</sub></h4>';
         sBlockDisplayContainer.innerHTML = '<h4>S<sub>block</sub></h4>';
         mBlockDisplayContainer.innerHTML = '<h4>m<sub>block</sub></h4>';
         sMinusMMatrixContainer.innerHTML = '<h4>Result</h4>';
         pMatrixContainer.innerHTML = '<h4>P</h4>';
+        pMatrixForLCalcContainer.innerHTML = '<h4>P</h4>';
+        lBlockResultContainer.innerHTML = '<h4>l<sub>block</sub></h4>';
         mOldContainer.innerHTML = '<h4>Old m</h4>';
         mBlockContextContainer.innerHTML = '<h4>m<sub>block</sub></h4>';
         mNewContainer.innerHTML = '<h4>New m</h4>';
