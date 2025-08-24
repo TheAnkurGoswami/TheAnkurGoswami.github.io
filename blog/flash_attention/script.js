@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const block_size_q = 2;
     const block_size_kv = 3;
     let seq_len, d_model, n_blocks_q, n_blocks_kv, total_steps;
-    let current_step = 0;
+    let current_step = -1; // -1 means initial state, before step 0
 
     // --- DOM Elements ---
     const resetBtn = document.getElementById('reset-btn');
@@ -30,14 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const transpose = (matrix) => matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
 
     const renderMatrix = (container, data, title, highlightRow = null, highlightCol = null) => {
-        if (!container) return;
+        if (!container || !data) return;
         let table = '<table>';
         for (let i = 0; i < data.length; i++) {
             const rowClass = (highlightRow && i >= highlightRow[0] && i < highlightRow[1]) ? 'highlight-row' : '';
             table += `<tr class="${rowClass}">`;
             for (let j = 0; j < data[0].length; j++) {
                 const colClass = (highlightCol && j >= highlightCol[0] && j < highlightCol[1]) ? 'highlight-col' : '';
-                const cellValue = data[i][j] === -Infinity ? '-&infin;' : (!isNaN(data[i][j]) ? data[i][j].toFixed(2) : '');
+                const cellValue = data[i][j] === -Infinity ? '-&infin;' : (data[i][j] != null && !isNaN(data[i][j]) ? data[i][j].toFixed(2) : '');
                 table += `<td class="${colClass}">${cellValue}</td>`;
             }
             table += '</tr>';
@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const calculateAndRender = (step) => {
         if (step >= total_steps) return;
 
-        const blockKV = step % n_blocks_kv;
-        const blockQ = Math.floor(step / n_blocks_kv);
+        const blockQ = step % n_blocks_q;
+        const blockKV = Math.floor(step / n_blocks_q);
 
         const start_q = blockQ * block_size_q;
         const end_q = Math.min(start_q + block_size_q, seq_len);
@@ -130,18 +130,24 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMatrix(lOldContainer, l_old_slice, 'Old l');
         renderMatrix(blockRowSumContextContainer, block_row_sum_col, 'Block Row Sum');
         renderMatrix(lNewContainer, l_new_slice, 'New l');
-        
-        updateControls(step + 1);
     };
     
     const updateControls = (step) => {
-        stepInfo.textContent = `Step: ${step} / ${total_steps}`;
-        nextStepBtn.disabled = step >= total_steps;
-        resetBtn.disabled = step === 0;
+        const display_step = step + 1;
+        stepInfo.textContent = `Step: ${display_step} / ${total_steps}`;
+
+        if (step === -1) { // Initial state
+            stepInfo.textContent = `Step: 0 / ${total_steps}`;
+            resetBtn.disabled = true;
+        } else {
+            resetBtn.disabled = false;
+        }
+        
+        nextStepBtn.disabled = step >= total_steps - 1;
     };
 
     const reset = () => {
-        current_step = 0;
+        current_step = -1;
         max_logits = new Array(seq_len).fill(0).map(() => [-Infinity]);
         softmax_normalizers = new Array(seq_len).fill(0).map(() => [0]);
         
@@ -180,9 +186,10 @@ document.addEventListener('DOMContentLoaded', () => {
         total_steps = n_blocks_q * n_blocks_kv;
         
         nextStepBtn.addEventListener('click', () => {
+            current_step++;
             if (current_step < total_steps) {
                 calculateAndRender(current_step);
-                current_step++;
+                updateControls(current_step);
             }
         });
         
