@@ -34,28 +34,28 @@
                 </div>
                 <hr>
                 <h4>Block Calculations &amp; Global Updates</h4>
-                <div class="computation-row">
-                    <div id="s-block-context" class="matrix-container"></div>
-                    <div class="symbol-group"><span class="symbol">&rarr;</span><br>max()</div>
-                    <div id="block-max-logit-matrix" class="matrix-container"></div>
-                </div>
-                <div class="computation-row sub-step">
-                    <div id="m-old-matrix" class="matrix-container"></div>
-                    <div class="symbol">+</div>
-                    <div id="block-max-logit-context" class="matrix-container"></div>
-                    <div class="symbol-group"><span class="symbol">&rarr;</span><br>max()</div>
+                <div class="computation-row final-op">
+                    <span class="op-name">max</span>
+                    <div class="op-paren">(</div>
+                    <div class="op-args">
+                        <div id="m-old-matrix" class="matrix-container"></div>
+                        <div class="symbol op-comma">,</div>
+                        <div id="block-max-logit-context" class="matrix-container"></div>
+                    </div>
+                    <div class="op-paren">)</div>
+                    <div class="symbol op-arrow">&rarr;</div>
                     <div id="m-new-matrix" class="matrix-container"></div>
                 </div>
-                <div class="computation-row">
-                    <div id="p-matrix" class="matrix-container"></div>
-                    <div class="symbol-group"><span class="symbol">&rarr;</span><br>sum()</div>
-                    <div id="block-row-sum-matrix" class="matrix-container"></div>
-                </div>
-                <div class="computation-row sub-step">
-                    <div id="l-old-matrix" class="matrix-container"></div>
-                    <div class="symbol">+</div>
-                    <div id="block-row-sum-context" class="matrix-container"></div>
-                    <div class="symbol-group"><span class="symbol">&rarr;</span><br>calc()</div>
+                <div class="computation-row final-op">
+                    <span class="op-name">rescale_sum</span>
+                    <div class="op-paren">(</div>
+                    <div class="op-args">
+                        <div id="l-old-matrix" class="matrix-container"></div>
+                        <div class="symbol op-comma">,</div>
+                        <div id="block-row-sum-context" class="matrix-container"></div>
+                    </div>
+                    <div class="op-paren">)</div>
+                    <div class="symbol op-arrow">&rarr;</div>
                     <div id="l-new-matrix" class="matrix-container"></div>
                 </div>
             </div>

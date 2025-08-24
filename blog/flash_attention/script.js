@@ -15,10 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const logitsMatrixContainer = document.getElementById('logits-matrix');
     const maxLogitMatrixContainer = document.getElementById('max-logit-matrix');
     const rowSumMatrixContainer = document.getElementById('row-sum-matrix');
-    const sBlockContextContainer = document.getElementById('s-block-context');
-    const pMatrixContainer = document.getElementById('p-matrix');
-    const blockMaxLogitMatrixContainer = document.getElementById('block-max-logit-matrix');
-    const blockRowSumMatrixContainer = document.getElementById('block-row-sum-matrix');
     const mOldContainer = document.getElementById('m-old-matrix');
     const lOldContainer = document.getElementById('l-old-matrix');
     const blockMaxLogitContextContainer = document.getElementById('block-max-logit-context');
@@ -80,52 +76,55 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         const block_max_logit = logits.map(row => Math.max(...row));
-        const p_matrix = logits.map((row, i) => row.map(val => Math.exp(val - block_max_logit[i])));
-        const block_row_sum = p_matrix.map(row => row.reduce((sum, val) => sum + val, 0));
         const block_max_logit_col = block_max_logit.map(val => [val]);
-        const block_row_sum_col = block_row_sum.map(val => [val]);
-
+        
         const m_old_slice = JSON.parse(JSON.stringify(max_logits.slice(start_q, end_q)));
-        const l_old_slice = JSON.parse(JSON.stringify(softmax_normalizers.slice(start_q, end_q)));
-
+        
         for (let i = 0; i < q_block.length; i++) {
             const row_idx = start_q + i;
             const prev_max_logit = max_logits[row_idx][0];
             const current_block_max_logit = block_max_logit[i];
-            const new_max_logit = Math.max(prev_max_logit, current_block_max_logit);
+            max_logits[row_idx][0] = Math.max(prev_max_logit, current_block_max_logit);
+        }
+
+        const m_new_slice = max_logits.slice(start_q, end_q);
+        
+        // --- Rendering for m update ---
+        renderMatrix(mOldContainer, m_old_slice, 'Old m');
+        renderMatrix(blockMaxLogitContextContainer, block_max_logit_col, 'Block Max');
+        renderMatrix(mNewContainer, m_new_slice, 'New m');
+
+
+        // --- Second part of calculation for l update ---
+        const p_matrix = logits.map((row, i) => row.map(val => Math.exp(val - block_max_logit[i])));
+        const block_row_sum = p_matrix.map(row => row.reduce((sum, val) => sum + val, 0));
+        const block_row_sum_col = block_row_sum.map(val => [val]);
+
+        const l_old_slice = JSON.parse(JSON.stringify(softmax_normalizers.slice(start_q, end_q)));
+        
+        for (let i = 0; i < q_block.length; i++) {
+            const row_idx = start_q + i;
+            const new_max_logit = max_logits[row_idx][0];
+            const prev_max_logit = m_old_slice[i][0]; // Use the value from before the update
             
             const rescale_factor_prev = Math.exp(prev_max_logit - new_max_logit);
-            const rescale_factor_block = Math.exp(current_block_max_logit - new_max_logit);
+            const rescale_factor_block = Math.exp(block_max_logit[i] - new_max_logit);
             
             const block_rowsum_old = softmax_normalizers[row_idx][0];
             const current_block_row_sum = block_row_sum[i];
             
-            const new_rowsum = (rescale_factor_prev * block_rowsum_old) + (rescale_factor_block * current_block_row_sum);
-            
-            max_logits[row_idx][0] = new_max_logit;
-            softmax_normalizers[row_idx][0] = new_rowsum;
+            softmax_normalizers[row_idx][0] = (rescale_factor_prev * block_rowsum_old) + (rescale_factor_block * current_block_row_sum);
         }
 
-        const m_new_slice = max_logits.slice(start_q, end_q);
         const l_new_slice = softmax_normalizers.slice(start_q, end_q);
 
-        // --- Rendering ---
+        // --- Final Rendering ---
         renderMatrix(maxLogitMatrixContainer, max_logits, 'Max Logit (m)', [start_q, end_q]);
         renderMatrix(rowSumMatrixContainer, softmax_normalizers, 'Row Sum (l)', [start_q, end_q]);
         
         renderMatrix(qMatrixContainer, q_proj, 'Query (Q)', [start_q, end_q]);
         renderMatrix(kMatrixContainer, k_T_proj, 'Key Transposed (K^T)', null, [start_kv, end_kv]);
         renderMatrix(logitsMatrixContainer, logits_plot_mat, 'Logits (S)', [start_q, end_q], [start_kv, end_kv]);
-
-        renderMatrix(sBlockContextContainer, logits, 'Logits (S) Block');
-        renderMatrix(blockMaxLogitMatrixContainer, block_max_logit_col, 'Block Max Logit');
-        
-        renderMatrix(mOldContainer, m_old_slice, 'Old m');
-        renderMatrix(blockMaxLogitContextContainer, block_max_logit_col, 'Block Max Logit');
-        renderMatrix(mNewContainer, m_new_slice, 'New m');
-
-        renderMatrix(pMatrixContainer, p_matrix, 'Unnormalized Weights (P)');
-        renderMatrix(blockRowSumMatrixContainer, block_row_sum_col, 'Block Row Sum');
 
         renderMatrix(lOldContainer, l_old_slice, 'Old l');
         renderMatrix(blockRowSumContextContainer, block_row_sum_col, 'Block Row Sum');
@@ -157,15 +156,11 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMatrix(kMatrixContainer, k_T_proj, 'Key Transposed (K^T)');
         renderMatrix(logitsMatrixContainer, new Array(seq_len).fill(0).map(() => new Array(seq_len).fill(NaN)), 'Logits (S)');
         
-        sBlockContextContainer.innerHTML = '<h4>Logits (S) Block</h4>';
-        blockMaxLogitMatrixContainer.innerHTML = '<h4>Block Max Logit</h4>';
         mOldContainer.innerHTML = '<h4>Old m</h4>';
-        blockMaxLogitContextContainer.innerHTML = '<h4>Block Max Logit</h4>';
+        blockMaxLogitContextContainer.innerHTML = '<h4>Block Max</h4>';
         mNewContainer.innerHTML = '<h4>New m</h4>';
-        pMatrixContainer.innerHTML = '<h4>Unnormalized Weights (P)</h4>';
-        blockRowSumMatrixContainer.innerHTML = '<h4>Block Row Sum</h4>';
         lOldContainer.innerHTML = '<h4>Old l</h4>';
-        blockRowSumContextContainer.innerHTML = '<h4>Block Row Sum</h4>';
+        blockRowSumContextContainer.innerHTML = '<h4>Block Sum</h4>';
         lNewContainer.innerHTML = '<h4>New l</h4>';
 
         updateControls(current_step);
