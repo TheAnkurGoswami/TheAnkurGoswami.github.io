@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let seq_len, d_model, n_blocks_q, n_blocks_kv, total_steps;
     let current_step = -1;
 
-    // --- DOM Elements ---
+    // --- DOM Elements (The One True Set) ---
     const resetBtn = document.getElementById('reset-btn');
     const nextStepBtn = document.getElementById('next-step-btn');
     const stepInfo = document.getElementById('step-info');
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mNewContainer = document.getElementById('m-new-matrix');
     const lNewContainer = document.getElementById('l-new-matrix');
     const pMatrixForOCalcContainer = document.getElementById('p-matrix-for-o-calc');
-    const vBlockDisplayContainer = document.getElementById('v-block-display');
+    const vMatrixContainer = document.getElementById('v-matrix');
     const oBlockResultContainer = document.getElementById('o-block-result');
     const oOldContainer = document.getElementById('o-old-matrix');
     const oBlockContextContainer = document.getElementById('o-block-context');
@@ -167,12 +167,14 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMatrix(lNewContainer, l_new_slice, 'New l');
 
         renderMatrix(pMatrixForOCalcContainer, p_matrix, 'P');
-        renderMatrix(vBlockDisplayContainer, v_block, 'V<sub>block</sub>');
+        renderMatrix(vMatrixContainer, v_proj, 'Value (V)', [start_kv, end_kv]);
         renderMatrix(oBlockResultContainer, output_block_curr, 'O<sub>block</sub>');
         
         renderMatrix(oOldContainer, o_old_slice, 'Old O');
         renderMatrix(oBlockContextContainer, output_block_curr, 'O<sub>block</sub>');
         renderMatrix(oNewContainer, o_new_slice, 'New O');
+        
+        updateControls(step);
     };
     
     const updateControls = (step) => {
@@ -210,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lBlockContextContainer.innerHTML = '<h4>l<sub>block</sub></h4>';
         lNewContainer.innerHTML = '<h4>New l</h4>';
         pMatrixForOCalcContainer.innerHTML = '<h4>P</h4>';
-        vBlockDisplayContainer.innerHTML = '<h4>V<sub>block</sub></h4>';
+        vMatrixContainer.innerHTML = '<h4>Value (V)</h4>';
         oBlockResultContainer.innerHTML = '<h4>O<sub>block</sub></h4>';
         oOldContainer.innerHTML = '<h4>Old O</h4>';
         oBlockContextContainer.innerHTML = '<h4>O<sub>block</sub></h4>';
