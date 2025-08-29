@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let seq_len, d_model, n_blocks_q, n_blocks_kv, total_steps;
     let current_step = -1;
 
-    // --- DOM Elements (The One True Set) ---
+    // --- DOM Elements ---
     const resetBtn = document.getElementById('reset-btn');
     const nextStepBtn = document.getElementById('next-step-btn');
     const stepInfo = document.getElementById('step-info');
@@ -158,23 +158,21 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMatrix(pMatrixForLCalcContainer, p_matrix, 'P');
         renderMatrix(lBlockResultContainer, block_row_sum_col, 'l<sub>block</sub>');
         
-        renderMatrix(mOldContainer, m_old_slice, 'Old m');
+        renderMatrix(mOldContainer, m_old_slice, 'm<sub>old</sub>');
         renderMatrix(mBlockContextContainer, block_max_logit_col, 'm<sub>block</sub>');
-        renderMatrix(mNewContainer, m_new_slice, 'New m');
+        renderMatrix(mNewContainer, m_new_slice, 'm<sub>new</sub>');
 
-        renderMatrix(lOldContainer, l_old_slice, 'Old l');
+        renderMatrix(lOldContainer, l_old_slice, 'l<sub>old</sub>');
         renderMatrix(lBlockContextContainer, block_row_sum_col, 'l<sub>block</sub>');
-        renderMatrix(lNewContainer, l_new_slice, 'New l');
+        renderMatrix(lNewContainer, l_new_slice, 'l<sub>new</sub>');
 
         renderMatrix(pMatrixForOCalcContainer, p_matrix, 'P');
         renderMatrix(vMatrixContainer, v_proj, 'Value (V)', [start_kv, end_kv]);
         renderMatrix(oBlockResultContainer, output_block_curr, 'O<sub>block</sub>');
         
-        renderMatrix(oOldContainer, o_old_slice, 'Old O');
+        renderMatrix(oOldContainer, o_old_slice, 'O<sub>old</sub>');
         renderMatrix(oBlockContextContainer, output_block_curr, 'O<sub>block</sub>');
-        renderMatrix(oNewContainer, o_new_slice, 'New O');
-        
-        updateControls(step);
+        renderMatrix(oNewContainer, o_new_slice, 'O<sub>new</sub>');
     };
     
     const updateControls = (step) => {
@@ -205,18 +203,18 @@ document.addEventListener('DOMContentLoaded', () => {
         pMatrixContainer.innerHTML = '<h4>P</h4>';
         pMatrixForLCalcContainer.innerHTML = '<h4>P</h4>';
         lBlockResultContainer.innerHTML = '<h4>l<sub>block</sub></h4>';
-        mOldContainer.innerHTML = '<h4>Old m</h4>';
+        mOldContainer.innerHTML = '<h4>m<sub>old</sub></h4>';
         mBlockContextContainer.innerHTML = '<h4>m<sub>block</sub></h4>';
-        mNewContainer.innerHTML = '<h4>New m</h4>';
-        lOldContainer.innerHTML = '<h4>Old l</h4>';
+        mNewContainer.innerHTML = '<h4>m<sub>new</sub></h4>';
+        lOldContainer.innerHTML = '<h4>l<sub>old</sub></h4>';
         lBlockContextContainer.innerHTML = '<h4>l<sub>block</sub></h4>';
-        lNewContainer.innerHTML = '<h4>New l</h4>';
+        lNewContainer.innerHTML = '<h4>l<sub>new</sub></h4>';
         pMatrixForOCalcContainer.innerHTML = '<h4>P</h4>';
         vMatrixContainer.innerHTML = '<h4>Value (V)</h4>';
         oBlockResultContainer.innerHTML = '<h4>O<sub>block</sub></h4>';
-        oOldContainer.innerHTML = '<h4>Old O</h4>';
+        oOldContainer.innerHTML = '<h4>O<sub>old</sub></h4>';
         oBlockContextContainer.innerHTML = '<h4>O<sub>block</sub></h4>';
-        oNewContainer.innerHTML = '<h4>New O</h4>';
+        oNewContainer.innerHTML = '<h4>O<sub>new</sub></h4>';
 
         updateControls(current_step);
     };
