@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const mBlockDisplayContainer = document.getElementById('m-block-display');
     const sMinusMMatrixContainer = document.getElementById('s-minus-m-matrix');
     const pMatrixContainer = document.getElementById('p-matrix');
-    const pMatrixForLCalcContainer = document.getElementById('p-matrix-for-l-calc');
     const lBlockResultContainer = document.getElementById('l-block-result');
     const mOldContainer = document.getElementById('m-old-matrix');
     const lOldContainer = document.getElementById('l-old-matrix');
@@ -155,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         renderMatrix(pMatrixContainer, p_matrix, 'P');
         
-        renderMatrix(pMatrixForLCalcContainer, p_matrix, 'P');
         renderMatrix(lBlockResultContainer, block_row_sum_col, 'l<sub>block</sub>');
         
         renderMatrix(mOldContainer, m_old_slice, 'm<sub>old</sub>');
