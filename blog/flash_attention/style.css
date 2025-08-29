@@ -157,6 +157,12 @@ tr > .highlight-col {
     font-size: 2.5rem;
 }
 
+.sidebar-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
 .final-op-group {
   display: flex;
   align-items: center;
