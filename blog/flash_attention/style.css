@@ -169,7 +169,6 @@ tr > .highlight-col {
 }
 
 .calculation-step {
-    border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 15px;
     border-radius: 8px;
@@ -228,4 +227,18 @@ tr > .highlight-col {
 
 .matrix-container.small h4 {
     display: none;
+}
+
+.visual-equation .base-e {
+    font-size: 1.5em;
+    font-weight: bold;
+    align-self: center;
+}
+
+.exponent-wrapper {
+    position: relative;
+    top: -0.7em;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }

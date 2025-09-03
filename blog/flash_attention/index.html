@@ -55,7 +55,7 @@
                 </div>
                 <!-- Step 2c: P calculation -->
                 <div class="computation-row">
-                    <div class="symbol-group"><p>P = exp(S<sub>block</sub> - m<sub>block</sub>)</p></div>
+                    <div class="symbol-group"><p><i>P</i> = e<sup><i>S</i><sub>block</sub> - <i>m</i><sub>block</sub></sup></p></div>
                     <div class="symbol">&rarr;</div>
                     <div id="p-matrix" class="matrix-container"></div>
                 </div>
@@ -78,23 +78,27 @@
                 </div>
                 <!-- Step 3b: l update -->
                 <div class="calculation-step" id="l-new-calculation-step">
-                    <p class="equation"><i>l</i><sub>new</sub> = exp(<i>m</i><sub>old</sub> - <i>m</i><sub>new</sub>) &sdot; <i>l</i><sub>old</sub> + exp(<i>m</i><sub>block</sub> - <i>m</i><sub>new</sub>) &sdot; <i>l</i><sub>block</sub></p>
+                    <p class="equation"><i>l</i><sub>new</sub> = e<sup><i>m</i><sub>old</sub> - <i>m</i><sub>new</sub></sup> &sdot; <i>l</i><sub>old</sub> + e<sup><i>m</i><sub>block</sub> - <i>m</i><sub>new</sub></sup> &sdot; <i>l</i><sub>block</sub></p>
                     <div class="visual-equation">
                         <div class="term">
-                            <span class="symbol">exp(</span>
-                            <div id="m-old-for-l-calc" class="matrix-container small"></div>
-                            <span class="symbol">-</span>
-                            <div id="m-new-for-l-calc" class="matrix-container small"></div>
-                            <span class="symbol">) &sdot;</span>
+                            <span class="base-e">e</span>
+                            <div class="exponent-wrapper">
+                                ( <div id="m-old-for-l-calc" class="matrix-container small"></div>
+                                <span class="symbol">-</span>
+                                <div id="m-new-for-l-calc" class="matrix-container small"></div> )
+                            </div>
+                            <span class="symbol">&sdot;</span>
                             <div id="l-old-matrix" class="matrix-container small"></div>
                         </div>
                         <div class="symbol">+</div>
                         <div class="term">
-                            <span class="symbol">exp(</span>
-                            <div id="m-block-for-l-calc" class="matrix-container small"></div>
-                            <span class="symbol">-</span>
-                            <div id="m-new-for-l-calc-2" class="matrix-container small"></div>
-                            <span class="symbol">) &sdot;</span>
+                            <span class="base-e">e</span>
+                            <div class="exponent-wrapper">
+                                ( <div id="m-block-for-l-calc" class="matrix-container small"></div>
+                                <span class="symbol">-</span>
+                                <div id="m-new-for-l-calc-2" class="matrix-container small"></div> )
+                            </div>
+                            <span class="symbol">&sdot;</span>
                             <div id="l-block-context" class="matrix-container small"></div>
                         </div>
                         <div class="symbol">=</div>
