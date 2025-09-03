@@ -81,6 +81,7 @@ body {
   gap: 1rem;
   flex-wrap: wrap;
   width: 100%;
+  padding: 0.5rem;
 }
 
 .matrix-container {
@@ -135,54 +136,96 @@ tr > .highlight-col {
   text-align: center;
 }
 
-.final-op-group {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+.final-op {
+    align-items: stretch;
 }
 
-.op-label-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-right: 0.5rem;
+.graphical-op {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1.5rem 0.5rem 2.5rem;
+  border: 2px solid #888;
+  border-radius: 15px;
+  background-color: rgba(0,0,0,0.02);
 }
 
-.op-label {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #555;
-}
-
-.op-wrapper {
-    display: flex;
-    align-items: center;
-    border: 2px solid #888;
-    border-radius: 15px;
-    padding: 0.5rem;
-    background-color: rgba(0,0,0,0.02);
-}
-
-.op-paren {
-    font-size: 8rem;
-    font-family: "Times New Roman", serif;
-    color: #888;
-}
-
-.op-args {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0 0.5rem;
-}
-
-.op-comma {
-    font-size: 3rem;
-    align-self: center;
+.graphical-op::before {
+  content: attr(data-op);
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: left center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #555;
+  white-space: nowrap;
 }
 
 .op-arrow {
     font-size: 2.5rem;
+}
+
+.calculation-step {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.equation {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.3em;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #444;
+}
+
+.visual-equation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.visual-equation .term {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px dashed #aaa;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.visual-equation .symbol {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.matrix-container.small {
+    padding: 0.5rem;
+    box-shadow: none;
+    border: 1px solid #ddd;
+}
+
+.matrix-container.small table {
+    font-size: 0.8em;
+    border-spacing: 0;
+}
+
+.matrix-container.small td {
+    padding: 4px;
+    min-width: 30px;
+    height: 25px;
+}
+
+.matrix-container.small h4 {
+    display: none;
 }

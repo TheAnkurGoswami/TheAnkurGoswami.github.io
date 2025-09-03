@@ -29,6 +29,7 @@
 
         <main class="main-content">
             <div class="main-container">
+                <!-- Step 1: Logits -->
                 <div class="computation-row">
                     <div id="q-matrix" class="matrix-container"><h4>Query (Q)</h4></div>
                     <div class="symbol">@</div>
@@ -38,62 +39,70 @@
                 </div>
                 <hr>
                 <h4>Block Calculations &amp; Global Updates</h4>
+                <!-- Step 2a: m_block derivation -->
                 <div class="computation-row">
-                    <div class="final-op-group">
-                        <div id="s-block-for-m-calc" class="matrix-container"></div>
-                        <div class="symbol-group"><span class="symbol">&rarr;</span><br>max(axis=1)</div>
-                        <div id="m-block-result" class="matrix-container"></div>
-                    </div>
-                    <div class="symbol" style="font-size: 4rem;">;</div>
-                    <div class="final-op-group">
-                        <div id="s-block-display" class="matrix-container"></div>
-                        <div class="symbol">-</div>
-                        <div id="m-block-display" class="matrix-container"></div>
-                        <div class="symbol">=</div>
-                        <div id="s-minus-m-matrix" class="matrix-container"></div>
-                    </div>
+                    <div id="s-block-for-m-calc" class="matrix-container"></div>
+                    <div class="symbol-group"><span class="symbol">&rarr;</span><br>max(axis=1)</div>
+                    <div id="m-block-result" class="matrix-container"></div>
                 </div>
+                <!-- Step 2b: S-m calculation -->
                 <div class="computation-row">
-                    <div class="symbol-group">
-                        <p>P = exp(S<sub>block</sub> - m<sub>block</sub>)</p>
-                    </div>
+                    <div id="s-block-display" class="matrix-container"></div>
+                    <div class="symbol">-</div>
+                    <div id="m-block-display" class="matrix-container"></div>
+                    <div class="symbol">=</div>
+                    <div id="s-minus-m-matrix" class="matrix-container"></div>
+                </div>
+                <!-- Step 2c: P calculation -->
+                <div class="computation-row">
+                    <div class="symbol-group"><p>P = exp(S<sub>block</sub> - m<sub>block</sub>)</p></div>
                     <div class="symbol">&rarr;</div>
                     <div id="p-matrix" class="matrix-container"></div>
-                    <div class="symbol-group">
-                        <span class="symbol">&rarr;</span>
-                        <br>
-                        sum(axis=1)
-                    </div>
+                </div>
+                <!-- Step 2d: l_block derivation -->
+                <div class="computation-row">
+                    <div id="p-matrix-for-l-calc" class="matrix-container"></div>
+                    <div class="symbol-group"><span class="symbol">&rarr;</span><br>sum(axis=1)</div>
                     <div id="l-block-result" class="matrix-container"></div>
                 </div>
-                <div class="computation-row">
-                    <div class="final-op-group">
-                        <div class="op-label-wrapper">
-                            <span class="op-label">max</span>
-                        </div>
-                        <div class="op-paren">(</div>
+                <hr>
+                <!-- Step 3a: m update -->
+                <div class="computation-row final-op">
+                    <div class="graphical-op" data-op="max">
                         <div id="m-old-matrix" class="matrix-container"></div>
-                        <div class="symbol op-comma">,</div>
+                        <div class="symbol">+</div>
                         <div id="m-block-context" class="matrix-container"></div>
-                        <div class="op-paren">)</div>
-                        <div class="symbol op-arrow">&rarr;</div>
-                        <div id="m-new-matrix" class="matrix-container"></div>
                     </div>
-                    <div class="symbol" style="font-size: 4rem;">;</div>
-                    <div class="final-op-group">
-                        <div class="op-label-wrapper">
-                            <span class="op-label">rescale_sum</span>
+                    <div class="symbol op-arrow">&rarr;</div>
+                    <div id="m-new-matrix" class="matrix-container"></div>
+                </div>
+                <!-- Step 3b: l update -->
+                <div class="calculation-step" id="l-new-calculation-step">
+                    <p class="equation"><i>l</i><sub>new</sub> = exp(<i>m</i><sub>old</sub> - <i>m</i><sub>new</sub>) &sdot; <i>l</i><sub>old</sub> + exp(<i>m</i><sub>block</sub> - <i>m</i><sub>new</sub>) &sdot; <i>l</i><sub>block</sub></p>
+                    <div class="visual-equation">
+                        <div class="term">
+                            <span class="symbol">exp(</span>
+                            <div id="m-old-for-l-calc" class="matrix-container small"></div>
+                            <span class="symbol">-</span>
+                            <div id="m-new-for-l-calc" class="matrix-container small"></div>
+                            <span class="symbol">) &sdot;</span>
+                            <div id="l-old-matrix" class="matrix-container small"></div>
                         </div>
-                        <div class="op-paren">(</div>
-                        <div id="l-old-matrix" class="matrix-container"></div>
-                        <div class="symbol op-comma">,</div>
-                        <div id="l-block-context" class="matrix-container"></div>
-                        <div class="op-paren">)</div>
-                        <div class="symbol op-arrow">&rarr;</div>
+                        <div class="symbol">+</div>
+                        <div class="term">
+                            <span class="symbol">exp(</span>
+                            <div id="m-block-for-l-calc" class="matrix-container small"></div>
+                            <span class="symbol">-</span>
+                            <div id="m-new-for-l-calc-2" class="matrix-container small"></div>
+                            <span class="symbol">) &sdot;</span>
+                            <div id="l-block-context" class="matrix-container small"></div>
+                        </div>
+                        <div class="symbol">=</div>
                         <div id="l-new-matrix" class="matrix-container"></div>
                     </div>
                 </div>
                 <hr>
+                <!-- Step 4: Block Output -->
                 <div class="computation-row">
                     <div id="p-matrix-for-o-calc" class="matrix-container"></div>
                     <div class="symbol">@</div>
@@ -101,15 +110,13 @@
                     <div class="symbol">=</div>
                     <div id="o-block-result" class="matrix-container"></div>
                 </div>
+                <!-- Step 5: Output update -->
                 <div class="computation-row final-op">
-                    <div class="op-label-wrapper">
-                        <span class="op-label">update_output</span>
+                    <div class="graphical-op" data-op="update_output">
+                        <div id="o-old-matrix" class="matrix-container"></div>
+                        <div class="symbol">+</div>
+                        <div id="o-block-context" class="matrix-container"></div>
                     </div>
-                    <div class="op-paren">(</div>
-                    <div id="o-old-matrix" class="matrix-container"></div>
-                    <div class="symbol op-comma">,</div>
-                    <div id="o-block-context" class="matrix-container"></div>
-                    <div class="op-paren">)</div>
                     <div class="symbol op-arrow">&rarr;</div>
                     <div id="o-new-matrix" class="matrix-container"></div>
                 </div>
