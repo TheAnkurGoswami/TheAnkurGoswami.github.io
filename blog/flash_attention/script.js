@@ -34,12 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const mNewForLCalcContainer = document.getElementById('m-new-for-l-calc');
     const mNewForLCalc2Container = document.getElementById('m-new-for-l-calc-2');
     const mBlockForLCalcContainer = document.getElementById('m-block-for-l-calc');
-    const pMatrixForOCalcContainer = document.getElementById('p-matrix-for-o-calc');
-    const vMatrixContainer = document.getElementById('v-matrix');
-    const oBlockResultContainer = document.getElementById('o-block-result');
-    const oOldContainer = document.getElementById('o-old-matrix');
-    const oBlockContextContainer = document.getElementById('o-block-context');
-    const oNewContainer = document.getElementById('o-new-matrix');
+    
+    // O-update fraction containers
+    const lOldForOCalc = document.getElementById('l-old-for-o-calc');
+    const mOldForOCalc = document.getElementById('m-old-for-o-calc');
+    const mNewForOCalc = document.getElementById('m-new-for-o-calc');
+    const mBlockForOCalc = document.getElementById('m-block-for-o-calc');
+    const pMatrixForOCalc = document.getElementById('p-matrix-for-o-calc');
+    const vMatrixForOCalc = document.getElementById('v-matrix');
+    const lNewForOCalc = document.getElementById('l-new-for-o-calc');
+    const oOldContainer = document.getElementById('o-old-matrix'); // Reused
+    const oNewContainer = document.getElementById('o-new-matrix'); // Reused
     
     // --- Utility Functions ---
     const transpose = (matrix) => matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
@@ -175,13 +180,17 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMatrix(mNewForLCalc2Container, m_new_slice, '');
         renderMatrix(lBlockContextContainer, block_row_sum_col, '');
 
-        renderMatrix(pMatrixForOCalcContainer, p_matrix, 'P');
-        renderMatrix(vMatrixContainer, v_proj, 'Value (V)', [start_kv, end_kv]);
-        renderMatrix(oBlockResultContainer, output_block_curr, 'O<sub>block</sub>');
-        
-        renderMatrix(oOldContainer, o_old_slice, 'O<sub>old</sub>');
-        renderMatrix(oBlockContextContainer, output_block_curr, 'O<sub>block</sub>');
-        renderMatrix(oNewContainer, o_new_slice, 'O<sub>new</sub>');
+        // O-update rendering
+        renderMatrix(oNewContainer, o_new_slice, 'O<sub>new</sub>'); // Final result
+        renderMatrix(lOldForOCalc, l_old_slice, '');
+        renderMatrix(mOldForOCalc, m_old_slice, '');
+        renderMatrix(mNewForOCalc, m_new_slice, '');
+        renderMatrix(oOldContainer, o_old_slice, '');
+        renderMatrix(mBlockForOCalc, block_max_logit_col, '');
+        renderMatrix(mNewForLCalc2Container, m_new_slice, ''); // Re-using the ID from l-update for the second m_new
+        renderMatrix(pMatrixForOCalc, p_matrix, '');
+        renderMatrix(vMatrixForOCalc, v_block, '');
+        renderMatrix(lNewForOCalc, l_new_slice, '');
         
         updateControls(step);
     };
@@ -211,27 +220,25 @@ document.addEventListener('DOMContentLoaded', () => {
             mBlockDisplayContainer, sMinusMMatrixContainer, pMatrixContainer,
             pMatrixForLCalcContainer, lBlockResultContainer, mOldContainer,
             mBlockContextContainer, mNewContainer, lNewContainer, lOldContainer,
-            lBlockContextContainer, pMatrixForOCalcContainer, vMatrixContainer,
-            oBlockResultContainer, oOldContainer, oBlockContextContainer, oNewContainer,
-            mOldForLCalcContainer, mNewForLCalcContainer, mNewForLCalc2Container, mBlockForLCalcContainer
+            lBlockContextContainer, mOldForLCalcContainer, mNewForLCalcContainer, 
+            mNewForLCalc2Container, mBlockForLCalcContainer,
+            // O-update containers
+            lOldForOCalc, mOldForOCalc, mNewForOCalc, mBlockForOCalc, pMatrixForOCalc,
+            vMatrixForOCalc, lNewForOCalc
         ];
-        const titles = [
-            'S<sub>block</sub>', 'm<sub>block</sub>', 'S<sub>block</sub>', 'm<sub>block</sub>',
-            'Result', 'P', 'P', 'l<sub>block</sub>', 'm<sub>old</sub>',
-            'm<sub>block</sub>', 'm<sub>new</sub>', 'l<sub>new</sub>', 'l<sub>old</sub>',
-            'l<sub>block</sub>', 'P', 'Value (V)',
-            'O<sub>block</sub>', 'O<sub>old</sub>', 'O<sub>block</sub>', 'O<sub>new</sub>',
-            '', '', '', ''
+        // Clear all calculation containers
+        const containersToClear = [
+            sBlockForMCalcContainer, mBlockResultContainer, sBlockDisplayContainer,
+            mBlockDisplayContainer, sMinusMMatrixContainer, pMatrixContainer,
+            pMatrixForLCalcContainer, lBlockResultContainer, mOldContainer,
+            mBlockContextContainer, mNewContainer, lNewContainer, lOldContainer,
+            lBlockContextContainer, mOldForLCalcContainer, mNewForLCalcContainer,
+            mNewForLCalc2Container, mBlockForLCalcContainer, lOldForOCalc,
+            mOldForOCalc, mNewForOCalc, mBlockForOCalc, pMatrixForOCalc,
+            vMatrixForOCalc, lNewForOCalc
         ];
-        calc_containers.forEach((c, i) => {
-            if(c) {
-                const title = titles[i] || ''; // Fallback for any mismatch
-                if (title) {
-                    c.innerHTML = `<h4>${title}</h4>`;
-                } else {
-                    c.innerHTML = ''; // For containers in the equation that don't need titles
-                }
-            }
+        containersToClear.forEach(c => {
+            if (c) c.innerHTML = '';
         });
 
         updateControls(current_step);

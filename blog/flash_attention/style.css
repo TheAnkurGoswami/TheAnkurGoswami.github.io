@@ -242,3 +242,53 @@ tr > .highlight-col {
     align-items: center;
     gap: 5px;
 }
+
+/* Symbolic Fraction Styles */
+.frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+    text-align: center;
+}
+.frac > sup {
+    display: block;
+    border-bottom: 1px solid;
+    padding: 0 0.2em;
+}
+.frac > sub {
+    display: block;
+    padding: 0 0.2em;
+}
+
+/* Visual Fraction Styles */
+.visual-fraction {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+.numerator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px;
+}
+.fraction-line {
+    height: 2px;
+    background-color: #333;
+    width: 100%;
+    border-radius: 1px;
+}
+.denominator {
+    padding: 0 10px;
+}
+.bracket-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid #aaa;
+    border-radius: 8px;
+    padding: 5px;
+    background-color: #f0f0f0;
+}
