@@ -106,10 +106,19 @@
                     </div>
                 </div>
                 <hr>
-                <!-- Step 4 & 5: O_new update -->
+                <!-- Step 4: Block Output -->
+                <div class="computation-row">
+                    <div id="p-matrix-for-o-calc" class="matrix-container"><h4>P</h4></div>
+                    <div class="symbol">@</div>
+                    <div id="v-matrix" class="matrix-container"><h4>V</h4></div>
+                    <div class="symbol">=</div>
+                    <div id="o-block-result" class="matrix-container"><h4>O<sub>block</sub></h4></div>
+                </div>
+
+                <!-- Step 5: O_new update -->
                 <div class="calculation-step" id="o-new-calculation-step">
                     <p class="equation">
-                        <i>O</i><sub>new</sub> &longleftarrow; <span class="frac"><sup>(<i>l</i><sub>old</sub> &sdot; e<sup><i>m</i><sub>old</sub>-<i>m</i><sub>new</sub></sup> &sdot; <i>O</i><sub>old</sub>) + (e<sup><i>m</i><sub>block</sub>-<i>m</i><sub>new</sub></sup> &sdot; (<i>P</i> &sdot; <i>V</i>))</sup><sub><i>l</i><sub>new</sub></sub></span>
+                        <i>O</i><sub>new</sub> &longleftarrow; <span class="frac"><sup>(<i>l</i><sub>old</sub> &sdot; e<sup><i>m</i><sub>old</sub>-<i>m</i><sub>new</sub></sup> &sdot; <i>O</i><sub>old</sub>) + (e<sup><i>m</i><sub>block</sub>-<i>m</i><sub>new</sub></sup> &sdot; <i>O</i><sub>block</sub>)</sup><sub><i>l</i><sub>new</sub></sub></span>
                     </p>
                     <div class="visual-equation">
                         <div id="o-new-matrix" class="matrix-container"></div>
@@ -137,11 +146,7 @@
                                         <div id="m-new-for-o-calc-2" class="matrix-container small"></div>)
                                     </div>
                                     <span class="symbol">&sdot;</span>
-                                    <div class="bracket-group">
-                                        ( <div id="p-matrix-for-o-calc" class="matrix-container small"></div>
-                                        <span class="symbol">&sdot;</span>
-                                        <div id="v-matrix" class="matrix-container small"></div> )
-                                    </div>
+                                    <div id="o-block-for-o-calc" class="matrix-container small"></div>
                                 </div>
                             </div>
                             <div class="fraction-line"></div>

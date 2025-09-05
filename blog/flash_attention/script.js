@@ -35,13 +35,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const mNewForLCalc2Container = document.getElementById('m-new-for-l-calc-2');
     const mBlockForLCalcContainer = document.getElementById('m-block-for-l-calc');
     
-    // O-update fraction containers
+    // O-update containers
+    const pMatrixForOIntermediate = document.getElementById('p-matrix-for-o-calc');
+    const vMatrixForOIntermediate = document.getElementById('v-matrix');
+    const oBlockResultContainer = document.getElementById('o-block-result');
+    const oBlockForOCalc = document.getElementById('o-block-for-o-calc');
     const lOldForOCalc = document.getElementById('l-old-for-o-calc');
     const mOldForOCalc = document.getElementById('m-old-for-o-calc');
     const mNewForOCalc = document.getElementById('m-new-for-o-calc');
     const mBlockForOCalc = document.getElementById('m-block-for-o-calc');
-    const pMatrixForOCalc = document.getElementById('p-matrix-for-o-calc');
-    const vMatrixForOCalc = document.getElementById('v-matrix');
     const lNewForOCalc = document.getElementById('l-new-for-o-calc');
     const oOldContainer = document.getElementById('o-old-matrix'); // Reused
     const oNewContainer = document.getElementById('o-new-matrix'); // Reused
@@ -181,15 +183,20 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMatrix(lBlockContextContainer, block_row_sum_col, '');
 
         // O-update rendering
-        renderMatrix(oNewContainer, o_new_slice, 'O<sub>new</sub>'); // Final result
+        // Intermediate P@V
+        renderMatrix(pMatrixForOIntermediate, p_matrix, 'P');
+        renderMatrix(vMatrixForOIntermediate, v_block, 'V');
+        renderMatrix(oBlockResultContainer, output_block_curr, 'O<sub>block</sub>');
+
+        // Final fraction
+        renderMatrix(oNewContainer, o_new_slice, 'O<sub>new</sub>');
         renderMatrix(lOldForOCalc, l_old_slice, '');
         renderMatrix(mOldForOCalc, m_old_slice, '');
         renderMatrix(mNewForOCalc, m_new_slice, '');
         renderMatrix(oOldContainer, o_old_slice, '');
         renderMatrix(mBlockForOCalc, block_max_logit_col, '');
         renderMatrix(mNewForLCalc2Container, m_new_slice, ''); // Re-using the ID from l-update for the second m_new
-        renderMatrix(pMatrixForOCalc, p_matrix, '');
-        renderMatrix(vMatrixForOCalc, v_block, '');
+        renderMatrix(oBlockForOCalc, output_block_curr, '');
         renderMatrix(lNewForOCalc, l_new_slice, '');
         
         updateControls(step);
@@ -233,9 +240,11 @@ document.addEventListener('DOMContentLoaded', () => {
             pMatrixForLCalcContainer, lBlockResultContainer, mOldContainer,
             mBlockContextContainer, mNewContainer, lNewContainer, lOldContainer,
             lBlockContextContainer, mOldForLCalcContainer, mNewForLCalcContainer,
-            mNewForLCalc2Container, mBlockForLCalcContainer, lOldForOCalc,
-            mOldForOCalc, mNewForOCalc, mBlockForOCalc, pMatrixForOCalc,
-            vMatrixForOCalc, lNewForOCalc
+            mNewForLCalc2Container, mBlockForLCalcContainer,
+            // O-update containers
+            pMatrixForOIntermediate, vMatrixForOIntermediate, oBlockResultContainer,
+            oBlockForOCalc, lOldForOCalc, mOldForOCalc, mNewForOCalc,
+            mBlockForOCalc, lNewForOCalc
         ];
         containersToClear.forEach(c => {
             if (c) c.innerHTML = '';
