@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mOldForOCalc = document.getElementById('m-old-for-o-calc');
     const mNewForOCalc = document.getElementById('m-new-for-o-calc');
     const mBlockForOCalc = document.getElementById('m-block-for-o-calc');
+    const mNewForOCalc2 = document.getElementById('m-new-for-o-calc-2');
     const lNewForOCalc = document.getElementById('l-new-for-o-calc');
     const oOldContainer = document.getElementById('o-old-matrix'); // Reused
     const oNewContainer = document.getElementById('o-new-matrix'); // Reused
@@ -185,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // O-update rendering
         // Intermediate P@V
         renderMatrix(pMatrixForOIntermediate, p_matrix, 'P');
-        renderMatrix(vMatrixForOIntermediate, v_block, 'V');
+        renderMatrix(vMatrixForOIntermediate, v_proj, 'V', [start_kv, end_kv]);
         renderMatrix(oBlockResultContainer, output_block_curr, 'O<sub>block</sub>');
 
         // Final fraction
@@ -195,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMatrix(mNewForOCalc, m_new_slice, '');
         renderMatrix(oOldContainer, o_old_slice, '');
         renderMatrix(mBlockForOCalc, block_max_logit_col, '');
-        renderMatrix(mNewForLCalc2Container, m_new_slice, ''); // Re-using the ID from l-update for the second m_new
+        renderMatrix(mNewForOCalc2, m_new_slice, '');
         renderMatrix(oBlockForOCalc, output_block_curr, '');
         renderMatrix(lNewForOCalc, l_new_slice, '');
         
@@ -244,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // O-update containers
             pMatrixForOIntermediate, vMatrixForOIntermediate, oBlockResultContainer,
             oBlockForOCalc, lOldForOCalc, mOldForOCalc, mNewForOCalc,
-            mBlockForOCalc, lNewForOCalc
+            mBlockForOCalc, mNewForOCalc2, lNewForOCalc
         ];
         containersToClear.forEach(c => {
             if (c) c.innerHTML = '';
