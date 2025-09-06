@@ -67,14 +67,16 @@
                 </div>
                 <hr>
                 <!-- Step 3a: m update -->
-                <div class="computation-row final-op">
-                    <div class="graphical-op" data-op="max">
-                        <div id="m-old-matrix" class="matrix-container"></div>
-                        <div class="symbol">+</div>
-                        <div id="m-block-context" class="matrix-container"></div>
+                <div class="calculation-step">
+                    <p class="equation"><i>m</i><sub>new</sub> = max([<i>m</i><sub>old</sub>], [<i>m</i><sub>block</sub>])</p>
+                    <div class="visual-equation">
+                        <div class="term">
+                            max(&nbsp;<div id="m-old-matrix" class="matrix-container"></div>,
+                            <div id="m-block-context" class="matrix-container"></div>&nbsp;)
+                        </div>
+                        <div class="symbol">=</div>
+                        <div id="m-new-matrix" class="matrix-container"></div>
                     </div>
-                    <div class="symbol op-arrow">&rarr;</div>
-                    <div id="m-new-matrix" class="matrix-container"></div>
                 </div>
                 <!-- Step 3b: l update -->
                 <div class="calculation-step" id="l-new-calculation-step">
@@ -83,23 +85,23 @@
                         <div class="term">
                             <span class="base-e">e</span>
                             <div class="exponent-wrapper">
-                                ( <div id="m-old-for-l-calc" class="matrix-container small"></div>
+                                ( <div id="m-old-for-l-calc" class="matrix-container"></div>
                                 <span class="symbol">-</span>
-                                <div id="m-new-for-l-calc" class="matrix-container small"></div> )
+                                <div id="m-new-for-l-calc" class="matrix-container"></div> )
                             </div>
                             <span class="symbol">&sdot;</span>
-                            <div id="l-old-matrix" class="matrix-container small"></div>
+                            <div id="l-old-matrix" class="matrix-container"></div>
                         </div>
                         <div class="symbol">+</div>
                         <div class="term">
                             <span class="base-e">e</span>
                             <div class="exponent-wrapper">
-                                ( <div id="m-block-for-l-calc" class="matrix-container small"></div>
+                                ( <div id="m-block-for-l-calc" class="matrix-container"></div>
                                 <span class="symbol">-</span>
-                                <div id="m-new-for-l-calc-2" class="matrix-container small"></div> )
+                                <div id="m-new-for-l-calc-2" class="matrix-container"></div> )
                             </div>
                             <span class="symbol">&sdot;</span>
-                            <div id="l-block-context" class="matrix-container small"></div>
+                            <div id="l-block-context" class="matrix-container"></div>
                         </div>
                         <div class="symbol">=</div>
                         <div id="l-new-matrix" class="matrix-container"></div>
@@ -118,42 +120,42 @@
                 <!-- Step 5: O_new update -->
                 <div class="calculation-step" id="o-new-calculation-step">
                     <p class="equation">
-                        <i>O</i><sub>new</sub> &longleftarrow; <span class="frac"><sup>(<i>l</i><sub>old</sub> &sdot; e<sup><i>m</i><sub>old</sub>-<i>m</i><sub>new</sub></sup> &sdot; <i>O</i><sub>old</sub>) + (e<sup><i>m</i><sub>block</sub>-<i>m</i><sub>new</sub></sup> &sdot; <i>O</i><sub>block</sub>)</sup><sub><i>l</i><sub>new</sub></sub></span>
+                        <span class="frac"><sup>(<i>l</i><sub>old</sub> &sdot; e<sup><i>m</i><sub>old</sub>-<i>m</i><sub>new</sub></sup> &sdot; <i>O</i><sub>old</sub>) + (e<sup><i>m</i><sub>block</sub>-<i>m</i><sub>new</sub></sup> &sdot; <i>O</i><sub>block</sub>)</sup><sub><i>l</i><sub>new</sub></sub></span> &longleftarrow; <i>O</i><sub>new</sub>
                     </p>
                     <div class="visual-equation">
-                        <div id="o-new-matrix" class="matrix-container"></div>
-                        <div class="symbol">&larr;</div>
                         <div class="visual-fraction">
                             <div class="numerator">
                                 <div class="term">
-                                    <div id="l-old-for-o-calc" class="matrix-container small"></div>
+                                    <div id="l-old-for-o-calc" class="matrix-container"></div>
                                     <span class="symbol">&sdot;</span>
                                     <span class="base-e">e</span>
                                     <div class="exponent-wrapper">
-                                        (<div id="m-old-for-o-calc" class="matrix-container small"></div>
+                                        (<div id="m-old-for-o-calc" class="matrix-container"></div>
                                         <span class="symbol">-</span>
-                                        <div id="m-new-for-o-calc" class="matrix-container small"></div>)
+                                        <div id="m-new-for-o-calc" class="matrix-container"></div>)
                                     </div>
                                     <span class="symbol">&sdot;</span>
-                                    <div id="o-old-matrix" class="matrix-container small"></div>
+                                    <div id="o-old-matrix" class="matrix-container"></div>
                                 </div>
                                 <div class="symbol">+</div>
                                 <div class="term">
                                     <span class="base-e">e</span>
                                     <div class="exponent-wrapper">
-                                        (<div id="m-block-for-o-calc" class="matrix-container small"></div>
+                                        (<div id="m-block-for-o-calc" class="matrix-container"></div>
                                         <span class="symbol">-</span>
-                                        <div id="m-new-for-o-calc-2" class="matrix-container small"></div>)
+                                        <div id="m-new-for-o-calc-2" class="matrix-container"></div>)
                                     </div>
                                     <span class="symbol">&sdot;</span>
-                                    <div id="o-block-for-o-calc" class="matrix-container small"></div>
+                                    <div id="o-block-for-o-calc" class="matrix-container"></div>
                                 </div>
                             </div>
                             <div class="fraction-line"></div>
                             <div class="denominator">
-                                <div id="l-new-for-o-calc" class="matrix-container small"></div>
+                                <div id="l-new-for-o-calc" class="matrix-container"></div>
                             </div>
                         </div>
+                        <div class="symbol">=</div>
+                        <div id="o-new-matrix" class="matrix-container"></div>
                     </div>
                 </div>
             </div>
