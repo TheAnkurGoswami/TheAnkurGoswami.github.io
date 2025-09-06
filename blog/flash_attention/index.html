@@ -39,36 +39,30 @@
                 </div>
                 <hr>
                 <h4>Block Calculations &amp; Global Updates</h4>
-                <!-- Step 2a: m_block derivation -->
+                <!-- Step 2a & 2b: m_block derivation and S-m calculation -->
                 <div class="computation-row">
                     <div id="s-block-for-m-calc" class="matrix-container"></div>
                     <div class="symbol-group"><span class="symbol">&rarr;</span><br>max(axis=1)</div>
                     <div id="m-block-result" class="matrix-container"></div>
-                </div>
-                <!-- Step 2b: S-m calculation -->
-                <div class="computation-row">
+                    <div class="separator"></div>
                     <div id="s-block-display" class="matrix-container"></div>
                     <div class="symbol">-</div>
                     <div id="m-block-display" class="matrix-container"></div>
                     <div class="symbol">=</div>
                     <div id="s-minus-m-matrix" class="matrix-container"></div>
                 </div>
-                <!-- Step 2c: P calculation -->
+                <!-- Step 2c & 2d: P and l_block derivation -->
                 <div class="computation-row">
                     <div class="symbol-group"><p><i>P</i> = e<sup><i>S</i><sub>block</sub> - <i>m</i><sub>block</sub></sup></p></div>
                     <div class="symbol">&rarr;</div>
                     <div id="p-matrix" class="matrix-container"></div>
-                </div>
-                <!-- Step 2d: l_block derivation -->
-                <div class="computation-row">
-                    <div id="p-matrix-for-l-calc" class="matrix-container"></div>
                     <div class="symbol-group"><span class="symbol">&rarr;</span><br>sum(axis=1)</div>
                     <div id="l-block-result" class="matrix-container"></div>
                 </div>
                 <hr>
                 <!-- Step 3a: m update -->
                 <div class="calculation-step">
-                    <p class="equation"><i>m</i><sub>new</sub> = max([<i>m</i><sub>old</sub>], [<i>m</i><sub>block</sub>])</p>
+                    <p class="equation"><i>m</i><sub>new</sub> = max(<i>m</i><sub>old</sub>, <i>m</i><sub>block</sub>)</p>
                     <div class="visual-equation">
                         <div class="term">
                             max(&nbsp;<div id="m-old-matrix" class="matrix-container"></div>,
@@ -120,7 +114,7 @@
                 <!-- Step 5: O_new update -->
                 <div class="calculation-step" id="o-new-calculation-step">
                     <p class="equation">
-                        <span class="frac"><sup>(<i>l</i><sub>old</sub> &sdot; e<sup><i>m</i><sub>old</sub>-<i>m</i><sub>new</sub></sup> &sdot; <i>O</i><sub>old</sub>) + (e<sup><i>m</i><sub>block</sub>-<i>m</i><sub>new</sub></sup> &sdot; <i>O</i><sub>block</sub>)</sup><sub><i>l</i><sub>new</sub></sub></span> &longleftarrow; <i>O</i><sub>new</sub>
+                        <span class="frac"><sup>(<i>l</i><sub>old</sub> &sdot; e<sup><i>m</i><sub>old</sub>-<i>m</i><sub>new</sub></sup> &sdot; <i>O</i><sub>old</sub>) + (e<sup><i>m</i><sub>block</sub>-<i>m</i><sub>new</sub></sup> &sdot; <i>O</i><sub>block</sub>)</sup><sub><i>l</i><sub>new</sub></sub></span> &longrightarrow; <i>O</i><sub>new</sub>
                     </p>
                     <div class="visual-equation">
                         <div class="visual-fraction">
