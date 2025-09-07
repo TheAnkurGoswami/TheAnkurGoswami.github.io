@@ -2,6 +2,6 @@
     {
         "title": "Flash Attention Visualization",
         "description": "An interactive visualization of the Flash Attention mechanism.",
-        "path": "blog/flash_attention/index.html"
+        "path": "blog/flash_attention/"
     }
 ]
