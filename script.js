@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!projectsContainer) {
         console.error('Projects container not found for rendering projects!');
     } else {
-        fetch('projects.json')
+        fetch('/projects.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!skillsGridContainer) {
         console.error('Skills grid container not found!');
     } else {
-        fetch('skills.json')
+        fetch('/skills.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!timelineContainer) {
         console.error('Work experience timeline container not found!');
     } else {
-        fetch('experience.json')
+        fetch('/experience.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch and display contributions
     const contributionsContainer = document.getElementById('contributions-container');
     if (contributionsContainer) {
-        fetch('contributions.json')
+        fetch('/contributions.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -165,6 +165,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Call animation initializer after a short delay to ensure DOM is likely populated
     setTimeout(initializeScrollAnimations, 500);
+
+    // Blog Loading Logic
+    const postsContainer = document.getElementById('posts-container');
+    if (postsContainer) {
+        fetch('/blog/manifest.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(posts => {
+                displayBlogPosts(posts, postsContainer);
+            })
+            .catch(error => {
+                console.error('Failed to fetch or parse blog/manifest.json:', error);
+                postsContainer.innerHTML = '<p>Error loading blog posts. Please check the console.</p>';
+            });
+    }
 
     // Add resize listener for skills cloud, debounced for performance
     let resizeTimeout;
@@ -540,5 +559,34 @@ function displayContributions(contributionsData, container) {
         itemDiv.appendChild(role);
 
         container.appendChild(itemDiv);
+    });
+}
+
+function displayBlogPosts(posts, container) {
+    container.innerHTML = ''; // Clear previous content
+
+    if (!posts || !Array.isArray(posts) || posts.length === 0) {
+        container.innerHTML = '<p>No blog posts to display at the moment.</p>';
+        return;
+    }
+
+    posts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.classList.add('post-item');
+        postElement.style.cursor = 'pointer';
+
+        const title = document.createElement('h3');
+        title.textContent = post.title;
+        postElement.appendChild(title);
+
+        const description = document.createElement('p');
+        description.textContent = post.description;
+        postElement.appendChild(description);
+
+        postElement.addEventListener('click', () => {
+            window.location.href = '/' + post.path;
+        });
+
+        container.appendChild(postElement);
     });
 }
