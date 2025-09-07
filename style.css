@@ -318,7 +318,7 @@ main {
 */
 
 /* Styling for new sections - Dark Theme */
-#projects, #about, #skills, #work-experience, #education, #contributions, #contact {
+#projects, #about, #skills, #work-experience, #education, #contributions, #contact, #blog-list {
     padding: 80px 20px; /* Increased top/bottom padding */
     margin-bottom: 20px;
     background-color: #212529; /* Dark background for sections */
@@ -328,9 +328,14 @@ main {
 }
 
 /* Headings within dark sections */
-#projects h2, #about h2, #skills h2, #work-experience h2, #education h2, #contributions h2, #contact h2,
+#projects h2, #about h2, #skills h2, #work-experience h2, #education h2, #contributions h2, #contact h2, #blog-list h2,
 #projects h3, #about h3, #skills h3, #work-experience h3, #education h3, #contributions h3, #contact h3 {
     color: #F8F9FA; /* Light color for headings in dark sections */
+}
+
+/* Specific override for blog post titles */
+#blog-list h3 {
+    color: #50FA7B; /* Accent green, matching hero designation */
 }
 
 /* Links within dark sections */
@@ -691,7 +696,7 @@ main {
 /* --- END TEMPORARY DEBUG STYLES --- */
 
 /*
---- Future Button Styles ---
+--- Future Button Styles --- */
 
 .button-primary {
   display: inline-block;
