@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Project Loading Logic
+    // --- Project Loading Logic ---
+    // Fetches project data from projects.json and renders it into the portfolio.
     const projectsContainer = document.getElementById('projects-container');
 
     if (!projectsContainer) {
@@ -21,7 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Skills Loading Logic
+    // --- Skills Loading Logic ---
+    // Fetches skill data from skills.json, displays them, and then positions them in a cloud.
     const skillsGridContainer = document.getElementById('skills-grid');
 
     if (!skillsGridContainer) {
@@ -47,7 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Work Experience Loading Logic
+    // --- Work Experience Loading Logic ---
+    // Fetches work experience data from experience.json and displays it in a timeline format.
     const timelineContainer = document.querySelector('#work-experience .timeline');
 
     if (!timelineContainer) {
@@ -69,7 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Fetch and display contributions
+    // --- Contributions Loading Logic ---
+    // Fetches open-source contribution data from contributions.json and displays it.
     const contributionsContainer = document.getElementById('contributions-container');
     if (contributionsContainer) {
         fetch('/contributions.json')
@@ -86,7 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Typing Animation Logic
+    // --- Typing Animation Logic ---
+    // Initializes the Typed.js animation for the hero section designation.
     const typedElement = document.getElementById('typing-designation');
 
     if (typedElement) {
@@ -106,7 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Typing designation element not found for animation.');
     }
 
-    // Sidebar Toggle Functionality
+    // --- Sidebar Toggle Functionality ---
+    // Handles the click event for the sidebar toggle button, expanding or collapsing the sidebar.
     const sidebar = document.getElementById('sidebar');
     const sidebarToggle = document.getElementById('sidebar-toggle');
 
@@ -124,7 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!sidebarToggle) console.error('Sidebar toggle button not found!');
     }
 
-    // Smooth scrolling for sidebar links & close sidebar on click
+    // --- Smooth Scrolling & Sidebar Link Logic ---
+    // Adds smooth scrolling to internal anchor links and closes the sidebar upon navigation.
     const sidebarLinks = document.querySelectorAll('#sidebar nav a');
 
     if (sidebarLinks.length > 0 && sidebar && sidebarToggle) { // Ensure sidebar and toggle exist for closing
@@ -163,10 +170,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sidebarLinks.length === 0) console.warn('No sidebar links found for smooth scroll/close functionality.');
     }
 
-    // Call animation initializer after a short delay to ensure DOM is likely populated
+    // --- Scroll Animation Initialization ---
+    // Calls the animation initializer after a short delay to ensure the DOM is populated
+    // with content from the fetch calls.
     setTimeout(initializeScrollAnimations, 500);
 
-    // Blog Loading Logic
+    // --- Blog Loading Logic ---
+    // Fetches the blog post manifest and displays the list of posts.
     const postsContainer = document.getElementById('posts-container');
     if (postsContainer) {
         fetch('/blog/manifest.json')
@@ -185,7 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Add resize listener for skills cloud, debounced for performance
+    // --- Resize Listener for Skills Cloud ---
+    // Repositions the skills in the cloud on window resize, with a debounce
+    // to prevent excessive calculations and improve performance.
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
@@ -194,6 +206,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // --- SKILLS CLOUD POSITIONING ---
+/**
+ * Positions skill items randomly within a container, attempting to avoid overlaps.
+ * This function calculates random positions for each '.skill-item' within the
+ * '#skills-grid' container. It tries a set number of times to find a spot that
+ * doesn't overlap with already placed items. If it fails, it places the item
+ * in the last attempted position.
+ */
 function positionSkillsInCloud() {
     const container = document.getElementById('skills-grid');
     if (!container) {
@@ -283,7 +302,11 @@ function positionSkillsInCloud() {
     });
 }
 
-
+/**
+ * Initializes the Intersection Observer to add 'is-visible' class to elements
+ * as they scroll into view. This is used for triggering scroll-based animations.
+ * It observes elements with the '.js-scroll-animate' class.
+ */
 function initializeScrollAnimations() {
     const animatedElements = document.querySelectorAll('.js-scroll-animate');
 
@@ -321,6 +344,14 @@ function initializeScrollAnimations() {
     }
 }
 
+/**
+ * Renders project cards into a specified container.
+ * It clears the container, then iterates through the project data to create
+ * and append project elements, including title, description, image, technologies,
+ * tags, and links.
+ * @param {Array<Object>} projectsData - An array of project objects to display.
+ * @param {HTMLElement} container - The DOM element to render the projects into.
+ */
 function displayProjects(projectsData, container) {
     container.innerHTML = ''; // Clear previous content
 
@@ -417,6 +448,13 @@ function displayProjects(projectsData, container) {
     });
 }
 
+/**
+ * Renders skill items into a specified container.
+ * It clears the container, then iterates through the skills data to create
+ * and append skill elements, each containing a logo and a name.
+ * @param {Array<Object>} skillsData - An array of skill objects to display.
+ * @param {HTMLElement} container - The DOM element to render the skills into.
+ */
 function displaySkills(skillsData, container) {
     container.innerHTML = ''; // Clear previous content
 
@@ -457,6 +495,14 @@ function displaySkills(skillsData, container) {
     // }
 }
 
+/**
+ * Renders work experience items into a timeline container.
+ * It clears the container, then iterates through the experience data to create
+ * and append timeline items, complete with dates, role, company, location,
+ * and detailed points. It also adds animation classes.
+ * @param {Array<Object>} experienceData - An array of experience objects.
+ * @param {HTMLElement} container - The DOM element for the timeline.
+ */
 function displayExperience(experienceData, container) {
     container.innerHTML = ''; // Clear previous hardcoded content
 
@@ -524,6 +570,14 @@ function displayExperience(experienceData, container) {
     });
 }
 
+/**
+ * Renders contribution items into a specified container.
+ * It clears the container and displays a list of contributions, each with a
+ * project name (linked if a URL is provided), description, and role.
+ * @param {Object} contributionsData - An object containing a list of contributions.
+ * @param {Array<Object>} contributionsData.contributions - Array of contribution objects.
+ * @param {HTMLElement} container - The DOM element to render the contributions into.
+ */
 function displayContributions(contributionsData, container) {
     container.innerHTML = ''; // Clear existing content
 
@@ -562,6 +616,13 @@ function displayContributions(contributionsData, container) {
     });
 }
 
+/**
+ * Renders blog post summaries into a specified container.
+ * It clears the container and creates a clickable element for each post,
+ * which navigates to the post's page on click.
+ * @param {Array<Object>} posts - An array of post objects from the manifest.
+ * @param {HTMLElement} container - The DOM element to render the post summaries into.
+ */
 function displayBlogPosts(posts, container) {
     container.innerHTML = ''; // Clear previous content
 

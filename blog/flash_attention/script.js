@@ -1,12 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Global State and Parameters ---
-    let q_proj, k_proj, v_proj, k_T_proj, max_logits, softmax_normalizers, output;
-    const block_size_q = 2;
-    const block_size_kv = 3;
-    let seq_len, d_model, n_blocks_q, n_blocks_kv, total_steps;
-    let current_step = -1;
+    // These variables hold the core data and state for the Flash Attention calculation.
+    let q_proj, k_proj, v_proj, k_T_proj, max_logits, softmax_normalizers, output; // Matrices
+    const block_size_q = 2; // Size of query blocks
+    const block_size_kv = 3; // Size of key/value blocks
+    let seq_len, d_model, n_blocks_q, n_blocks_kv, total_steps; // Dimensions and step counts
+    let current_step = -1; // Tracks the current step of the algorithm visualization.
 
-    // --- DOM Elements (The One True Final Set, For Real, This Time, No More, I Swear) ---
+    // --- DOM Element Caching ---
+    // Caching all necessary DOM elements upfront for performance.
     const resetBtn = document.getElementById('reset-btn');
     const nextStepBtn = document.getElementById('next-step-btn');
     const stepInfo = document.getElementById('step-info');
@@ -49,8 +51,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const oNewContainer = document.getElementById('o-new-matrix'); // Reused
     
     // --- Utility Functions ---
+    /**
+     * Transposes a 2D array (matrix).
+     * @param {Array<Array<number>>} matrix The matrix to transpose.
+     * @returns {Array<Array<number>>} The transposed matrix.
+     */
     const transpose = (matrix) => matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
 
+    /**
+     * Renders a matrix (2D array) as an HTML table within a given container.
+     * @param {HTMLElement} container - The DOM element to render the table into.
+     * @param {Array<Array<number>>} data - The matrix data to display.
+     * @param {string} title - The title to display above the matrix.
+     * @param {Array<number>|null} [highlightRow=null] - A tuple [start, end] to highlight rows.
+     * @param {Array<number>|null} [highlightCol=null] - A tuple [start, end] to highlight columns.
+     */
     const renderMatrix = (container, data, title, highlightRow = null, highlightCol = null) => {
         if (!container || !data) return;
         let table = '<table>';
@@ -69,6 +84,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Core Logic ---
+    /**
+     * Performs one step of the Flash Attention calculation and renders the results.
+     * This function calculates the logits, updates the running max logit (m),
+     * the softmax normalizer (l), and the output (O) for the current block
+     * of the query and key-value matrices. It then calls renderMatrix to display
+     * all intermediate and final results for the current step.
+     * @param {number} step - The current step in the overall calculation process.
+     */
     const calculateAndRender = (step) => {
         if (step >= total_steps) return;
 
@@ -201,6 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
         updateControls(step);
     };
     
+    /**
+     * Updates the UI controls (step counter, next/reset buttons).
+     * @param {number} step - The current step number.
+     */
     const updateControls = (step) => {
         const display_step = step + 1;
         stepInfo.textContent = `Step: ${display_step} / ${total_steps}`;
@@ -208,6 +235,11 @@ document.addEventListener('DOMContentLoaded', () => {
         resetBtn.disabled = step === -1;
     };
 
+    /**
+     * Resets the entire visualization to its initial state.
+     * It clears all global state variables (m, l, O), re-renders the initial
+     * matrices, clears all intermediate calculation displays, and resets the step counter.
+     */
     const reset = () => {
         current_step = -1;
         max_logits = new Array(seq_len).fill(0).map(() => [-Infinity]);
@@ -252,6 +284,12 @@ document.addEventListener('DOMContentLoaded', () => {
         updateControls(current_step);
     };
 
+    /**
+     * Initializes the application.
+     * Fetches the initial matrix data from 'data.json', sets up global parameters,
+     * attaches event listeners to the control buttons, and calls reset() to
+     * prepare the initial view.
+     */
     const init = async () => {
         const response = await fetch('data.json');
         const data = await response.json();
