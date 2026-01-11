@@ -333,6 +333,46 @@ main {
     color: #F8F9FA; /* Light color for headings in dark sections */
 }
 
+/* --- Blog Post Specific Styles --- */
+#blog-post {
+    font-family: 'Lora', serif;
+    line-height: 1.7;
+}
+
+#blog-post h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #50FA7B; /* Accent green */
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+#blog-post h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #CED4DA; /* Accent green */
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #495057;
+    padding-bottom: 0.5rem;
+}
+
+#blog-post p {
+    font-size: 1.2rem;
+    color: #CED4DA;
+}
+
+#blog-post a {
+    color: #50FA7B; /* Accent green */
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#blog-post a:hover {
+    color: #82fdd1;
+    text-decoration: underline;
+}
+
 /* Specific override for blog post titles */
 #blog-list h3 {
     color: #50FA7B; /* Accent green, matching hero designation */

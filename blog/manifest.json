@@ -7,6 +7,6 @@
     {
         "title": "Key-Value Caching",
         "description": "A deep dive into Key-Value Caching in transformers.",
-        "path": "blog/kv-caching/"
+        "path": "blog/kv_caching/"
     }
 ]
