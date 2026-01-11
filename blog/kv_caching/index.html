@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key-Value Caching</title>
+    <link rel="stylesheet" href="../../style.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <button id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <aside id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="../../">Home</a></li>
+                <li><a href="../">Blog</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main>
+        <section id="blog-post">
+            <h1 class="hero-name" style="text-align: center; margin-bottom: 2rem;">Key–Value Caching</h1>
+            <p>In standard attention, for an input sequence with \( n \) tokens,</p>
+            <p>$$
+            x = [x_1, x_2, \dots, x_n]
+            $$</p>
+            <p>we compute <strong>query</strong>, <strong>key</strong>, and <strong>value</strong> projections.</p>
+            <p>The query projection for each token \( x_i \) can be represented as \( q_i \), where:</p>
+            <p>$$
+            q_i \in \mathbb{R}^{1 \times d}
+            $$</p>
+            <p>Here, \( d \) is the model dimension.</p>
+            <p>For the full sequence:</p>
+            <p>$$
+            q = \langle q_1, q_2, \dots, q_n \rangle
+            $$</p>
+            <p>where \( \langle \cdot \rangle \) denotes concatenation.
+            Similarly,</p>
+            <p>$$
+            k = \langle k_1, k_2, \dots, k_n \rangle, \quad
+            v = \langle v_1, v_2, \dots, v_n \rangle
+            $$</p>
+            <p>For now, let’s work only with <strong>self-attention</strong>. We will build up to multi-head attention later.</p>
+            <hr>
+            <h2>Attention Computation</h2>
+            <p>To compute attention scores, we take the dot product between \( q \) and \( k \), and scale it by a factor of \( \frac{1}{\sqrt{d}} \):</p>
+            <p>$$
+            \text{attention_scores}
+            = \frac{q \cdot k^\top}{\sqrt{d}}
+            $$</p>
+            <ul>
+            <li><strong>Time Complexity:</strong> \( O(d \cdot n^2) \)</li>
+            <li><strong>Space Complexity:</strong> \( O(n^2) \)</li>
+            </ul>
+            <p>We then apply <strong>causal masking</strong> and <strong>softmax</strong> to generate normalized scores:</p>
+            <p>$$
+            \text{attention_scores}_{\text{norm}}
+            = \text{softmax}(\text{causal_mask}(\text{attention_scores}))
+            = g(\text{attention_scores})
+            $$</p>
+            <p>Finally, scaled dot-product attention (self-attention) is computed as:</p>
+            <p>$$
+            \text{output}
+            = \text{attention_scores}_{\text{norm}} \cdot v
+            $$</p>
+            <p>So far, everything is standard.</p>
+            <hr>
+            <h2>Autoregressive Generation</h2>
+            <p>Since this is an autoregressive task, the model predicts the <strong>next token</strong>.</p>
+            <p>Given an input sequence of \( n \) tokens, we generate the \( (n+1) \)-th token:</p>
+            <p>$$
+            x_{n+1} = M(x) = M([x_1, x_2, \dots, x_n])
+            $$</p>
+            <p>To keep generating further tokens, we feed the output back into the model:</p>
+            <p>$$
+            x_{n+2} = M([x_1, x_2, \dots, x_n, x_{n+1}])
+            $$</p>
+            <p>and so on.</p>
+            <hr>
+            <h2>Recomputing Projections</h2>
+            <p>To generate the \( (n+2) \)-th token, we again compute query, key, and value projections:</p>
+            <p>$$
+            q' = \langle q_1, q_2, \dots, q_n, q_{n+1} \rangle
+            $$</p>
+            <p>$$
+            k' = \langle k_1, k_2, \dots, k_n, k_{n+1} \rangle
+            $$</p>
+            <p>$$
+            v' = \langle v_1, v_2, \dots, v_n, v_{n+1} \rangle
+            $$</p>
+            <p>We then recompute self-attention using these projections.</p>
+            <p>First, we compute attention scores:</p>
+            <p>$$
+            q' \cdot k'^\top
+            $$</p>
+            <p>But in doing so, <strong>most of the computations are repeated</strong>. Only the computations involving the new token differ.</p>
+            <hr>
+            <h2>Identifying Overlapping Computation</h2>
+            <p>Let’s assume a cache (for simplicity) as a Python-like structure:</p>
+            <pre><code>cache = []
+            </code></pre>
+            <p>If you look closely at the attention score matrix:</p>
+            <ul>
+            <li>Only the <strong>last row</strong> and <strong>last column</strong> are new</li>
+            <li>The remaining \( n \times n \) block is exactly the same as before</li>
+            </ul>
+            <p>The last row is computed as:</p>
+            <p>$$
+            q_{n+1} \cdot k'^\top \in \mathbb{R}^{1 \times (n+1)}
+            $$</p>
+            <p>The last column (except the last overlapping element) is computed as:</p>
+            <p>$$
+            q \cdot k_{n+1}^\top \in \mathbb{R}^{n \times 1}
+            $$</p>
+            <p>To compute the new attention score matrix, we might consider storing:</p>
+            <ul>
+            <li>Old attention scores ( \(q \cdot k^\top\) ) — the overlapping \( n \times n \) block</li>
+            <li>Key projections — needed to compute the last row</li>
+            <li>Query projections — needed to compute the last column</li>
+            </ul>
+            <p>So the cache looks like:</p>
+            <pre><code>cache = [
+              attention_scores,
+              key_proj,
+              query_proj
+            ]
+            </code></pre>
+            <hr>
+            <h2>Effect of Causal Masking</h2>
+            <p>When we apply causal masking, we ignore the <strong>upper triangle</strong> (above the main diagonal).</p>
+            <p>After applying the causal mask, we ultimately <strong>ignore the last column</strong>.</p>
+            <p>So even if the last column is not computed, <strong>it is totally fine</strong>.</p>
+            <p>This means caching query projections is not required at all.</p>
+            <p>The cache now becomes:</p>
+            <pre><code>cache = [
+              attention_scores,
+              key_proj
+            ]
+            </code></pre>
+            <hr>
+            <h2>Incorporating Value Projections</h2>
+            <p>Next, to compute the final attention output, we multiply the normalized attention scores with the value projection:</p>
+            <p>$$
+            g(\text{new_attention_scores}) \cdot v'
+            = g(\text{new_attention_scores}) \cdot \langle v, v_{n+1} \rangle
+            $$</p>
+            <p>Because of causal masking:</p>
+            <ul>
+            <li>The first \( n \) rows of the final attention output remain the same</li>
+            <li>The only new computation is the <strong>last row</strong></li>
+            </ul>
+            <p>The \( (n+1) \)-th row is computed as:</p>
+            <p>$$
+            \text{attn_scores}_{n+1} \cdot v'
+            $$</p>
+            <p>This shows that <strong>value projections are also important</strong> and must be cached.</p>
+            <p>So now the cache becomes:</p>
+            <pre><code>cache = [
+              attention_scores,
+              key_proj,
+              value_proj
+            ]
+            </code></pre>
+            <hr>
+            <h2>Final Observation</h2>
+            <p>One key detail here:</p>
+            <p>To generate the \( (n+2) \)-th token, we <strong>do not need the first \( n \) rows</strong> of the final attention output.</p>
+            <p>All the information required — the attention of all previous tokens on the \( (n+1) \)-th token — is embedded in the <strong>last row</strong>.</p>
+            <p>This means we do <strong>not</strong> need to cache attention scores either.</p>
+            <hr>
+            <h2>Final Cache: KV Cache</h2>
+            <p>So finally, the cache contains <strong>only</strong>:</p>
+            <pre><code>cache = [
+              key_proj,
+              value_proj
+            ]
+            </code></pre>
+            <p>And that is <strong>Key–Value (KV) Caching</strong>.</p>
+        </section>
+    </main>
+    <script src="../../script.js"></script>
+</body>
+</html>
