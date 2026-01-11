@@ -304,6 +304,18 @@ main {
     text-decoration: underline;
 }
 
+#blog-post ul {
+    list-style-type: disc;
+    padding-left: 40px;
+    color: #CED4DA;
+}
+
+#blog-post li {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    padding-left: 10px;
+}
+
 /* Old .project a styling, now handled by .project-links a or section-wide link styles */
 /*
 .project a {

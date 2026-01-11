@@ -24,34 +24,33 @@
     </aside>
     <main>
         <section id="blog-post">
-            <h1>Key–Value Caching</h1>
+            <h1>Key-Value Caching</h1>
             <p>In standard attention, for an input sequence with \( n \) tokens,</p>
             <p>$$
             x = [x_1, x_2, \dots, x_n]
             $$</p>
-            <p>we compute <strong>query</strong>, <strong>key</strong>, and <strong>value</strong> projections.</p>
-            <p>The query projection for each token \( x_i \) can be represented as \( q_i \), where:</p>
+            <p>we compute <strong>query</strong>, <strong>key</strong>, and <strong>value</strong> projections. 
+              The query, key and value projections for each token \( x_i \) can be represented as \( q_i \), \( k_i \), \( v_i \) respectively,
+              where:</p>
             <p>$$
-            q_i \in \mathbb{R}^{1 \times d}
+            q_i, k_i, v_i \in \mathbb{R}^{1 \times d}
             $$</p>
             <p>Here, \( d \) is the model dimension.</p>
             <p>For the full sequence:</p>
             <p>$$
-            q = \langle q_1, q_2, \dots, q_n \rangle
+            Q = \langle q_1, q_2, \dots, q_n \rangle, \quad
+            K = \langle k_1, k_2, \dots, k_n \rangle, \quad
+            V = \langle v_1, v_2, \dots, v_n \rangle
             $$</p>
-            <p>where \( \langle \cdot \rangle \) denotes concatenation.
-            Similarly,</p>
-            <p>$$
-            k = \langle k_1, k_2, \dots, k_n \rangle, \quad
-            v = \langle v_1, v_2, \dots, v_n \rangle
-            $$</p>
-            <p>For now, let’s work only with <strong>self-attention</strong>. We will build up to multi-head attention later.</p>
+            <p>where \( \langle \cdot \rangle \) denotes concatenation.</p>
+
+            <p>For now, let's work only with <strong>self-attention</strong>. We will build up to multi-head attention later.</p>
             <hr>
             <h2>Attention Computation</h2>
-            <p>To compute attention scores, we take the dot product between \( q \) and \( k \), and scale it by a factor of \( \frac{1}{\sqrt{d}} \):</p>
+            <p>To compute attention scores, \( S \), we do:</p>
             <p>$$
-            \text{attention_scores}
-            = \frac{q \cdot k^\top}{\sqrt{d}}
+            \text{\( S \)}
+            = \frac{Q \cdot K^\top}{\sqrt{d}}
             $$</p>
             <ul>
             <li><strong>Time Complexity:</strong> \( O(d \cdot n^2) \)</li>
@@ -59,20 +58,20 @@
             </ul>
             <p>We then apply <strong>causal masking</strong> and <strong>softmax</strong> to generate normalized scores:</p>
             <p>$$
-            \text{attention_scores}_{\text{norm}}
-            = \text{softmax}(\text{causal_mask}(\text{attention_scores}))
-            = g(\text{attention_scores})
+            \text{\( S \)}_{\text{norm}}
+            = \text{\( softmax \)}(\text{\( S \) + mask})
+            = g(\text{\( S \)})
             $$</p>
             <p>Finally, scaled dot-product attention (self-attention) is computed as:</p>
             <p>$$
             \text{output}
-            = \text{attention_scores}_{\text{norm}} \cdot v
+            = \text{\( S \)}_{\text{norm}} \cdot V
             $$</p>
             <p>So far, everything is standard.</p>
             <hr>
             <h2>Autoregressive Generation</h2>
             <p>Since this is an autoregressive task, the model predicts the <strong>next token</strong>.</p>
-            <p>Given an input sequence of \( n \) tokens, we generate the \( (n+1) \)-th token:</p>
+            <p>Given an input sequence of \( n \) tokens, we generate the \( (n+1)^{th} \) token:</p>
             <p>$$
             x_{n+1} = M(x) = M([x_1, x_2, \dots, x_n])
             $$</p>
@@ -83,25 +82,25 @@
             <p>and so on.</p>
             <hr>
             <h2>Recomputing Projections</h2>
-            <p>To generate the \( (n+2) \)-th token, we again compute query, key, and value projections:</p>
+            <p>To generate the \( (n+2)^{th} \) token, we again compute query, key, and value projections:</p>
             <p>$$
-            q' = \langle q_1, q_2, \dots, q_n, q_{n+1} \rangle
+            Q' = \langle q_1, q_2, \dots, q_n, q_{n+1} \rangle
             $$</p>
             <p>$$
-            k' = \langle k_1, k_2, \dots, k_n, k_{n+1} \rangle
+            K' = \langle k_1, k_2, \dots, k_n, k_{n+1} \rangle
             $$</p>
             <p>$$
-            v' = \langle v_1, v_2, \dots, v_n, v_{n+1} \rangle
+            V' = \langle v_1, v_2, \dots, v_n, v_{n+1} \rangle
             $$</p>
             <p>We then recompute self-attention using these projections.</p>
             <p>First, we compute attention scores:</p>
             <p>$$
-            q' \cdot k'^\top
+            Q' \cdot K'^\top
             $$</p>
             <p>But in doing so, <strong>most of the computations are repeated</strong>. Only the computations involving the new token differ.</p>
             <hr>
             <h2>Identifying Overlapping Computation</h2>
-            <p>Let’s assume a cache (for simplicity) as a Python-like structure:</p>
+            <p>Let's assume a cache (for simplicity) as a Python-like structure:</p>
             <pre><code>cache = []
             </code></pre>
             <p>If you look closely at the attention score matrix:</p>
@@ -111,15 +110,15 @@
             </ul>
             <p>The last row is computed as:</p>
             <p>$$
-            q_{n+1} \cdot k'^\top \in \mathbb{R}^{1 \times (n+1)}
+            q_{n+1} \cdot K'^\top \in \mathbb{R}^{1 \times (n+1)}
             $$</p>
             <p>The last column (except the last overlapping element) is computed as:</p>
             <p>$$
-            q \cdot k_{n+1}^\top \in \mathbb{R}^{n \times 1}
+            Q \cdot k_{n+1}^\top \in \mathbb{R}^{n \times 1}
             $$</p>
             <p>To compute the new attention score matrix, we might consider storing:</p>
             <ul>
-            <li>Old attention scores ( \(q \cdot k^\top\) ) — the overlapping \( n \times n \) block</li>
+            <li>Old attention scores ( \(Q \cdot K^\top\) ) — the overlapping \( n \times n \) block</li>
             <li>Key projections — needed to compute the last row</li>
             <li>Query projections — needed to compute the last column</li>
             </ul>
