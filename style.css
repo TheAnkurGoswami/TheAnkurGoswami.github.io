@@ -907,3 +907,57 @@ main {
         transform: translateX(0) !important;
     }
 }
+
+
+.s-cell {
+  border: 1px solid #495057;
+  padding: 0.6rem;
+  text-align: center;
+  color: #CED4DA;
+}
+
+/* Valid / unmasked entries */
+.s-ok {
+  background: transparent;
+}
+
+/* Masked entries */
+.s-mask {
+  background: rgba(52, 58, 64, 0.6);
+  color: #6c757d;
+  font-style: italic;
+  opacity: 0.6;
+}
+
+/* Old cached computation: n × n */
+.s-old {
+  background: rgba(80, 250, 123, 0.15);
+  border-color: rgba(80, 250, 123, 0.35);
+}
+
+/* New column: n × 1 */
+.s-new-col {
+  background: rgba(189, 147, 249, 0.18);
+  border-color: rgba(189, 147, 249, 0.4);
+}
+
+/* New row: 1 × (n+1) */
+.s-new-row {
+  background: rgba(255, 184, 108, 0.18);
+  border-color: rgba(255, 184, 108, 0.4);
+}
+
+/* Overlapping element */
+.s-overlap {
+  background: rgba(255, 85, 85, 0.25);
+  border-color: rgba(255, 85, 85, 0.6);
+  font-weight: 600;
+}
+
+code.language-python {
+  background: #212529;
+  color: #e6edf3;
+  padding: 0.2rem 0.35rem;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
