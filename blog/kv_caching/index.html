@@ -7,7 +7,19 @@
     <title>Key-Value Caching</title>
     <link rel="stylesheet" href="../../style.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['$$', '$$']]
+            },
+            startup: {
+                typeset: false   // 🔴 disable auto-typeset
+            }
+        };
+    </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 </head>
 
 <body>
@@ -46,6 +58,7 @@
                 V = \langle v_1, v_2, \dots, v_n \rangle
                 $$</p>
             <p>where \( \langle \cdot \rangle \) denotes concatenation. Below is an example:</p>
+
             <div class="matrices"
                 style="display:flex;gap:1.5rem;align-items:flex-start;margin-top:1rem;flex-wrap:wrap;">
                 <div class="tokens" style="min-width:80px;">
@@ -339,7 +352,8 @@
             <p>According to the <a href="https://arxiv.org/abs/1706.03762">original</a> attention paper, we scale the
                 dot products by \( \sqrt{d} \).<br>
                 Thus, $$ S = \frac{Q \cdot K^\top}{\sqrt{d}} $$
-                But for simplicity, we will omit the scaling factor here since it does not affect the caching argument in this explanation and assume \( S = Q \cdot
+                But for simplicity, we will omit the scaling factor here since it does not affect the caching argument
+                in this explanation and assume \( S = Q \cdot
                 K^\top\)
             </p>
 
@@ -347,7 +361,8 @@
                 <li><strong>Time Complexity:</strong> \( O(d \cdot n^2) \)</li>
                 <li><strong>Space Complexity:</strong> \( O(n^2) \)</li>
             </ul>
-            <p>We then apply <strong>causal masking</strong> and <strong>softmax</strong> to generate normalized scores(aka activation weights), \( A \):
+            <p>We then apply <strong>causal masking</strong> and <strong>softmax</strong> to generate normalized
+                scores(aka activation weights), \( A \):
             </p>
             <p>$$
                 \text{\( S \) + mask} =
@@ -359,218 +374,42 @@
             </p>
 
             <p>The raw attention score matrix \( S \in \mathbb{R}^{5 \times 5} \), for our example is:</p>
-
-            <div style="
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                gap:1.5rem;
-                margin:3rem 0;
-                flex-wrap:wrap;
-                ">
+            <div class="matrix-equation">
 
                 <!-- S -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <caption style="caption-side: bottom; margin-top:0.6rem; font-size:1rem; color:#ADB5BD;">
-                            $$ \text{\( S \)} $$
-                        </caption>
-                        <tbody>
-                            <tr>
-                                <td class="s-cell s-ok">s₁₁</td>
-                                <td class="s-cell s-ok">s₁₂</td>
-                                <td class="s-cell s-ok">s₁₃</td>
-                                <td class="s-cell s-ok">s₁₄</td>
-                                <td class="s-cell s-ok">s₁₅</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">s₂₁</td>
-                                <td class="s-cell s-ok">s₂₂</td>
-                                <td class="s-cell s-ok">s₂₃</td>
-                                <td class="s-cell s-ok">s₂₄</td>
-                                <td class="s-cell s-ok">s₂₅</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">s₃₁</td>
-                                <td class="s-cell s-ok">s₃₂</td>
-                                <td class="s-cell s-ok">s₃₃</td>
-                                <td class="s-cell s-ok">s₃₄</td>
-                                <td class="s-cell s-ok">s₃₅</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">s₄₁</td>
-                                <td class="s-cell s-ok">s₄₂</td>
-                                <td class="s-cell s-ok">s₄₃</td>
-                                <td class="s-cell s-ok">s₄₄</td>
-                                <td class="s-cell s-ok">s₄₅</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">s₅₁</td>
-                                <td class="s-cell s-ok">s₅₂</td>
-                                <td class="s-cell s-ok">s₅₃</td>
-                                <td class="s-cell s-ok">s₅₄</td>
-                                <td class="s-cell s-ok">s₅₅</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="matrix-wrap" data-matrix="S">
+                    <div class="matrix-caption">\( S \)</div>
                 </div>
 
                 <!-- + -->
-                <div style="font-size:2rem;color:#CED4DA;">+</div>
+                <div class="matrix-op">+</div>
 
                 <!-- mask -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <caption style="caption-side: bottom; margin-top:0.6rem; font-size:1rem; color:#ADB5BD;">
-                            mask
-                        </caption>
-                        <tbody>
-                            <tr>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-mask">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="matrix-wrap" data-matrix="mask">
+                    <div class="matrix-caption">mask</div>
                 </div>
 
                 <!-- = -->
-                <div style="font-size:2rem;color:#CED4DA;">=</div>
+                <div class="matrix-op">=</div>
 
                 <!-- S_masked -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <caption style="caption-side: bottom; margin-top:0.6rem; font-size:1rem; color:#ADB5BD;">
-                            $$ \text{\( S \)}_{\text{masked}} $$
-                        </caption>
-                        <tbody>
-                            <tr>
-                                <td class="s-cell s-ok">s₁₁</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">s₂₁</td>
-                                <td class="s-cell s-ok">s₂₂</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">s₃₁</td>
-                                <td class="s-cell s-ok">s₃₂</td>
-                                <td class="s-cell s-ok">s₃₃</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">s₄₁</td>
-                                <td class="s-cell s-ok">s₄₂</td>
-                                <td class="s-cell s-ok">s₄₃</td>
-                                <td class="s-cell s-ok">s₄₄</td>
-                                <td class="s-cell s-mask">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">s₅₁</td>
-                                <td class="s-cell s-ok">s₅₂</td>
-                                <td class="s-cell s-ok">s₅₃</td>
-                                <td class="s-cell s-ok">s₅₄</td>
-                                <td class="s-cell s-ok">s₅₅</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="matrix-wrap" data-matrix="S_masked">
+                    <div class="matrix-caption">\( S_{\text{masked}} \)</div>
                 </div>
 
             </div>
 
-
-
-
-            <div style="
-            margin:3rem 0;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            gap:1rem;
-            ">
+            <div class="matrix-equation">
 
                 <!-- Left label -->
-                <div style="font-size:1.2rem;color:#CED4DA;">
-                    $$ A = $$
+                <div class="matrix-op" style="font-size:1.2rem;">
+                    \( A = \)
                 </div>
 
-                <!-- Matrix -->
-                <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                    <tbody>
-                        <tr>
-                            <td class="s-cell s-ok">A₁₁</td>
-                            <td class="s-cell s-mask">0</td>
-                            <td class="s-cell s-mask">0</td>
-                            <td class="s-cell s-mask">0</td>
-                            <td class="s-cell s-mask">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok">A₂₁</td>
-                            <td class="s-cell s-ok">A₂₂</td>
-                            <td class="s-cell s-mask">0</td>
-                            <td class="s-cell s-mask">0</td>
-                            <td class="s-cell s-mask">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok">A₃₁</td>
-                            <td class="s-cell s-ok">A₃₂</td>
-                            <td class="s-cell s-ok">A₃₃</td>
-                            <td class="s-cell s-mask">0</td>
-                            <td class="s-cell s-mask">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok">A₄₁</td>
-                            <td class="s-cell s-ok">A₄₂</td>
-                            <td class="s-cell s-ok">A₄₃</td>
-                            <td class="s-cell s-ok">A₄₄</td>
-                            <td class="s-cell s-mask">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok">A₅₁</td>
-                            <td class="s-cell s-ok">A₅₂</td>
-                            <td class="s-cell s-ok">A₅₃</td>
-                            <td class="s-cell s-ok">A₅₄</td>
-                            <td class="s-cell s-ok">A₅₅</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <!-- Matrix A -->
+                <div class="matrix-wrap" data-matrix="A">
+                    <!-- no caption needed here -->
+                </div>
 
             </div>
 
@@ -578,146 +417,37 @@
                 $$ \text{O} =
                 \text{\( A \)} \cdot V $$
             </p>
-            <div style="
-            margin:3rem 0;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            gap:1.2rem;
-            flex-wrap:wrap;
-            ">
+            <div class="matrix-equation">
 
-
-                <!-- A_norm -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <caption style="caption-side: bottom; margin-top:0.6rem; font-size:1rem; color:#ADB5BD;">
-                            $$ A $$
-                        </caption>
-                        <tbody>
-                            <tr>
-                                <td class="s-cell s-ok">A₁₁</td>
-                                <td class="s-cell s-mask">0</td>
-                                <td class="s-cell s-mask">0</td>
-                                <td class="s-cell s-mask">0</td>
-                                <td class="s-cell s-mask">0</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">A₂₁</td>
-                                <td class="s-cell s-ok">A₂₂</td>
-                                <td class="s-cell s-mask">0</td>
-                                <td class="s-cell s-mask">0</td>
-                                <td class="s-cell s-mask">0</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">A₃₁</td>
-                                <td class="s-cell s-ok">A₃₂</td>
-                                <td class="s-cell s-ok">A₃₃</td>
-                                <td class="s-cell s-mask">0</td>
-                                <td class="s-cell s-mask">0</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">A₄₁</td>
-                                <td class="s-cell s-ok">A₄₂</td>
-                                <td class="s-cell s-ok">A₄₃</td>
-                                <td class="s-cell s-ok">A₄₄</td>
-                                <td class="s-cell s-mask">0</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">A₅₁</td>
-                                <td class="s-cell s-ok">A₅₂</td>
-                                <td class="s-cell s-ok">A₅₃</td>
-                                <td class="s-cell s-ok">A₅₄</td>
-                                <td class="s-cell s-ok">A₅₅</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- A -->
+                <div class="matrix-wrap" data-matrix="A">
+                    <div class="matrix-caption">\( A \)</div>
                 </div>
 
                 <!-- · -->
-                <div style="font-size:2rem;color:#CED4DA;">·</div>
+                <div class="matrix-op">·</div>
 
                 <!-- V -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <caption style="caption-side: bottom; margin-top:0.6rem; font-size:1rem; color:#ADB5BD;">
-                            $$ V $$
-                        </caption>
-                        <tbody>
-                            <tr>
-                                <td class="s-cell s-ok">V₁₁</td>
-                                <td class="s-cell s-ok">V₁₂</td>
-                                <td class="s-cell s-ok">V₁₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">V₂₁</td>
-                                <td class="s-cell s-ok">V₂₂</td>
-                                <td class="s-cell s-ok">V₂₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">V₃₁</td>
-                                <td class="s-cell s-ok">V₃₂</td>
-                                <td class="s-cell s-ok">V₃₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">V₄₁</td>
-                                <td class="s-cell s-ok">V₄₂</td>
-                                <td class="s-cell s-ok">V₄₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">V₅₁</td>
-                                <td class="s-cell s-ok">V₅₂</td>
-                                <td class="s-cell s-ok">V₅₃</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="matrix-wrap" data-matrix="V">
+                    <div class="matrix-caption">\( V \)</div>
                 </div>
 
-                <div style="font-size:1.2rem;color:#CED4DA;">
-                    $$ = $$
+                <!-- = -->
+                <div class="matrix-op" style="font-size:1.2rem;">
+                    \( = \)
                 </div>
 
                 <!-- O -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <caption style="caption-side: bottom; margin-top:0.6rem; font-size:1rem; color:#ADB5BD;">
-                            $$ O $$
-                        </caption>
-                        <tbody>
-                            <tr>
-                                <td class="s-cell s-ok">O₁₁</td>
-                                <td class="s-cell s-ok">O₁₂</td>
-                                <td class="s-cell s-ok">O₁₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">O₂₁</td>
-                                <td class="s-cell s-ok">O₂₂</td>
-                                <td class="s-cell s-ok">O₂₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">O₃₁</td>
-                                <td class="s-cell s-ok">O₃₂</td>
-                                <td class="s-cell s-ok">O₃₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">O₄₁</td>
-                                <td class="s-cell s-ok">O₄₂</td>
-                                <td class="s-cell s-ok">O₄₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">O₅₁</td>
-                                <td class="s-cell s-ok">O₅₂</td>
-                                <td class="s-cell s-ok">O₅₃</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="matrix-wrap" data-matrix="O">
+                    <div class="matrix-caption">\( O \)</div>
                 </div>
             </div>
 
             <p>So far, everything is standard.</p>
             <hr>
             <h2>Autoregressive Generation</h2>
-            <p>Since this is an autoregressive task, the model predicts the <strong>next token</strong>. Given an input sequence of \( n \) tokens, we generate the \( (n+1)^{th} \) token:</p>
+            <p>Since this is an autoregressive task, the model predicts the <strong>next token</strong>. Given an input
+                sequence of \( n \) tokens, we generate the \( (n+1)^{th} \) token:</p>
             <p>$$
                 x_{n+1} = M(x) = M([x_1, x_2, \dots, x_n])
                 $$</p>
@@ -1073,73 +803,15 @@
             </div>
             <p>
                 and,
-            <div style="
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            gap:1.5rem;
-            margin:3rem 0;
-            flex-wrap:wrap;
-            ">
+            <div class="matrix-equation">
                 <!-- Left label -->
-                <div style="font-size:1.2rem;color:#CED4DA;">
-                    $$ S' = Q'K'^\top = $$
+                <div class="matrix-op" style="font-size:1.2rem;">
+                    \( S' = Q'K'^{\top} = \)
                 </div>
 
-                <!-- S -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <tbody>
-                            <tr>
-                                <td class="s-cell s-ok">s₁₁</td>
-                                <td class="s-cell s-ok">s₁₂</td>
-                                <td class="s-cell s-ok">s₁₃</td>
-                                <td class="s-cell s-ok">s₁₄</td>
-                                <td class="s-cell s-ok">s₁₅</td>
-                                <td class="s-cell s-ok">s₁₆</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">s₂₁</td>
-                                <td class="s-cell s-ok">s₂₂</td>
-                                <td class="s-cell s-ok">s₂₃</td>
-                                <td class="s-cell s-ok">s₂₄</td>
-                                <td class="s-cell s-ok">s₂₅</td>
-                                <td class="s-cell s-ok">s₂₆</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">s₃₁</td>
-                                <td class="s-cell s-ok">s₃₂</td>
-                                <td class="s-cell s-ok">s₃₃</td>
-                                <td class="s-cell s-ok">s₃₄</td>
-                                <td class="s-cell s-ok">s₃₅</td>
-                                <td class="s-cell s-ok">s₃₆</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">s₄₁</td>
-                                <td class="s-cell s-ok">s₄₂</td>
-                                <td class="s-cell s-ok">s₄₃</td>
-                                <td class="s-cell s-ok">s₄₄</td>
-                                <td class="s-cell s-ok">s₄₅</td>
-                                <td class="s-cell s-ok">s₄₆</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">s₅₁</td>
-                                <td class="s-cell s-ok">s₅₂</td>
-                                <td class="s-cell s-ok">s₅₃</td>
-                                <td class="s-cell s-ok">s₅₄</td>
-                                <td class="s-cell s-ok">s₅₅</td>
-                                <td class="s-cell s-ok">s₅₆</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">s₆₁</td>
-                                <td class="s-cell s-ok">s₆₂</td>
-                                <td class="s-cell s-ok">s₆₃</td>
-                                <td class="s-cell s-ok">s₆₄</td>
-                                <td class="s-cell s-ok">s₆₅</td>
-                                <td class="s-cell s-ok">s₆₆</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- S' matrix -->
+                <div class="matrix-wrap" data-matrix="S_prime">
+                    <!-- no caption needed -->
                 </div>
 
             </div>
@@ -1189,85 +861,16 @@
             <p>$$
                 C = Q \cdot k_{n+1}^\top
                 $$</p>
-            <div style="
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                gap:1.5rem;
-                margin:3rem 0;
-                flex-wrap:wrap;
-                ">
+            <div class="matrix-equation">
 
                 <!-- Left label -->
-                <div style="font-size:1.2rem;color:#CED4DA;">
-                    $$ S' = $$
+                <div class="matrix-op" style="font-size:1.2rem;">
+                    \( S' = \)
                 </div>
 
-                <!-- S' matrix -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <tbody>
-                            <!-- Row 1 -->
-                            <tr>
-                                <td class="s-cell s-old">s₁₁</td>
-                                <td class="s-cell s-old">s₁₂</td>
-                                <td class="s-cell s-old">s₁₃</td>
-                                <td class="s-cell s-old">s₁₄</td>
-                                <td class="s-cell s-old">s₁₅</td>
-                                <td class="s-cell s-new-col">s₁₆</td>
-                            </tr>
-
-                            <!-- Row 2 -->
-                            <tr>
-                                <td class="s-cell s-old">s₂₁</td>
-                                <td class="s-cell s-old">s₂₂</td>
-                                <td class="s-cell s-old">s₂₃</td>
-                                <td class="s-cell s-old">s₂₄</td>
-                                <td class="s-cell s-old">s₂₅</td>
-                                <td class="s-cell s-new-col">s₂₆</td>
-                            </tr>
-
-                            <!-- Row 3 -->
-                            <tr>
-                                <td class="s-cell s-old">s₃₁</td>
-                                <td class="s-cell s-old">s₃₂</td>
-                                <td class="s-cell s-old">s₃₃</td>
-                                <td class="s-cell s-old">s₃₄</td>
-                                <td class="s-cell s-old">s₃₅</td>
-                                <td class="s-cell s-new-col">s₃₆</td>
-                            </tr>
-
-                            <!-- Row 4 -->
-                            <tr>
-                                <td class="s-cell s-old">s₄₁</td>
-                                <td class="s-cell s-old">s₄₂</td>
-                                <td class="s-cell s-old">s₄₃</td>
-                                <td class="s-cell s-old">s₄₄</td>
-                                <td class="s-cell s-old">s₄₅</td>
-                                <td class="s-cell s-new-col">s₄₆</td>
-                            </tr>
-
-                            <!-- Row 5 -->
-                            <tr>
-                                <td class="s-cell s-old">s₅₁</td>
-                                <td class="s-cell s-old">s₅₂</td>
-                                <td class="s-cell s-old">s₅₃</td>
-                                <td class="s-cell s-old">s₅₄</td>
-                                <td class="s-cell s-old">s₅₅</td>
-                                <td class="s-cell s-new-col">s₅₆</td>
-                            </tr>
-
-                            <!-- Row 6 (new row) -->
-                            <tr>
-                                <td class="s-cell s-new-row">s₆₁</td>
-                                <td class="s-cell s-new-row">s₆₂</td>
-                                <td class="s-cell s-new-row">s₆₃</td>
-                                <td class="s-cell s-new-row">s₆₄</td>
-                                <td class="s-cell s-new-row">s₆₅</td>
-                                <td class="s-cell s-new-row">s₆₆</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- S' matrix with overlap highlighting -->
+                <div class="matrix-wrap" data-matrix="S_prime_overlap">
+                    <!-- no caption -->
                 </div>
 
             </div>
@@ -1289,267 +892,43 @@
             <h2>Effect of Causal Masking & Softmax</h2>
             <p>When we apply causal masking, we ignore the <strong>upper triangle</strong> (above the main diagonal).
                 After applying the causal mask, we ultimately <strong>ignore the last column</strong>.</p>
-            <div style="
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                gap:1.5rem;
-                margin:3rem 0;
-                flex-wrap:wrap;
-                ">
+            <div class="matrix-equation">
 
-                <!-- ================= S' ================= -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <caption style="caption-side: bottom; margin-top:0.6rem; font-size:1rem; color:#ADB5BD;">
-                            S'
-                        </caption>
-                        <tbody>
-                            <tr>
-                                <td class="s-cell s-ok s-old">s₁₁</td>
-                                <td class="s-cell s-ok s-old">s₁₂</td>
-                                <td class="s-cell s-ok s-old">s₁₃</td>
-                                <td class="s-cell s-ok s-old">s₁₄</td>
-                                <td class="s-cell s-ok s-old">s₁₅</td>
-                                <td class="s-cell s-ok s-new-col">s₁₆</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok s-old">s₂₁</td>
-                                <td class="s-cell s-ok s-old">s₂₂</td>
-                                <td class="s-cell s-ok s-old">s₂₃</td>
-                                <td class="s-cell s-ok s-old">s₂₄</td>
-                                <td class="s-cell s-ok s-old">s₂₅</td>
-                                <td class="s-cell s-ok s-new-col">s₂₆</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok s-old">s₃₁</td>
-                                <td class="s-cell s-ok s-old">s₃₂</td>
-                                <td class="s-cell s-ok s-old">s₃₃</td>
-                                <td class="s-cell s-ok s-old">s₃₄</td>
-                                <td class="s-cell s-ok s-old">s₃₅</td>
-                                <td class="s-cell s-ok s-new-col">s₃₆</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok s-old">s₄₁</td>
-                                <td class="s-cell s-ok s-old">s₄₂</td>
-                                <td class="s-cell s-ok s-old">s₄₃</td>
-                                <td class="s-cell s-ok s-old">s₄₄</td>
-                                <td class="s-cell s-ok s-old">s₄₅</td>
-                                <td class="s-cell s-ok s-new-col">s₄₆</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok s-old">s₅₁</td>
-                                <td class="s-cell s-ok s-old">s₅₂</td>
-                                <td class="s-cell s-ok s-old">s₅₃</td>
-                                <td class="s-cell s-ok s-old">s₅₄</td>
-                                <td class="s-cell s-ok s-old">s₅₅</td>
-                                <td class="s-cell s-ok s-new-col">s₅₆</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok s-new-row">s₆₁</td>
-                                <td class="s-cell s-ok s-new-row">s₆₂</td>
-                                <td class="s-cell s-ok s-new-row">s₆₃</td>
-                                <td class="s-cell s-ok s-new-row">s₆₄</td>
-                                <td class="s-cell s-ok s-new-row">s₆₅</td>
-                                <td class="s-cell s-ok s-new-row">s₆₆</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- S' -->
+                <div class="matrix-wrap" data-matrix="S_prime_overlap">
+                    <div class="matrix-caption">\( S' \)</div>
                 </div>
 
                 <!-- + -->
-                <div style="font-size:2rem;color:#CED4DA;">+</div>
+                <div class="matrix-op">+</div>
 
-                <!-- ================= mask' ================= -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <caption style="caption-side: bottom; margin-top:0.6rem; font-size:1rem; color:#ADB5BD;">
-                            mask'
-                        </caption>
-                        <tbody>
-                            <tr>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-mask">−∞</td>
-                                <td class="s-cell s-mask">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-mask">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                                <td class="s-cell s-ok">0</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- mask' -->
+                <div class="matrix-wrap" data-matrix="mask_prime">
+                    <div class="matrix-caption">mask'</div>
                 </div>
 
                 <!-- = -->
-                <div style="font-size:2rem;color:#CED4DA;">=</div>
+                <div class="matrix-op">=</div>
 
-                <!-- ================= S'_masked ================= -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <caption style="caption-side: bottom; margin-top:0.6rem; font-size:1rem; color:#ADB5BD;">
-                            $$ \text{\( S' \)}_{\text{masked}} $$
-                        </caption>
-                        <tbody>
-                            <tr>
-                                <td class="s-cell s-ok s-old">s₁₁</td>
-                                <td class="s-cell s-mask s-old">−∞</td>
-                                <td class="s-cell s-mask s-old">−∞</td>
-                                <td class="s-cell s-mask s-old">−∞</td>
-                                <td class="s-cell s-mask s-old">−∞</td>
-                                <td class="s-cell s-mask s-new-col">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok s-old">s₂₁</td>
-                                <td class="s-cell s-ok s-old">s₂₂</td>
-                                <td class="s-cell s-mask s-old">−∞</td>
-                                <td class="s-cell s-mask s-old">−∞</td>
-                                <td class="s-cell s-mask s-old">−∞</td>
-                                <td class="s-cell s-mask s-new-col">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok s-old">s₃₁</td>
-                                <td class="s-cell s-ok s-old">s₃₂</td>
-                                <td class="s-cell s-ok s-old">s₃₃</td>
-                                <td class="s-cell s-mask s-old">−∞</td>
-                                <td class="s-cell s-mask s-old">−∞</td>
-                                <td class="s-cell s-mask s-new-col">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok s-old">s₄₁</td>
-                                <td class="s-cell s-ok s-old">s₄₂</td>
-                                <td class="s-cell s-ok s-old">s₄₃</td>
-                                <td class="s-cell s-ok s-old">s₄₄</td>
-                                <td class="s-cell s-mask s-old">−∞</td>
-                                <td class="s-cell s-mask s-new-col">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok s-old">s₅₁</td>
-                                <td class="s-cell s-ok s-old">s₅₂</td>
-                                <td class="s-cell s-ok s-old">s₅₃</td>
-                                <td class="s-cell s-ok s-old">s₅₄</td>
-                                <td class="s-cell s-ok s-old">s₅₅</td>
-                                <td class="s-cell s-mask s-new-col">−∞</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok s-new-row">s₆₁</td>
-                                <td class="s-cell s-ok s-new-row">s₆₂</td>
-                                <td class="s-cell s-ok s-new-row">s₆₃</td>
-                                <td class="s-cell s-ok s-new-row">s₆₄</td>
-                                <td class="s-cell s-ok s-new-row">s₆₅</td>
-                                <td class="s-cell s-ok s-new-row">s₆₆</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- S'_masked -->
+                <div class="matrix-wrap" data-matrix="S_prime_masked">
+                    <div class="matrix-caption">\( S'_{\text{masked}} \)</div>
                 </div>
 
             </div>
             <p>This becomes even more evident when we apply row-wise softmax. The column \( C \) becomes a zero column
                 vector.</p>
-            <div style="
-            margin:3rem 0;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            gap:1rem;
-            ">
+            <div class="matrix-equation">
 
                 <!-- Left label -->
-                <div style="font-size:1.2rem;color:#CED4DA;">
-                    $$ A' = $$
+                <div class="matrix-op" style="font-size:1.2rem;">
+                    \( A' = \)
                 </div>
 
-                <!-- Matrix -->
-                <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                    <tbody>
-                        <tr>
-                            <td class="s-cell s-ok s-old">A₁₁</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-new-col">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok s-old">A₂₁</td>
-                            <td class="s-cell s-ok s-old">A₂₂</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-new-col">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok s-old">A₃₁</td>
-                            <td class="s-cell s-ok s-old">A₃₂</td>
-                            <td class="s-cell s-ok s-old">A₃₃</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-new-col">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok s-old">A₄₁</td>
-                            <td class="s-cell s-ok s-old">A₄₂</td>
-                            <td class="s-cell s-ok s-old">A₄₃</td>
-                            <td class="s-cell s-ok s-old">A₄₄</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-new-col">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok s-old">A₅₁</td>
-                            <td class="s-cell s-ok s-old">A₅₂</td>
-                            <td class="s-cell s-ok s-old">A₅₃</td>
-                            <td class="s-cell s-ok s-old">A₅₄</td>
-                            <td class="s-cell s-ok s-old">A₅₅</td>
-                            <td class="s-cell s-mask s-new-col">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok s-new-row">A₆₁</td>
-                            <td class="s-cell s-ok s-new-row">A₆₂</td>
-                            <td class="s-cell s-ok s-new-row">A₆₃</td>
-                            <td class="s-cell s-ok s-new-row">A₆₄</td>
-                            <td class="s-cell s-ok s-new-row">A₆₅</td>
-                            <td class="s-cell s-ok s-new-row">A₆₆</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <!-- A' matrix -->
+                <div class="matrix-wrap" data-matrix="A_prime">
+                    <!-- no caption -->
+                </div>
 
             </div>
             <p>So even if the last column \( C \) is not computed, <strong>it is totally fine</strong>. This means
@@ -1567,164 +946,31 @@
                 projection:</p>
             <p>$$
                 \text{O'} =
-                    \text{\( A' \)} \cdot V'
+                \text{\( A' \)} \cdot V'
                 $$</p>
-                <div style="
-                margin:3rem 0;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                gap:1.2rem;
-                flex-wrap:wrap;
-                ">
+            <div class="matrix-equation">
 
-
-                <!-- A'_norm -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <caption style="caption-side: bottom; margin-top:0.6rem; font-size:1rem; color:#ADB5BD;">
-                            $$ \text{\( A' \)} $$
-                        </caption>
-                    <tbody>
-                        <tr>
-                            <td class="s-cell s-ok s-old">A₁₁</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-new-col">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok s-old">A₂₁</td>
-                            <td class="s-cell s-ok s-old">A₂₂</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-new-col">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok s-old">A₃₁</td>
-                            <td class="s-cell s-ok s-old">A₃₂</td>
-                            <td class="s-cell s-ok s-old">A₃₃</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-new-col">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok s-old">A₄₁</td>
-                            <td class="s-cell s-ok s-old">A₄₂</td>
-                            <td class="s-cell s-ok s-old">A₄₃</td>
-                            <td class="s-cell s-ok s-old">A₄₄</td>
-                            <td class="s-cell s-mask s-old">0</td>
-                            <td class="s-cell s-mask s-new-col">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok s-old">A₅₁</td>
-                            <td class="s-cell s-ok s-old">A₅₂</td>
-                            <td class="s-cell s-ok s-old">A₅₃</td>
-                            <td class="s-cell s-ok s-old">A₅₄</td>
-                            <td class="s-cell s-ok s-old">A₅₅</td>
-                            <td class="s-cell s-mask s-new-col">0</td>
-                        </tr>
-                        <tr>
-                            <td class="s-cell s-ok s-new-row">A₆₁</td>
-                            <td class="s-cell s-ok s-new-row">A₆₂</td>
-                            <td class="s-cell s-ok s-new-row">A₆₃</td>
-                            <td class="s-cell s-ok s-new-row">A₆₄</td>
-                            <td class="s-cell s-ok s-new-row">A₆₅</td>
-                            <td class="s-cell s-ok s-new-row">A₆₆</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <!-- A' -->
+                <div class="matrix-wrap" data-matrix="A_prime">
+                    <div class="matrix-caption">\( A' \)</div>
                 </div>
 
                 <!-- · -->
-                <div style="font-size:2rem;color:#CED4DA;">·</div>
+                <div class="matrix-op">·</div>
 
-                <!-- V -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <caption style="caption-side: bottom; margin-top:0.6rem; font-size:1rem; color:#ADB5BD;">
-                            $$ V' $$
-                        </caption>
-                        <tbody>
-                            <tr>
-                                <td class="s-cell s-ok">V₁₁</td>
-                                <td class="s-cell s-ok">V₁₂</td>
-                                <td class="s-cell s-ok">V₁₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">V₂₁</td>
-                                <td class="s-cell s-ok">V₂₂</td>
-                                <td class="s-cell s-ok">V₂₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">V₃₁</td>
-                                <td class="s-cell s-ok">V₃₂</td>
-                                <td class="s-cell s-ok">V₃₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">V₄₁</td>
-                                <td class="s-cell s-ok">V₄₂</td>
-                                <td class="s-cell s-ok">V₄₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">V₅₁</td>
-                                <td class="s-cell s-ok">V₅₂</td>
-                                <td class="s-cell s-ok">V₅₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">V₆₁</td>
-                                <td class="s-cell s-ok">V₆₂</td>
-                                <td class="s-cell s-ok">V₆₃</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- V' -->
+                <div class="matrix-wrap" data-matrix="V_prime">
+                    <div class="matrix-caption">\( V' \)</div>
                 </div>
 
-                <div style="font-size:1.2rem;color:#CED4DA;">
-                    $$ = $$
+                <!-- = -->
+                <div class="matrix-op" style="font-size:1.2rem;">
+                    \( = \)
                 </div>
 
-                <!-- O -->
-                <div>
-                    <table style="border-collapse:collapse;font-size:1.1rem;color:#CED4DA;">
-                        <caption style="caption-side: bottom; margin-top:0.6rem; font-size:1rem; color:#ADB5BD;">
-                            $$ O' $$
-                        </caption>
-                        <tbody>
-                            <tr>
-                                <td class="s-cell s-ok">O'₁₁</td>
-                                <td class="s-cell s-ok">O'₁₂</td>
-                                <td class="s-cell s-ok">O'₁₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">O'₂₁</td>
-                                <td class="s-cell s-ok">O'₂₂</td>
-                                <td class="s-cell s-ok">O'₂₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">O'₃₁</td>
-                                <td class="s-cell s-ok">O'₃₂</td>
-                                <td class="s-cell s-ok">O'₃₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">O'₄₁</td>
-                                <td class="s-cell s-ok">O'₄₂</td>
-                                <td class="s-cell s-ok">O'₄₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">O'₅₁</td>
-                                <td class="s-cell s-ok">O'₅₂</td>
-                                <td class="s-cell s-ok">O'₅₃</td>
-                            </tr>
-                            <tr>
-                                <td class="s-cell s-ok">O'₆₁</td>
-                                <td class="s-cell s-ok">O'₆₂</td>
-                                <td class="s-cell s-ok">O'₆₃</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- O' -->
+                <div class="matrix-wrap" data-matrix="O_prime">
+                    <div class="matrix-caption">\( O' \)</div>
                 </div>
             </div>
             <p>Because of causal masking(zero column vector):</p>
@@ -1748,8 +994,10 @@
             <hr>
             <h2>Final Observation</h2>
             <p>One key detail here:</p>
-            <p>To generate the \( (n+2)^{th} \) token, we <strong>do not need the first \( n \) rows</strong> of the final
-                attention output. All the information required — the attention of all previous tokens on the \( (n+1)^{th} \) token — is
+            <p>To generate the \( (n+2)^{th} \) token, we <strong>do not need the first \( n \) rows</strong> of the
+                final
+                attention output. All the information required — the attention of all previous tokens on the \(
+                (n+1)^{th} \) token — is
                 embedded in the <strong>last row</strong>.</p>
             <p>This means we do <strong>not</strong> need to cache attention scores either.</p>
             <hr>
@@ -1764,6 +1012,27 @@
         </section>
     </main>
     <script src="../../script.js"></script>
+    <script type="module">
+        import { matrices } from "./matrices.js";
+        import { renderMatrix } from "./renderMatrix.js";
+
+        function renderAllMatrices() {
+            document.querySelectorAll("[data-matrix]").forEach(el => {
+                const key = el.dataset.matrix;
+                if (!matrices[key]) {
+                    console.error(`Matrix "${key}" not defined`);
+                    return;
+                }
+                renderMatrix(el, matrices[key]);
+            });
+        }
+
+        // 🔴 WAIT for MathJax to be fully ready
+        window.MathJax.startup.promise.then(() => {
+            renderAllMatrices();
+            MathJax.typesetPromise();
+        });
+    </script>
 </body>
 
 </html>

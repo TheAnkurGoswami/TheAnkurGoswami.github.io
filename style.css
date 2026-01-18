@@ -961,3 +961,38 @@ code.language-python {
   border-radius: 4px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
+
+.matrix-equation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 3rem 0;
+  flex-wrap: wrap;
+}
+
+.matrix-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.matrix-wrap table {
+  border-collapse: collapse;
+  font-size: 1.1rem;
+  color: #CED4DA;
+  display: inline-table; /* IMPORTANT */
+}
+
+.matrix-caption {
+  margin-top: 0.6rem;
+  font-size: 1rem;
+  color: #ADB5BD;
+}
+
+.matrix-op {
+  font-size: 2rem;
+  color: #CED4DA;
+  line-height: 1;
+}
+
