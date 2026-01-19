@@ -85,3 +85,58 @@ code.language-python {
     color: #CED4DA;
     line-height: 1;
 }
+
+hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(173, 181, 189, 0.4),
+    transparent
+  );
+  margin: 3.5rem 0;
+}
+#blog-post h2 {
+  margin-top: 4rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 0px;
+}
+
+#blog-post h3 {
+  margin-top: 2.5rem;
+  /* margin-bottom: 0.8rem; */
+}
+
+
+#blog-post p {
+  margin: 0.9rem 0;
+  line-height: 1.7;
+}
+
+#blog-post ul {
+  margin: 1.2rem 0 1.5rem 1.2rem;
+}
+
+#blog-post li {
+  margin: 0.45rem 0;
+}
+
+.math-block {
+  margin: 1.4rem 0;
+}
+
+.s-old-inline {
+  color: rgb(80, 250, 123);
+  font-weight: 500;
+}
+
+.s-new-row-inline {
+  color: rgb(255, 184, 108);
+  font-weight: 500;
+}
+
+.s-new-col-inline {
+  color: rgb(189, 147, 249);
+  font-weight: 500;
+}

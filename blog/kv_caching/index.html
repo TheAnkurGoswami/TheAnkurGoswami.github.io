@@ -877,9 +877,9 @@
             </div>
             <p>To compute the new attention score matrix, we might consider storing:</p>
             <ul>
-                <li>Old attention scores ( \(Q \cdot K^\top\) ) — the overlapping \( n \times n \) block, \( S \)</li>
-                <li>Key projections — needed to compute the last row, \( R \)</li>
-                <li>Query projections — needed to compute the last column, \( C \)</li>
+                <li>Old attention scores ( \(Q \cdot K^\top\) ) — the overlapping \( n \times n \) block, <span class="s-old-inline">\( S \)</span></li>
+                <li>Key projections — needed to compute the last row, <span class="s-new-row-inline">\( R \)</span></li>
+                <li>Query projections — needed to compute the last column, <span class="s-new-col-inline">\( C \)</span></li>
             </ul>
             <p>So the cache looks like:</p>
             <pre><code class="language-python">
