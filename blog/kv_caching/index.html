@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Key-Value Caching</title>
-<link rel="stylesheet" href="../../style.css">
-<link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="./style.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script>
         window.MathJax = {
@@ -820,12 +820,11 @@
             <hr>
             <h2>Identifying Overlapping Computation</h2>
             <p>Let's assume a cache (for simplicity) as a Python-like structure:</p>
-            <pre><code>cache = {}
-            </code></pre>
+            <pre><code>cache = {}</code></pre>
             <p>If you look closely at the attention score matrix:</p>
             <ul>
-                <li>Only the <strong>last row</strong> and <strong>last column</strong> are new</li>
-                <li>The remaining \( n \times n \) block is exactly the same as before</li>
+                <li>Only the <strong>last row</strong> and <strong>last column</strong> are new.</li>
+                <li>The remaining \( n \times n \) block is exactly the same as before.</li>
             </ul>
             <p>$$
                 \begin{bmatrix}
@@ -857,7 +856,7 @@
             <p>$$
                 R = q \cdot K'^\top
                 $$</p>
-            <p>The last column (except the last overlapping element), \( C \in \mathbb{R}^{n \times 1} \) is computed
+            <p>The last column except the last overlapping element (\( S_{66} \) ), \( C \in \mathbb{R}^{n \times 1} \) is computed
                 as:</p>
             <p>$$
                 C = Q \cdot k_{n+1}^\top
@@ -882,13 +881,11 @@
                 <li>Query projections — needed to compute the last column, <span class="s-new-col-inline">\( C \)</span></li>
             </ul>
             <p>So the cache looks like:</p>
-            <pre><code class="language-python">
-            cache = {
-                "attention_scores": S,
-                "query_proj": Q,
-                "key_proj": K,
-            }
-            </code></pre>
+            <pre><code class="language-python">cache = {
+    "attention_scores": S,
+    "query_proj": Q,
+    "key_proj": K,
+}</code></pre>
             <hr>
             <h2>Effect of Causal Masking & Softmax</h2>
             <p>When we apply causal masking, we ignore the <strong>upper triangle</strong> (above the main diagonal).
@@ -934,11 +931,10 @@
             </div>
             <p>So even if the last column \( C \) is not computed, <strong>it is totally fine</strong>. This means
                 caching query projections is not required at all. The cache now becomes:</p>
-            <pre><code>cache = {
-                "attention_scores": S,
-                "key_proj": K,
-            }
-            </code></pre>
+<pre><code>cache = {
+    "attention_scores": S,
+    "key_proj": K,
+}</code></pre>
 
 
             <hr>
@@ -979,19 +975,17 @@
                 <li>The first \( n \) rows of the final attention output remain the same.</li>
                 <li>The only new computation is the <strong>last row</strong>.</li>
             </ul>
-            <p>The \( (n+1)^{th} \) row is computed as:</p>
+            <p>The \( (n+1)^{th} \) row can be computed as:</p>
             <p>$$
                 \text{\( A' \)}_{\text{n+1}} \cdot V'
                 $$</p>
             <p>This shows that <strong>value projections are also important</strong> and must be cached.</p>
             <p>So now the cache becomes:</p>
-            <pre><code class="language-python">
-            cache = {
-              "attention_scores": S,
-              "key_proj": K,
-              "value_proj": V,
-            }
-            </code></pre>
+            <pre><code class="language-python">cache = {
+    "attention_scores": S,
+    "key_proj": K,
+    "value_proj": V,
+}</code></pre>
             <hr>
             <h2>Final Observation</h2>
             <p>One key detail here:</p>
@@ -1000,16 +994,95 @@
                 attention output. All the information required — the attention of all previous tokens on the \(
                 (n+1)^{th} \) token — is
                 embedded in the <strong>last row</strong>.</p>
-            <p>This means we do <strong>not</strong> need to cache attention scores either.</p>
-            <hr>
-            <h2>Final Cache: KV Cache</h2>
-            <p>So finally, the cache contains <strong>only</strong>:</p>
-            <pre><code>cache = [
-              key_proj,
-              value_proj
-            ]
-            </code></pre>
-            <p>And that is <strong>Key–Value (KV) Caching</strong>.</p>
+            <p>This means we do <strong>not</strong> need to cache attention scores either.
+
+            <!-- <h2>Why Discarding Past Hidden States Does Not Lose Information</h2>
+
+            <p>
+                At first glance, it may seem counterintuitive that during decoding we keep
+                <strong>only the hidden state of the current token</strong>, while discarding
+                the hidden states of all previous tokens.
+                Intuitively, it feels like we are “throwing away” information.
+            </p>
+
+            <p>
+                This works because a transformer stores information in
+                <strong>two complementary ways</strong>:
+            </p>
+
+            <h3>1. Information compressed into the current hidden state</h3>
+
+            <p>
+                Before decoding moves forward, the current token attends to
+                <strong>all previous tokens</strong> through self-attention at every layer.
+                As a result, the hidden state of the current token is not local—it is a learned,
+                compressed summary of the entire prefix.
+            </p>
+
+            <p>
+                Through multiple layers of attention and MLP transformations, information from
+                earlier tokens is repeatedly mixed, transformed, and distilled into the
+                representation of the current token. Once this compression happens,
+                the earlier hidden states are no longer needed.
+            </p>
+
+            <h3>2. Explicit memory stored in the KV cache</h3>
+
+            <p>
+                At the same time, transformers maintain an explicit memory in the form of cached
+                <strong>keys and values</strong> at every layer.
+                These cached tensors allow future tokens to directly attend to any earlier token,
+                even though their hidden states are no longer computed or stored.
+            </p>
+
+            <p>
+                Together, this means:
+            </p>
+
+            <ul>
+                <li>
+                    The <strong>current hidden state</strong> carries a semantic summary of the
+                    entire prefix.
+                </li>
+                <li>
+                    The <strong>KV cache</strong> preserves token-level access to the full history.
+                </li>
+            </ul>
+
+            <p>
+                Once a token has contributed to both:
+            </p>
+
+            <ul>
+                <li>the compressed representation (hidden state), and</li>
+                <li>the explicit memory (KV cache),</li>
+            </ul>
+
+            <p>
+                its hidden state is never read again by future computations.
+            </p>
+
+            <p>
+                This is why decoding only requires:
+            </p>
+
+            <ul>
+                <li>the hidden state of the most recent token, and</li>
+                <li>the cached keys and values from previous tokens.</li>
+            </ul>
+
+            <p>
+                No information is lost—only redundant computation is avoided.
+            </p>
+
+            <hr> -->
+            So finally, the cache contains <strong>only</strong>:</p>
+            <pre><code>cache = {
+    "key_proj": K,
+    "value_proj": V,
+}</code></pre>
+            <p>And that is <strong><i>Key-Value (KV) Caching</i></strong>.</p>
+            
         </section>
     </main>
     <script src="../../script.js"></script>

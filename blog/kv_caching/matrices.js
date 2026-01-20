@@ -135,7 +135,7 @@ export const matrices = {
     O_prime: {
         rows: 6,
         cols: 3,
-        cell: (i, j) => `\\( O'_{${i + 1}${j + 1}} \\)`,
+        cell: (i, j) => `\\( O_{${i + 1}${j + 1}} \\)`,
         class: () => "s-cell s-ok"
     },
 
