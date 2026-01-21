@@ -304,6 +304,18 @@ main {
     text-decoration: underline;
 }
 
+#blog-post ul {
+    list-style-type: disc;
+    padding-left: 40px;
+    color: #CED4DA;
+}
+
+#blog-post li {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    padding-left: 10px;
+}
+
 /* Old .project a styling, now handled by .project-links a or section-wide link styles */
 /*
 .project a {
@@ -331,6 +343,46 @@ main {
 #projects h2, #about h2, #skills h2, #work-experience h2, #education h2, #contributions h2, #contact h2, #blog-list h2,
 #projects h3, #about h3, #skills h3, #work-experience h3, #education h3, #contributions h3, #contact h3 {
     color: #F8F9FA; /* Light color for headings in dark sections */
+}
+
+/* --- Blog Post Specific Styles --- */
+#blog-post {
+    font-family: 'Lora', serif;
+    line-height: 1.7;
+}
+
+#blog-post h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #50FA7B; /* Accent green */
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+#blog-post h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #CED4DA; /* Accent green */
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #495057;
+    padding-bottom: 0.5rem;
+}
+
+#blog-post p {
+    font-size: 1.2rem;
+    color: #CED4DA;
+}
+
+#blog-post a {
+    color: #50FA7B; /* Accent green */
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#blog-post a:hover {
+    color: #82fdd1;
+    text-decoration: underline;
 }
 
 /* Specific override for blog post titles */
