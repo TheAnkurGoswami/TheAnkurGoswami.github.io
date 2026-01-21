@@ -140,6 +140,11 @@ hr {
   color: rgb(189, 147, 249);
   font-weight: 500;
 }
+
+.new-token {
+  color: rgb(214, 195, 18);
+  font-weight: 500;
+}
 pre {
   background: #11141d;           /* deep neutral */
   color: #e5e7eb;
