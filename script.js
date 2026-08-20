@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!projectsContainer) {
         console.error('Projects container not found for rendering projects!');
     } else {
-        fetch('/projects.json')
+        fetch('/projects.json', { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!skillsGridContainer) {
         console.error('Skills grid container not found!');
     } else {
-        fetch('/skills.json')
+        fetch('/skills.json', { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!timelineContainer) {
         console.error('Work experience timeline container not found!');
     } else {
-        fetch('/experience.json')
+        fetch('/experience.json', { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetches open-source contribution data from contributions.json and displays it.
     const contributionsContainer = document.getElementById('contributions-container');
     if (contributionsContainer) {
-        fetch('/contributions.json')
+        fetch('/contributions.json', { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetches the blog post manifest and displays the list of posts.
     const postsContainer = document.getElementById('posts-container');
     if (postsContainer) {
-        fetch('/blog/manifest.json')
+        fetch('/blog/manifest.json', { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
