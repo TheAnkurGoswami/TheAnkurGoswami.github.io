@@ -511,62 +511,69 @@ function displayExperience(experienceData, container) {
         return;
     }
 
-    experienceData.forEach((exp, index) => { // Added index here
-        const item = document.createElement('div');
-        item.classList.add('timeline-item');
-        item.classList.add('js-scroll-animate'); // ADDED - base animation class
+    experienceData.forEach(exp => {
+        const entry = document.createElement('div');
+        entry.classList.add('timeline-entry', 'js-scroll-animate', 'slide-from-bottom');
 
-        // ADDED - directional animation class
-        if (index % 2 === 0) { // 0, 2, 4... are effectively :nth-child(odd) -> slide from left
-            item.classList.add('slide-from-left');
-        } else { // 1, 3, 5... are effectively :nth-child(even) -> slide from right
-            item.classList.add('slide-from-right');
-        }
+        const dot = document.createElement('span');
+        dot.classList.add('timeline-dot');
+        entry.appendChild(dot);
+
+        const meta = document.createElement('div');
+        meta.classList.add('timeline-meta');
+
+        const company = document.createElement('p');
+        company.classList.add('timeline-company');
+        company.textContent = exp.company || 'N/A';
+        meta.appendChild(company);
+
+        const role = document.createElement('p');
+        role.classList.add('timeline-role');
+        role.textContent = exp.role || 'N/A';
+        meta.appendChild(role);
 
         const dates = document.createElement('p');
         dates.classList.add('timeline-dates');
-        dates.textContent = `${exp.startDate} – ${exp.endDate}`;
-        item.appendChild(dates);
+        dates.textContent = `${exp.startDate} — ${exp.endDate}`;
+        meta.appendChild(dates);
 
-        const marker = document.createElement('div');
-        marker.classList.add('timeline-marker');
-        item.appendChild(marker);
+        entry.appendChild(meta);
 
-        const content = document.createElement('div');
-        content.classList.add('timeline-content');
-
-        const heading = document.createElement('h3');
-        heading.classList.add('timeline-company');
-        // Ensure all parts of the heading are defined before creating text content
-        const role = exp.role || 'N/A';
-        const company = exp.company || 'N/A';
-        const location = exp.location || 'N/A';
-        heading.textContent = `${role}, ${company}, ${location}`;
-        content.appendChild(heading);
+        const body = document.createElement('div');
+        body.classList.add('timeline-body');
 
         if (exp.details && exp.details.length > 0) {
-            const detailsDiv = document.createElement('div');
-            detailsDiv.classList.add('timeline-details');
+            const projects = document.createElement('div');
+            projects.classList.add('timeline-projects');
             exp.details.forEach(detail => {
+                const project = document.createElement('div');
+
                 if (detail.title) {
-                    const detailTitle = document.createElement('h4');
-                    detailTitle.textContent = detail.title;
-                    detailsDiv.appendChild(detailTitle);
+                    const title = document.createElement('p');
+                    title.classList.add('timeline-project-title');
+                    title.textContent = detail.title;
+                    project.appendChild(title);
                 }
-                if (detail.points && detail.points.length > 0) {
-                    const pointsUl = document.createElement('ul');
-                    detail.points.forEach(pointText => {
-                        const pointLi = document.createElement('li');
-                        pointLi.textContent = pointText;
-                        pointsUl.appendChild(pointLi);
-                    });
-                    detailsDiv.appendChild(pointsUl);
+
+                if (detail.description) {
+                    const desc = document.createElement('p');
+                    desc.classList.add('timeline-project-desc');
+                    desc.textContent = detail.description;
+                    project.appendChild(desc);
                 }
+
+                projects.appendChild(project);
             });
-            content.appendChild(detailsDiv);
+            body.appendChild(projects);
+        } else if (exp.summary) {
+            const highlight = document.createElement('p');
+            highlight.classList.add('timeline-highlight');
+            highlight.textContent = exp.summary;
+            body.appendChild(highlight);
         }
-        item.appendChild(content);
-        container.appendChild(item);
+
+        entry.appendChild(body);
+        container.appendChild(entry);
     });
 }
 

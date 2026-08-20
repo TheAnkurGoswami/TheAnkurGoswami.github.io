@@ -5,7 +5,20 @@
     "location": "India",
     "startDate": "Aug 2024",
     "endDate": "Present",
-    "details": []
+    "details": [
+      {
+        "title": "Agentic AI — Travel & Expense Compliance",
+        "description": "Multi-agent compliance system with specialized agents (classification, policy enforcement, reconciliation, anomaly detection) on a multi-GPU vLLM cluster on AWS SageMaker."
+      },
+      {
+        "title": "Language Modeling — Support Ticket Insights",
+        "description": "Modular multi-stage LLM pipeline over enterprise support data (topic modeling, sentiment reasoning, temporal summarization); lifted GPU utilization from ~25% to over 90%."
+      },
+      {
+        "title": "Computer Vision — Roof Attribute Recognition",
+        "description": "Led a team of 4 on an aerial imagery project, delivering a fine-tuned YOLOv8/v10 ensemble (~87% precision) and a SWIN Transformer (~93% accuracy) to production."
+      }
+    ]
   },
   {
     "company": "Aidetic",
@@ -16,35 +29,19 @@
     "details": [
       {
         "title": "Vivian Chatbot",
-        "points": [
-          "Crafted a chatbot trained on company documents using Langchain, LLMs, and ChromaDB.",
-          "Developed a custom agent for parsing web pages linked within the documents.",
-          "Integrated Django websockets to stream tokens in real-time, enabling responsive interactions."
-        ]
+        "description": "Company-knowledge chatbot built with LangChain and ChromaDB, streaming tokens in real time over Django WebSockets."
       },
       {
         "title": "Invoice & Contract QA System",
-        "points": [
-          "Built a customizable end-to-end RAG system using Computer Vision for invoice and contract parsing.",
-          "Used Sentence Transformers for retrieval and LLMs with prompt engineering for accurate responses.",
-          "Achieved ~95% accuracy on invoices and 85% on contracts.",
-          "Implemented round-robin queuing with RabbitMQ and PostgreSQL for efficient request handling.",
-          "Decomposed the system into microservices for modularity and scalability."
-        ]
+        "description": "End-to-end RAG pipeline combining CV-based document parsing with Sentence Transformer retrieval — 95% / 85% accuracy."
       },
       {
         "title": "Social Media RAG System POC",
-        "points": [
-          "Built a RAG system for social media using Langchain and Neo4j for analytics on user profiles and posts.",
-          "Used Router chains to generate trendy captions based on engagement metrics."
-        ]
+        "description": "Neo4j-backed analytics chatbot using router chains to generate engagement-driven captions."
       },
       {
         "title": "Profile Impersonation Detection",
-        "points": [
-          "Developed an API to detect impersonations using textual similarity on usernames and bios.",
-          "Fine-tuned a Vision Transformer (HuggingFace + PyTorch) for image similarity on profile pictures."
-        ]
+        "description": "Textual + visual similarity API, fine-tuning a Vision Transformer for profile-picture matching."
       }
     ]
   },
@@ -57,31 +54,19 @@
     "details": [
       {
         "title": "Sentiment Analysis on Financial News",
-        "points": [
-          "Built a financial news sentiment classifier using BERT (base) with custom layers.",
-          "Achieved 93% accuracy and F1-score."
-        ]
+        "description": "BERT-based classifier with custom layers, reaching 93% accuracy and F1-score."
       },
       {
-        "title": "XYME-backend (Predictive Modeling Framework)",
-        "points": [
-          "Integrated MLPs, boosting models, and ML features into Accern's No-Code AI platform backend.",
-          "Implemented Kafka-based notifications and deployed the system on Kubernetes."
-        ]
+        "title": "XYME-backend",
+        "description": "MLPs and boosting models integrated into Accern's no-code AI platform, with Kafka-based notifications on Kubernetes."
       },
       {
         "title": "Accern Data Client",
-        "points": [
-          "Created a Python library (published on PyPI) for streamlined access to Accern’s data feed.",
-          "The library reduced manual ingestion time by 90% by handling data parsing and formatting automatically."
-        ]
+        "description": "Python library published on PyPI for Accern's data feed API, cutting manual ingestion time by 90%."
       },
       {
         "title": "ESG Dashboard POC",
-        "points": [
-          "Fetched ESG data via API, processed it, and stored it in Snowflake weekly.",
-          "Created dashboards in ThoughtSpot leading to deal closures worth $155k and $60k."
-        ]
+        "description": "API-fed ESG pipeline into Snowflake with ThoughtSpot dashboards, contributing to two deals worth $215k."
       }
     ]
   },
@@ -91,14 +76,7 @@
     "location": "India",
     "startDate": "Dec 2019",
     "endDate": "Feb 2020",
-    "details": [
-      {
-        "title": "Real-time Human Violence Detection System",
-        "points": [
-          "Built a real-time violence detection system using CCTV/drone footage and OpenPose.",
-          "Used joint coordinates to train RNNs (TensorFlow/Keras), achieving 84% classification accuracy."
-        ]
-      }
-    ]
+    "details": [],
+    "summary": "Built a real-time violence detection pipeline for UAV surveillance using YOLOv3, DeepSORT, and OpenPose."
   }
 ]
