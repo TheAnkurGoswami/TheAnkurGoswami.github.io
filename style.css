@@ -28,20 +28,32 @@ body {
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
+    /* Fade the glow out well before the section boundary so it never gets a hard clip */
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 0%, black 78%, transparent 100%);
 }
 
 .hero-glow {
     position: absolute;
     top: 62%;
     left: 68%;
-    width: 76vmax;
-    height: 76vmax;
-    max-width: 1100px;
-    max-height: 1100px;
+    width: 64vmax;
+    height: 64vmax;
+    max-width: 960px;
+    max-height: 960px;
     border-radius: 50%;
-    background: radial-gradient(circle, #50FA7B 0%, transparent 70%);
-    opacity: 0.18;
-    filter: blur(120px);
+    /* A smooth multi-stop alpha ramp (not a hard 0%/70% stop) plus a moderate blur:
+       relying on either alone caused artifacts — a huge blur radius on a 2-stop
+       gradient produced visible ring banding, and no blur at all left a visible
+       hard-edged circle. This combination gives a soft edge with no banding. */
+    background: radial-gradient(circle,
+        rgba(80, 250, 123, 0.16) 0%,
+        rgba(80, 250, 123, 0.11) 20%,
+        rgba(80, 250, 123, 0.06) 40%,
+        rgba(80, 250, 123, 0.03) 60%,
+        rgba(80, 250, 123, 0.01) 80%,
+        transparent 100%);
+    filter: blur(70px);
     transform: translate(-50%, -50%);
     animation: heroGlowDrift 24s ease-in-out infinite;
     will-change: transform;
@@ -50,6 +62,16 @@ body {
 @keyframes heroGlowDrift {
     0%, 100% { transform: translate(-50%, -50%) scale(1); }
     50% { transform: translate(-46%, -54%) scale(1.08); }
+}
+
+/* Grain overlay to dither away any residual 8-bit banding on the glow gradient */
+.hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    mix-blend-mode: overlay;
 }
 
 .hero-content {
