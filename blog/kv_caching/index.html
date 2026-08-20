@@ -7,7 +7,6 @@
     <title>Key-Value Caching</title>
     <link rel="stylesheet" href="../../style.css?v=4">
     <link rel="stylesheet" href="./style.css?v=2">
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script>
         window.MathJax = {
             tex: {
@@ -1105,11 +1104,18 @@
             });
         }
 
-        // 🔴 WAIT for MathJax to be fully ready
-        window.MathJax.startup.promise.then(() => {
-            renderAllMatrices();
-            MathJax.typesetPromise();
-        });
+        // Wait for MathJax to be fully ready. It loads via an async script tag,
+        // so it may not have initialized window.MathJax.startup yet when this runs.
+        (function waitForMathJax() {
+            if (window.MathJax && window.MathJax.startup && window.MathJax.startup.promise) {
+                window.MathJax.startup.promise.then(() => {
+                    renderAllMatrices();
+                    MathJax.typesetPromise();
+                });
+            } else {
+                setTimeout(waitForMathJax, 50);
+            }
+        })();
     </script>
 </body>
 
