@@ -23,6 +23,23 @@ body {
     font-size: 1.5rem;
 }
 
+.header-title {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.back-link {
+    font-size: 0.9rem;
+    color: #9aa4b2;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: white;
+    text-decoration: underline;
+}
+
 .controls {
   display: flex;
   align-items: center;

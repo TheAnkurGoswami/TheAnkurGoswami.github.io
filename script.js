@@ -630,6 +630,13 @@ function displayContributions(contributionsData, container) {
  * @param {Array<Object>} posts - An array of post objects from the manifest.
  * @param {HTMLElement} container - The DOM element to render the post summaries into.
  */
+function formatPostDate(dateString) {
+    if (!dateString) return '';
+    const date = new Date(dateString + 'T00:00:00');
+    if (Number.isNaN(date.getTime())) return '';
+    return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+
 function displayBlogPosts(posts, container) {
     container.innerHTML = ''; // Clear previous content
 
@@ -639,22 +646,42 @@ function displayBlogPosts(posts, container) {
     }
 
     posts.forEach(post => {
-        const postElement = document.createElement('div');
-        postElement.classList.add('post-item');
-        postElement.style.cursor = 'pointer';
+        const postLink = document.createElement('a');
+        postLink.classList.add('post-card');
+        postLink.href = '/' + post.path;
+
+        const meta = document.createElement('p');
+        meta.classList.add('post-card-meta');
+        const metaParts = [formatPostDate(post.date), post.readingTime ? `${post.readingTime} min read` : ''].filter(Boolean);
+        meta.textContent = metaParts.join(' · ');
+        postLink.appendChild(meta);
 
         const title = document.createElement('h3');
         title.textContent = post.title;
-        postElement.appendChild(title);
+        postLink.appendChild(title);
 
         const description = document.createElement('p');
+        description.classList.add('post-card-description');
         description.textContent = post.description;
-        postElement.appendChild(description);
+        postLink.appendChild(description);
 
-        postElement.addEventListener('click', () => {
-            window.location.href = '/' + post.path;
-        });
+        if (post.tags && post.tags.length > 0) {
+            const tagsRow = document.createElement('div');
+            tagsRow.classList.add('post-card-tags');
+            post.tags.forEach(tagText => {
+                const tag = document.createElement('span');
+                tag.classList.add('post-card-tag');
+                tag.textContent = tagText;
+                tagsRow.appendChild(tag);
+            });
+            postLink.appendChild(tagsRow);
+        }
 
-        container.appendChild(postElement);
+        const readMore = document.createElement('span');
+        readMore.classList.add('post-card-read-more');
+        readMore.textContent = 'Read post →';
+        postLink.appendChild(readMore);
+
+        container.appendChild(postLink);
     });
 }
