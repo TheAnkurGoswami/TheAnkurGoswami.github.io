@@ -1,16 +1,16 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #eef1f5;
-  color: #333;
+  background-color: #212529;
+  color: #F8F9FA;
   margin: 0;
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #343A40;
   padding: 1rem 2rem;
   color: white;
   display: flex;
@@ -36,7 +36,7 @@ body {
 }
 
 .back-link:hover {
-    color: white;
+    color: #50FA7B;
     text-decoration: underline;
 }
 
@@ -44,6 +44,33 @@ body {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.controls button {
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  color: #F8F9FA;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.controls button:hover:not(:disabled) {
+  border-color: rgba(80, 250, 123, 0.5);
+  background: rgba(80, 250, 123, 0.08);
+}
+
+.controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+#step-info {
+  color: #ADB5BD;
+  font-size: 0.9rem;
 }
 
 .page-container {
@@ -55,19 +82,20 @@ body {
 .sidebar {
   width: 250px;
   flex-shrink: 0;
-  background-color: #fff;
+  background-color: #2a2f35;
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   align-self: flex-start;
 }
 
 .sidebar h3 {
     text-align: center;
     margin-top: 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
+    color: #F8F9FA;
 }
 
 .sidebar-row {
@@ -82,6 +110,10 @@ body {
 
 .main-content h4 {
     text-align: center;
+}
+
+.matrix-container h4 {
+    color: #F8F9FA;
 }
 
 .main-container {
@@ -102,19 +134,20 @@ body {
 }
 
 .matrix-container {
-  background-color: #fff;
+  background-color: #2a2f35;
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 table {
   border-collapse: collapse;
   font-size: 0.9rem;
+  color: #CED4DA;
 }
 
 td {
-  border: 1px solid #ddd;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 6px;
   min-width: 45px;
   height: 35px;
@@ -122,23 +155,27 @@ td {
   position: relative;
 }
 
+/* Current query block (row range) — matches the "new row" accent used in
+   the Key-Value Caching post's matrix highlighting for visual consistency. */
 .highlight-row {
-  background-color: #fff8e1; /* light yellow */
+  background-color: rgba(255, 184, 108, 0.18);
 }
 
+/* Current key/value block (column range) — matches that post's "new col" accent. */
 tr > .highlight-col {
-  background-color: #e3f2fd; /* light blue */
+  background-color: rgba(189, 147, 249, 0.18);
 }
 
+/* The actual active block being computed right now. */
 .highlight-row > .highlight-col {
-  background-color: #dcedc8; /* light green */
+  background-color: rgba(80, 250, 123, 0.25);
   font-weight: bold;
 }
 
 .symbol {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #555;
+  color: #ADB5BD;
   align-self: center;
 }
 
@@ -149,7 +186,7 @@ tr > .highlight-col {
   align-items: center;
   font-size: 1.2rem;
   font-weight: bold;
-  color: #555;
+  color: #ADB5BD;
   text-align: center;
 }
 
@@ -163,9 +200,9 @@ tr > .highlight-col {
   align-items: center;
   gap: 1rem;
   padding: 0.5rem 1.5rem 0.5rem 2.5rem;
-  border: 2px solid #888;
+  border: 2px solid rgba(255, 255, 255, 0.25);
   border-radius: 15px;
-  background-color: rgba(0,0,0,0.02);
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .graphical-op::before {
@@ -177,7 +214,7 @@ tr > .highlight-col {
   transform-origin: left center;
   font-size: 1.1rem;
   font-weight: bold;
-  color: #555;
+  color: #ADB5BD;
   white-space: nowrap;
 }
 
@@ -199,7 +236,7 @@ tr > .highlight-col {
     text-align: center;
     margin-bottom: 10px;
     font-weight: bold;
-    color: #444;
+    color: #F8F9FA;
 }
 
 .visual-equation {
@@ -214,10 +251,10 @@ tr > .highlight-col {
     display: flex;
     align-items: center;
     gap: 5px;
-    border: 1px dashed #aaa;
+    border: 1px dashed rgba(255, 255, 255, 0.25);
     padding: 5px;
     border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: rgba(255, 255, 255, 0.03);
 }
 
 .visual-equation .symbol {
@@ -227,8 +264,7 @@ tr > .highlight-col {
 
 .matrix-container.small {
     padding: 0.5rem;
-    box-shadow: none;
-    border: 1px solid #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .matrix-container.small table {
@@ -293,7 +329,7 @@ tr > .highlight-col {
 }
 .fraction-line {
     height: 2px;
-    background-color: #333;
+    background-color: #CED4DA;
     width: 100%;
     border-radius: 1px;
 }
@@ -304,15 +340,15 @@ tr > .highlight-col {
     display: flex;
     align-items: center;
     gap: 5px;
-    border: 1px solid #aaa;
+    border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 8px;
     padding: 5px;
-    background-color: #f0f0f0;
+    background-color: rgba(255, 255, 255, 0.04);
 }
 
 .separator {
     width: 1px;
-    background-color: #ddd;
+    background-color: rgba(255, 255, 255, 0.15);
     align-self: stretch;
     margin: 0 1rem;
 }
