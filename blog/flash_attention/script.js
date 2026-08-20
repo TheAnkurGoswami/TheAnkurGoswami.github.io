@@ -253,17 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMatrix(kMatrixContainer, k_T_proj, 'Key Transposed (K^T)');
         renderMatrix(logitsMatrixContainer, new Array(seq_len).fill(0).map(() => new Array(seq_len).fill(NaN)), 'Logits (S)');
         
-        const calc_containers = [
-            sBlockForMCalcContainer, mBlockResultContainer, sBlockDisplayContainer,
-            mBlockDisplayContainer, sMinusMMatrixContainer, pMatrixContainer,
-            pMatrixForLCalcContainer, lBlockResultContainer, mOldContainer,
-            mBlockContextContainer, mNewContainer, lNewContainer, lOldContainer,
-            lBlockContextContainer, mOldForLCalcContainer, mNewForLCalcContainer, 
-            mNewForLCalc2Container, mBlockForLCalcContainer,
-            // O-update containers
-            lOldForOCalc, mOldForOCalc, mNewForOCalc, mBlockForOCalc, pMatrixForOCalc,
-            vMatrixForOCalc, lNewForOCalc
-        ];
         // Clear all calculation containers
         const containersToClear = [
             sBlockForMCalcContainer, mBlockResultContainer, sBlockDisplayContainer,
