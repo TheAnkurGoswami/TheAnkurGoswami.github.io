@@ -218,10 +218,15 @@ tr > .highlight-col {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
-  font-weight: bold;
+  gap: 0.15rem;
+  font-size: 0.75rem;
+  font-weight: 600;
   color: #ADB5BD;
   text-align: center;
+}
+
+.symbol-group .symbol {
+  font-size: 1.1rem;
 }
 
 .final-op {
@@ -267,10 +272,27 @@ tr > .highlight-col {
 .equation {
     font-family: 'Times New Roman', Times, serif;
     font-size: 1.05em;
+    line-height: 1.5;
     text-align: center;
     margin-bottom: 6px;
     font-weight: bold;
     color: #F8F9FA;
+}
+
+/* The axis-operation labels ("max(axis=1)", "sum(axis=1)") share
+   .symbol-group with the P = e^(...) equation, but only the equation
+   needs full readable size — restore it for the <p>-wrapped variant. */
+.symbol-group p {
+    margin: 0;
+    font-size: 1.4rem;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.equation sub,
+.equation sup,
+.symbol-group sub,
+.symbol-group sup {
+    font-size: 0.7em;
 }
 
 .visual-equation {
