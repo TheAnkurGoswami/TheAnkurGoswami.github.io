@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
     <div class="sticky-header">
@@ -51,41 +51,49 @@
 
         <main class="main-content">
             <div class="main-container">
-                <p class="stage-kicker">1. Compute Attention Scores</p>
-                <!-- Step 1: Logits -->
-                <div class="matmul-grid">
-                    <div class="matmul-corner"><span class="symbol">@</span></div>
-                    <div class="matmul-top">
-                        <div id="k-matrix" class="matrix-container"><h4>Key Transposed (K^T)</h4></div>
+                <div class="stage-row">
+                    <div class="stage-col">
+                        <p class="stage-kicker">1. Compute Attention Scores</p>
+                        <!-- Step 1: Logits -->
+                        <div class="matmul-grid">
+                            <div class="matmul-corner"><span class="symbol">@</span></div>
+                            <div class="matmul-top">
+                                <div id="k-matrix" class="matrix-container"><h4>Key Transposed (K^T)</h4></div>
+                            </div>
+                            <div class="matmul-left">
+                                <div id="q-matrix" class="matrix-container"><h4>Query (Q)</h4></div>
+                            </div>
+                            <div class="matmul-main">
+                                <div id="logits-matrix" class="matrix-container"><h4>Logits (S)</h4></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="matmul-left">
-                        <div id="q-matrix" class="matrix-container"><h4>Query (Q)</h4></div>
+                    <div class="stage-sep"></div>
+                    <div class="stage-col">
+                        <p class="stage-kicker">2. Block Statistics</p>
+                        <!-- Step 2a: m_block derivation -->
+                        <div class="computation-row">
+                            <div id="s-block-for-m-calc" class="matrix-container"></div>
+                            <div class="symbol-group"><span class="symbol">&rarr;</span><br>max(axis=1)</div>
+                            <div id="m-block-result" class="matrix-container"></div>
+                        </div>
+                        <!-- Step 2b: S-m calculation -->
+                        <div class="computation-row">
+                            <div id="s-block-display" class="matrix-container"></div>
+                            <div class="symbol">-</div>
+                            <div id="m-block-display" class="matrix-container"></div>
+                            <div class="symbol">=</div>
+                            <div id="s-minus-m-matrix" class="matrix-container"></div>
+                        </div>
+                        <!-- Step 2c & 2d: P and l_block derivation -->
+                        <div class="computation-row">
+                            <div class="symbol-group"><p><i>P</i> = e<sup><i>S</i><sub>block</sub> - <i>m</i><sub>block</sub></sup></p></div>
+                            <div class="symbol">&rarr;</div>
+                            <div id="p-matrix" class="matrix-container"></div>
+                            <div class="symbol-group"><span class="symbol">&rarr;</span><br>sum(axis=1)</div>
+                            <div id="l-block-result" class="matrix-container"></div>
+                        </div>
                     </div>
-                    <div class="matmul-main">
-                        <div id="logits-matrix" class="matrix-container"><h4>Logits (S)</h4></div>
-                    </div>
-                </div>
-                <hr>
-                <p class="stage-kicker">2. Block Statistics</p>
-                <!-- Step 2a & 2b: m_block derivation and S-m calculation -->
-                <div class="computation-row">
-                    <div id="s-block-for-m-calc" class="matrix-container"></div>
-                    <div class="symbol-group"><span class="symbol">&rarr;</span><br>max(axis=1)</div>
-                    <div id="m-block-result" class="matrix-container"></div>
-                    <div class="separator"></div>
-                    <div id="s-block-display" class="matrix-container"></div>
-                    <div class="symbol">-</div>
-                    <div id="m-block-display" class="matrix-container"></div>
-                    <div class="symbol">=</div>
-                    <div id="s-minus-m-matrix" class="matrix-container"></div>
-                </div>
-                <!-- Step 2c & 2d: P and l_block derivation -->
-                <div class="computation-row">
-                    <div class="symbol-group"><p><i>P</i> = e<sup><i>S</i><sub>block</sub> - <i>m</i><sub>block</sub></sup></p></div>
-                    <div class="symbol">&rarr;</div>
-                    <div id="p-matrix" class="matrix-container"></div>
-                    <div class="symbol-group"><span class="symbol">&rarr;</span><br>sum(axis=1)</div>
-                    <div id="l-block-result" class="matrix-container"></div>
                 </div>
                 <hr>
                 <p class="stage-kicker">3. Update Running State</p>
