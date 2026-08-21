@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
     <div class="sticky-header">
@@ -53,12 +53,17 @@
             <div class="main-container">
                 <p class="stage-kicker">1. Compute Attention Scores</p>
                 <!-- Step 1: Logits -->
-                <div class="computation-row">
-                    <div id="q-matrix" class="matrix-container"><h4>Query (Q)</h4></div>
-                    <div class="symbol">@</div>
-                    <div id="k-matrix" class="matrix-container"><h4>Key Transposed (K^T)</h4></div>
-                    <div class="symbol">=</div>
-                    <div id="logits-matrix" class="matrix-container"><h4>Logits (S)</h4></div>
+                <div class="matmul-grid">
+                    <div class="matmul-corner"><span class="symbol">@</span></div>
+                    <div class="matmul-top">
+                        <div id="k-matrix" class="matrix-container"><h4>Key Transposed (K^T)</h4></div>
+                    </div>
+                    <div class="matmul-left">
+                        <div id="q-matrix" class="matrix-container"><h4>Query (Q)</h4></div>
+                    </div>
+                    <div class="matmul-main">
+                        <div id="logits-matrix" class="matrix-container"><h4>Logits (S)</h4></div>
+                    </div>
                 </div>
                 <hr>
                 <p class="stage-kicker">2. Block Statistics</p>
