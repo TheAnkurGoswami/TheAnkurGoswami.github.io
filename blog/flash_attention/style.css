@@ -246,7 +246,7 @@ body {
 
 .matrix-container {
   background-color: #2a2f35;
-  padding: 0.65rem;
+  padding: 0.5rem;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: border-color 0.2s ease;
@@ -278,8 +278,8 @@ body {
 }
 
 .matrix-container h4 {
-  margin: 0 0 0.5rem 0;
-  font-size: 0.9rem;
+  margin: 0 0 0.35rem 0;
+  font-size: 0.78rem;
 }
 
 table {
@@ -290,10 +290,10 @@ table {
 
 td {
   border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 4px;
-  min-width: 36px;
-  height: 27px;
-  font-size: 0.85rem;
+  padding: 3px;
+  min-width: 30px;
+  height: 22px;
+  font-size: 0.76rem;
   font-variant-numeric: tabular-nums;
   text-align: center;
   position: relative;
