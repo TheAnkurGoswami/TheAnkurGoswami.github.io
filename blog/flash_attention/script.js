@@ -13,6 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextStepBtn = document.getElementById('next-step-btn');
     const stepInfo = document.getElementById('step-info');
     const progressFill = document.getElementById('progress-fill');
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    let playInterval = null;
     const qMatrixContainer = document.getElementById('q-matrix');
     const kMatrixContainer = document.getElementById('k-matrix');
     const logitsMatrixContainer = document.getElementById('logits-matrix');
@@ -69,14 +73,23 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     const renderMatrix = (container, data, title, highlightRow = null, highlightCol = null) => {
         if (!container || !data) return;
+
+        // Snapshot the previously-rendered cell values so we can flag which
+        // ones are about to change, before the table gets replaced below.
+        const prevValues = Array.from(container.querySelectorAll('td')).map(td => td.textContent);
+        let cellIndex = 0;
+
         let table = '<table>';
         for (let i = 0; i < data.length; i++) {
             const rowClass = (highlightRow && i >= highlightRow[0] && i < highlightRow[1]) ? 'highlight-row' : '';
             table += `<tr class="${rowClass}">`;
             for (let j = 0; j < data[0].length; j++) {
                 const colClass = (highlightCol && j >= highlightCol[0] && j < highlightCol[1]) ? 'highlight-col' : '';
-                const cellValue = data[i][j] === -Infinity ? '-&infin;' : (data[i][j] != null && !isNaN(data[i][j]) ? data[i][j].toFixed(2) : '');
-                table += `<td class="${colClass}">${cellValue}</td>`;
+                const cellValue = data[i][j] === -Infinity ? '-∞' : (data[i][j] != null && !isNaN(data[i][j]) ? data[i][j].toFixed(2) : '');
+                const prevValue = prevValues[cellIndex];
+                const changed = prevValue !== undefined && prevValue !== '' && cellValue !== '' && prevValue !== cellValue;
+                cellIndex++;
+                table += `<td class="${colClass}${changed ? ' cell-glow' : ''}">${cellValue}</td>`;
             }
             table += '</tr>';
         }
@@ -234,10 +247,52 @@ document.addEventListener('DOMContentLoaded', () => {
         stepInfo.textContent = `Step: ${display_step} / ${total_steps}`;
         nextStepBtn.disabled = step >= total_steps - 1;
         resetBtn.disabled = step === -1;
+        if (playBtn) playBtn.disabled = step >= total_steps - 1;
         if (progressFill) {
             const progress = step < 0 ? 0 : (display_step / total_steps) * 100;
             progressFill.style.width = `${progress}%`;
         }
+        if (step >= total_steps - 1) {
+            stopPlaying();
+        }
+    };
+
+    /**
+     * Stops auto-play, if running, and restores the Play button's icon.
+     */
+    const stopPlaying = () => {
+        if (playInterval) {
+            clearInterval(playInterval);
+            playInterval = null;
+        }
+        if (playBtn) {
+            playBtn.classList.remove('is-playing');
+            playBtn.setAttribute('aria-label', 'Auto-play');
+            playBtn.title = 'Auto-play';
+        }
+        if (playIcon) playIcon.style.display = '';
+        if (pauseIcon) pauseIcon.style.display = 'none';
+    };
+
+    /**
+     * Starts auto-play: advances one step on a timer until the algorithm
+     * finishes or the user stops it.
+     */
+    const startPlaying = () => {
+        if (current_step >= total_steps - 1) return;
+        playBtn.classList.add('is-playing');
+        playBtn.setAttribute('aria-label', 'Pause');
+        playBtn.title = 'Pause';
+        if (playIcon) playIcon.style.display = 'none';
+        if (pauseIcon) pauseIcon.style.display = '';
+        playInterval = setInterval(() => {
+            if (current_step + 1 >= total_steps) {
+                stopPlaying();
+                return;
+            }
+            current_step++;
+            calculateAndRender(current_step);
+        }, 900);
     };
 
     /**
@@ -299,14 +354,28 @@ document.addEventListener('DOMContentLoaded', () => {
         total_steps = n_blocks_q * n_blocks_kv;
         
         nextStepBtn.addEventListener('click', () => {
+            stopPlaying();
             current_step++;
             if (current_step < total_steps) {
                 calculateAndRender(current_step);
                 updateControls(current_step);
             }
         });
-        
-        resetBtn.addEventListener('click', reset);
+
+        resetBtn.addEventListener('click', () => {
+            stopPlaying();
+            reset();
+        });
+
+        if (playBtn) {
+            playBtn.addEventListener('click', () => {
+                if (playInterval) {
+                    stopPlaying();
+                } else {
+                    startPlaying();
+                }
+            });
+        }
 
         reset();
     };

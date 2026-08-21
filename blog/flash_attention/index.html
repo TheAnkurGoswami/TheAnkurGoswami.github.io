@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
     <div class="sticky-header">
@@ -18,11 +18,24 @@
             </div>
             <div class="controls">
                 <button id="reset-btn">Reset</button>
+                <button id="play-btn" class="icon-btn" aria-label="Auto-play" title="Auto-play">
+                    <svg id="play-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+                    <svg id="pause-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><line x1="6" y1="4" x2="6" y2="20"></line><line x1="18" y1="4" x2="18" y2="20"></line></svg>
+                </button>
                 <span id="step-info">Step: 0 / ?</span>
                 <button id="next-step-btn">Next Step</button>
             </div>
         </header>
         <div class="progress-bar"><div class="progress-bar-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="page-intro">
+        <div class="legend">
+            <div class="legend-item"><span class="legend-dot legend-dot-row"></span>Query block</div>
+            <div class="legend-item"><span class="legend-dot legend-dot-col"></span>Key/Value block</div>
+            <div class="legend-item"><span class="legend-dot legend-dot-active"></span>Active region</div>
+        </div>
+        <p class="page-intro-text">Watch Flash Attention process Q in blocks of 2 against K/V in blocks of 3 &mdash; keeping a running max and sum instead of materializing the full attention matrix.</p>
     </div>
 
     <div class="page-container">
