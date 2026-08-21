@@ -208,6 +208,20 @@ body {
     color: #F8F9FA;
 }
 
+/* Max Logit / Row Sum are single-column matrices, but their titles are
+   long enough that — unconstrained — the title dictates the box width,
+   leaving the narrow column of numbers stranded with empty space beside
+   it. Cap the box so the title wraps onto two lines instead. */
+#max-logit-matrix,
+#row-sum-matrix {
+    max-width: 4.75rem;
+}
+
+#max-logit-matrix h4,
+#row-sum-matrix h4 {
+    text-align: center;
+}
+
 .main-container {
   display: flex;
   flex-direction: column;
