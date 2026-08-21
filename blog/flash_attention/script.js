@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetBtn = document.getElementById('reset-btn');
     const nextStepBtn = document.getElementById('next-step-btn');
     const stepInfo = document.getElementById('step-info');
+    const progressFill = document.getElementById('progress-fill');
     const qMatrixContainer = document.getElementById('q-matrix');
     const kMatrixContainer = document.getElementById('k-matrix');
     const logitsMatrixContainer = document.getElementById('logits-matrix');
@@ -233,6 +234,10 @@ document.addEventListener('DOMContentLoaded', () => {
         stepInfo.textContent = `Step: ${display_step} / ${total_steps}`;
         nextStepBtn.disabled = step >= total_steps - 1;
         resetBtn.disabled = step === -1;
+        if (progressFill) {
+            const progress = step < 0 ? 0 : (display_step / total_steps) * 100;
+            progressFill.style.width = `${progress}%`;
+        }
     };
 
     /**

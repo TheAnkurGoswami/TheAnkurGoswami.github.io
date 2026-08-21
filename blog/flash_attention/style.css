@@ -9,6 +9,12 @@ body {
   margin: 0;
 }
 
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
 .App-header {
   background-color: #343A40;
   padding: 0.6rem 1.5rem;
@@ -16,6 +22,28 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.progress-bar {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: #50FA7B;
+  transition: width 0.25s ease;
+}
+
+.stage-kicker {
+  margin: 0.5rem 0;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #50FA7B;
 }
 
 .App-header h1 {
