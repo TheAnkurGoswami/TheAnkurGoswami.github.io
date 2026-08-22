@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Key-Value Caching</title>
     <link rel="stylesheet" href="../../style.css?v=4">
-    <link rel="stylesheet" href="./style.css?v=2">
+    <link rel="stylesheet" href="./style.css?v=3">
     <script>
         window.MathJax = {
             tex: {
@@ -63,265 +63,53 @@
                 $$</p>
             <p>where \( \langle \cdot \rangle \) denotes concatenation. Below is an example:</p>
 
-            <div class="matrices"
-                style="display:flex;gap:1.5rem;align-items:flex-start;margin-top:1rem;flex-wrap:wrap;">
-                <div class="tokens" style="min-width:80px;">
-                    <table class="tokens-table" style="border-collapse:collapse;border:1px solid transparent;">
+            <div class="matrices">
+                <div class="tokens">
+                    <table class="tokens-table">
                         <tbody>
-                            <tr>
-                                <td style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">a</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">quick</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">brown</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">fox</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">jumps</td>
-                            </tr>
+                            <tr><td class="token-cell">a</td></tr>
+                            <tr><td class="token-cell">quick</td></tr>
+                            <tr><td class="token-cell">brown</td></tr>
+                            <tr><td class="token-cell">fox</td></tr>
+                            <tr><td class="token-cell">jumps</td></tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="matrix-collection" style="display:flex;gap:1rem;align-items:flex-start;">
-                    <!-- Q block -->
-                    <div class="matrix-block" style="display:flex;align-items:flex-start;min-width:200px;">
-                        <div class="row-labels"
-                            style="display:flex;flex-direction:column;justify-content:flex-start;margin-right:0.4rem;">
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(q_1\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(q_2\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(q_3\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(q_4\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(q_5\)
-                            </div>
+                <div class="matrix-collection">
+                    <div class="matrix-block">
+                        <div class="row-labels">
+                            <div class="row-label-cell">\(q_1\)</div>
+                            <div class="row-label-cell">\(q_2\)</div>
+                            <div class="row-label-cell">\(q_3\)</div>
+                            <div class="row-label-cell">\(q_4\)</div>
+                            <div class="row-label-cell">\(q_5\)</div>
                         </div>
-                        <div>
-                            <table class="matrix-table" aria-label="Q matrix"
-                                style="border-collapse:collapse;border:1px solid currentColor;">
-                                <tbody>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.12</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.34</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.56</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.23</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.47</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.01</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.88</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.12</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.03</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.91</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.32</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.05</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.14</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.99</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.37</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="matrix-label" style="text-align:center;margin-top:0.5rem;">\(Q\)</div>
+                        <div class="matrix-wrap" data-matrix="Q_example">
+                            <div class="matrix-caption">\(Q\)</div>
                         </div>
                     </div>
-                    <!-- K block -->
-                    <div class="matrix-block" style="display:flex;align-items:flex-start;min-width:200px;">
-                        <div class="row-labels"
-                            style="display:flex;flex-direction:column;justify-content:flex-start;margin-right:0.4rem;">
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(k_1\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(k_2\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(k_3\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(k_4\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(k_5\)
-                            </div>
+                    <div class="matrix-block">
+                        <div class="row-labels">
+                            <div class="row-label-cell">\(k_1\)</div>
+                            <div class="row-label-cell">\(k_2\)</div>
+                            <div class="row-label-cell">\(k_3\)</div>
+                            <div class="row-label-cell">\(k_4\)</div>
+                            <div class="row-label-cell">\(k_5\)</div>
                         </div>
-                        <div>
-                            <table class="matrix-table" aria-label="K matrix"
-                                style="border-collapse:collapse;border:1px solid currentColor;">
-                                <tbody>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.11</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.33</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.54</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.05</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.77</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.42</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.02</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.16</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.88</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.29</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.13</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.37</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.48</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.02</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.11</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="matrix-label" style="text-align:center;margin-top:0.5rem;">\(K\)</div>
+                        <div class="matrix-wrap" data-matrix="K_example">
+                            <div class="matrix-caption">\(K\)</div>
                         </div>
                     </div>
-                    <!-- V block -->
-                    <div class="matrix-block" style="display:flex;align-items:flex-start;min-width:200px;">
-                        <div class="row-labels"
-                            style="display:flex;flex-direction:column;justify-content:flex-start;margin-right:0.4rem;">
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(v_1\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(v_2\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(v_3\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(v_4\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(v_5\)
-                            </div>
+                    <div class="matrix-block">
+                        <div class="row-labels">
+                            <div class="row-label-cell">\(v_1\)</div>
+                            <div class="row-label-cell">\(v_2\)</div>
+                            <div class="row-label-cell">\(v_3\)</div>
+                            <div class="row-label-cell">\(v_4\)</div>
+                            <div class="row-label-cell">\(v_5\)</div>
                         </div>
-                        <div>
-                            <table class="matrix-table" aria-label="V matrix"
-                                style="border-collapse:collapse;border:1px solid currentColor;">
-                                <tbody>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.44</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.22</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.19</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.07</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.60</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.33</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.12</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.81</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.09</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.55</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.04</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.27</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.36</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.14</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.05</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="matrix-label" style="text-align:center;margin-top:0.5rem;">\(V\)</div>
+                        <div class="matrix-wrap" data-matrix="V_example">
+                            <div class="matrix-caption">\(V\)</div>
                         </div>
                     </div>
                 </div>
@@ -500,313 +288,62 @@
                 the new token differ.</p>
             <p> After introducing the new token <i>"<span class="new-token">over</span>"</i>, our matrices in the example look like this:</p>
 
-            <div class="matrices"
-                style="display:flex;gap:1.5rem;align-items:flex-start;margin-top:1rem;flex-wrap:wrap;">
-                <div class="tokens" style="min-width:80px;">
-                    <table class="tokens-table" style="border-collapse:collapse;border:1px solid transparent;">
+            <div class="matrices">
+                <div class="tokens">
+                    <table class="tokens-table">
                         <tbody>
-                            <tr>
-                                <td style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">a</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">quick</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">brown</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">fox</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">jumps</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;"><span class="new-token">over</span></td>
-                            </tr>
+                            <tr><td class="token-cell">a</td></tr>
+                            <tr><td class="token-cell">quick</td></tr>
+                            <tr><td class="token-cell">brown</td></tr>
+                            <tr><td class="token-cell">fox</td></tr>
+                            <tr><td class="token-cell">jumps</td></tr>
+                            <tr><td class="token-cell"><span class="new-token">over</span></td></tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="matrix-collection" style="display:flex;gap:1rem;align-items:flex-start;">
-                    <!-- Q block -->
-                    <div class="matrix-block" style="display:flex;align-items:flex-start;min-width:200px;">
-                        <div class="row-labels"
-                            style="display:flex;flex-direction:column;justify-content:flex-start;margin-right:0.4rem;">
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(q_1\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(q_2\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(q_3\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(q_4\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(q_5\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;"><span class="new-token">\(q_6\)</span>
-                            </div>
+                <div class="matrix-collection">
+                    <div class="matrix-block">
+                        <div class="row-labels">
+                            <div class="row-label-cell">\(q_1\)</div>
+                            <div class="row-label-cell">\(q_2\)</div>
+                            <div class="row-label-cell">\(q_3\)</div>
+                            <div class="row-label-cell">\(q_4\)</div>
+                            <div class="row-label-cell">\(q_5\)</div>
+                            <div class="row-label-cell"><span class="new-token">\(q_6\)</span></div>
                         </div>
-                        <div>
-                            <table class="matrix-table" aria-label="Q matrix"
-                                style="border-collapse:collapse;border:1px solid currentColor;">
-                                <tbody>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.12</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.34</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.56</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.23</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.47</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.01</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.88</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.12</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.03</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.91</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.32</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.05</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.14</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.99</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.37</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            <span class="new-token">0.14</span></td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            <span class="new-token">0.99</span></td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            <span class="new-token">-0.37</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="matrix-label" style="text-align:center;margin-top:0.5rem;">\(Q'\)</div>
+                        <div class="matrix-wrap" data-matrix="Q_prime_example">
+                            <div class="matrix-caption">\(Q'\)</div>
                         </div>
                     </div>
-                    <!-- K block -->
-                    <div class="matrix-block" style="display:flex;align-items:flex-start;min-width:200px;">
-                        <div class="row-labels"
-                            style="display:flex;flex-direction:column;justify-content:flex-start;margin-right:0.4rem;">
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(k_1\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(k_2\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(k_3\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(k_4\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(k_5\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;"><span class="new-token">\(k_6\)</span>
-                            </div>
+                    <div class="matrix-block">
+                        <div class="row-labels">
+                            <div class="row-label-cell">\(k_1\)</div>
+                            <div class="row-label-cell">\(k_2\)</div>
+                            <div class="row-label-cell">\(k_3\)</div>
+                            <div class="row-label-cell">\(k_4\)</div>
+                            <div class="row-label-cell">\(k_5\)</div>
+                            <div class="row-label-cell"><span class="new-token">\(k_6\)</span></div>
                         </div>
-                        <div>
-                            <table class="matrix-table" aria-label="K matrix"
-                                style="border-collapse:collapse;border:1px solid currentColor;">
-                                <tbody>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.11</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.33</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.54</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.05</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.77</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.42</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.02</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.16</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.88</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.29</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.13</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.37</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.48</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.02</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.11</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            <span class="new-token">-0.48</span></td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            <span class="new-token">0.02</span></td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            <span class="new-token">0.11</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="matrix-label" style="text-align:center;margin-top:0.5rem;">\(K'\)</div>
+                        <div class="matrix-wrap" data-matrix="K_prime_example">
+                            <div class="matrix-caption">\(K'\)</div>
                         </div>
                     </div>
-                    <!-- V block -->
-                    <div class="matrix-block" style="display:flex;align-items:flex-start;min-width:200px;">
-                        <div class="row-labels"
-                            style="display:flex;flex-direction:column;justify-content:flex-start;margin-right:0.4rem;">
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(v_1\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(v_2\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(v_3\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(v_4\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;">\(v_5\)
-                            </div>
-                            <div style="padding:0.35rem 0.5rem;text-align:center;height:2.2rem;border:none;"><span class="new-token">\(v_6\)</span>
-                            </div>
+                    <div class="matrix-block">
+                        <div class="row-labels">
+                            <div class="row-label-cell">\(v_1\)</div>
+                            <div class="row-label-cell">\(v_2\)</div>
+                            <div class="row-label-cell">\(v_3\)</div>
+                            <div class="row-label-cell">\(v_4\)</div>
+                            <div class="row-label-cell">\(v_5\)</div>
+                            <div class="row-label-cell"><span class="new-token">\(v_6\)</span></div>
                         </div>
-                        <div>
-                            <table class="matrix-table" aria-label="V matrix"
-                                style="border-collapse:collapse;border:1px solid currentColor;">
-                                <tbody>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.44</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.22</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.19</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.07</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.60</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.33</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.12</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.81</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.09</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            -0.55</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.04</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.27</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            0.36</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            -0.14</td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            0.05</td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;height:2.2rem;">
-                                            <span class="new-token">0.36</span></td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            <span class="new-token">-0.14</span></td>
-                                        <td
-                                            style="border:1px solid currentColor;padding:0.35rem 0.5rem;text-align:center;">
-                                            <span class="new-token">0.05</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="matrix-label" style="text-align:center;margin-top:0.5rem;">\(V'\)</div>
+                        <div class="matrix-wrap" data-matrix="V_prime_example">
+                            <div class="matrix-caption">\(V'\)</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <p>
-                and,
+            <p>and,</p>
             <div class="matrix-equation">
                 <!-- Left label -->
                 <div class="matrix-op" style="font-size:1.2rem;">
@@ -819,7 +356,6 @@
                 </div>
 
             </div>
-            </p>
             <hr>
             <h2>Identifying Overlapping Computation</h2>
             <p>Let's assume a cache (for simplicity) as a Python-like structure:</p>
@@ -1090,8 +626,8 @@
     </main>
     <script src="../../script.js"></script>
     <script type="module">
-        import { matrices } from "./matrices.js";
-        import { renderMatrix } from "./renderMatrix.js";
+        import { matrices } from "./matrices.js?v=2";
+        import { renderMatrix } from "./renderMatrix.js?v=2";
 
         function renderAllMatrices() {
             document.querySelectorAll("[data-matrix]").forEach(el => {

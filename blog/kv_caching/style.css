@@ -5,6 +5,61 @@
     color: #CED4DA;
 }
 
+/* Intro worked-example layout: a token list beside its Q/K/V matrices */
+.matrices {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.tokens {
+    min-width: 80px;
+}
+
+.tokens-table {
+    border-collapse: collapse;
+}
+
+.token-cell {
+    padding: 0.35rem 0.5rem;
+    text-align: center;
+    height: 2.2rem;
+}
+
+.matrix-collection {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.matrix-block {
+    display: flex;
+    align-items: flex-start;
+    min-width: 200px;
+}
+
+.row-labels {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-right: 0.4rem;
+}
+
+.row-label-cell {
+    padding: 0.35rem 0.5rem;
+    text-align: center;
+    height: 2.2rem;
+}
+
+.example-cell {
+    border: 1px solid currentColor;
+    padding: 0.35rem 0.5rem;
+    text-align: center;
+    height: 2.2rem;
+}
+
 /* Valid / unmasked entries */
 .s-ok {
     background: transparent;
