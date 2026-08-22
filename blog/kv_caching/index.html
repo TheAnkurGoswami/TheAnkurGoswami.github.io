@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Key-Value Caching</title>
     <link rel="stylesheet" href="../../style.css?v=4">
-    <link rel="stylesheet" href="./style.css?v=4">
+    <link rel="stylesheet" href="./style.css?v=5">
     <script>
         window.MathJax = {
             tex: {
@@ -533,9 +533,9 @@
                 attention output. All the information required — the attention of all previous tokens on the \(
                 (n+1)^{th} \) token — is
                 embedded in the <strong>last row</strong>.</p>
-            <p>This means we do <strong>not</strong> need to cache attention scores either.
+            <p>This means we do <strong>not</strong> need to cache attention scores either.</p>
 
-            <!-- <h2>Why Discarding Past Hidden States Does Not Lose Information</h2>
+            <h2>Why Discarding Past Hidden States Does Not Lose Information</h2>
 
             <p>
                 At first glance, it may seem counterintuitive that during decoding we keep
@@ -614,8 +614,8 @@
                 No information is lost—only redundant computation is avoided.
             </p>
 
-            <hr> -->
-            So finally, the cache contains <strong>only</strong>:</p>
+            <hr>
+            <p>So finally, the cache contains <strong>only</strong>:</p>
             <pre><code>cache = {
     "<span class="s-new-row-inline">key_proj</span>": K,
     "<span class="v-proj-inline">value_proj</span>": V,
