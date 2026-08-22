@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Key-Value Caching</title>
     <link rel="stylesheet" href="../../style.css?v=4">
-    <link rel="stylesheet" href="./style.css?v=3">
+    <link rel="stylesheet" href="./style.css?v=4">
     <script>
         window.MathJax = {
             tex: {
@@ -421,9 +421,9 @@
             </ul>
             <p>So the cache looks like:</p>
             <pre><code class="language-python">cache = {
-    "attention_scores": S,
-    "query_proj": Q,
-    "key_proj": K,
+    "<span class="s-old-inline">attention_scores</span>": S,
+    "<span class="s-new-col-inline">query_proj</span>": Q,
+    "<span class="s-new-row-inline">key_proj</span>": K,
 }</code></pre>
             <hr>
             <h2>Effect of Causal Masking & Softmax</h2>
@@ -471,8 +471,8 @@
             <p>So even if the last column \( C \) is not computed, <strong>it is totally fine</strong>. This means
                 caching query projections is not required at all. The cache now becomes:</p>
 <pre><code>cache = {
-    "attention_scores": S,
-    "key_proj": K,
+    "<span class="s-old-inline">attention_scores</span>": S,
+    "<span class="s-new-row-inline">key_proj</span>": K,
 }</code></pre>
 
 
@@ -521,9 +521,9 @@
             <p>This shows that <strong>value projections are also important</strong> and must be cached.</p>
             <p>So now the cache becomes:</p>
             <pre><code class="language-python">cache = {
-    "attention_scores": S,
-    "key_proj": K,
-    "value_proj": V,
+    "<span class="s-old-inline">attention_scores</span>": S,
+    "<span class="s-new-row-inline">key_proj</span>": K,
+    "<span class="v-proj-inline">value_proj</span>": V,
 }</code></pre>
             <hr>
             <h2>Final Observation</h2>
@@ -617,8 +617,8 @@
             <hr> -->
             So finally, the cache contains <strong>only</strong>:</p>
             <pre><code>cache = {
-    "key_proj": K,
-    "value_proj": V,
+    "<span class="s-new-row-inline">key_proj</span>": K,
+    "<span class="v-proj-inline">value_proj</span>": V,
 }</code></pre>
             <p>And that is <strong><i>Key-Value (KV) Caching</i></strong>.</p>
             

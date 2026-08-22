@@ -200,6 +200,14 @@ hr {
   color: rgb(214, 195, 18);
   font-weight: 500;
 }
+
+/* Value projections don't have an established color from the S-matrix
+   legend (attention_scores/query_proj/key_proj do) — pick a distinct
+   accent from the site's existing palette for it. */
+.v-proj-inline {
+  color: #8BE9FD;
+  font-weight: 500;
+}
 pre {
   background: #11141d;           /* deep neutral */
   color: #e5e7eb;
