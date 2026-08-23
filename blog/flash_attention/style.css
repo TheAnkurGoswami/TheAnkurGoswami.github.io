@@ -1,26 +1,71 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #eef1f5;
-  color: #333;
+  background-color: #212529;
+  color: #F8F9FA;
   margin: 0;
 }
 
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
 .App-header {
-  background-color: #282c34;
-  padding: 1rem 2rem;
+  background-color: #343A40;
+  padding: 0.6rem 1.5rem;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+.progress-bar {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: #50FA7B;
+  transition: width 0.25s ease;
+}
+
+.stage-kicker {
+  margin: 0.5rem 0;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #50FA7B;
+}
+
 .App-header h1 {
     margin: 0;
     font-size: 1.5rem;
+}
+
+.header-title {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.back-link {
+    font-size: 0.9rem;
+    color: #9aa4b2;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: #50FA7B;
+    text-decoration: underline;
 }
 
 .controls {
@@ -29,28 +74,111 @@ body {
   gap: 1rem;
 }
 
+.controls button {
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  color: #F8F9FA;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.controls button:hover:not(:disabled) {
+  border-color: rgba(80, 250, 123, 0.5);
+  background: rgba(80, 250, 123, 0.08);
+}
+
+.controls .icon-btn {
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls .icon-btn.is-playing {
+  border-color: rgba(80, 250, 123, 0.5);
+  background: rgba(80, 250, 123, 0.08);
+  color: #50FA7B;
+}
+
+.page-intro {
+  padding: 1.25rem 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.legend {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #ADB5BD;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-dot-row { background: #FFB86C; }
+.legend-dot-col { background: #BD93F9; }
+.legend-dot-active { background: #50FA7B; }
+
+.page-intro-text {
+  max-width: 700px;
+  margin: 0;
+  text-align: center;
+  color: #ADB5BD;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+#step-info {
+  color: #ADB5BD;
+  font-size: 0.9rem;
+}
+
 .page-container {
   display: flex;
-  padding: 1rem;
-  gap: 1rem;
+  padding: 0.75rem;
+  gap: 0.75rem;
 }
 
 .sidebar {
-  width: 250px;
+  width: 210px;
   flex-shrink: 0;
-  background-color: #fff;
+  background-color: #2a2f35;
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   align-self: flex-start;
 }
 
 .sidebar h3 {
     text-align: center;
     margin-top: 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
+    color: #F8F9FA;
 }
 
 .sidebar-row {
@@ -65,63 +193,201 @@ body {
 
 .main-content h4 {
     text-align: center;
+    margin: 0.4rem 0;
+}
+
+.main-container hr {
+    width: 100%;
+    border: none;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0.25rem 0;
+}
+
+.matrix-container h4 {
+    color: #F8F9FA;
+}
+
+/* Max Logit / Row Sum are single-column matrices, but their titles are
+   long enough that — unconstrained — the title dictates the box width,
+   leaving the narrow column of numbers stranded with empty space beside
+   it. Cap the box so the title wraps onto two lines instead. */
+#max-logit-matrix,
+#row-sum-matrix {
+    max-width: 4.75rem;
+}
+
+#max-logit-matrix h4,
+#row-sum-matrix h4 {
+    text-align: center;
 }
 
 .main-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.65rem;
+}
+
+/* Groups calculation-steps (and their preceding computation-row, where
+   present) that would otherwise stack vertically into a horizontal pair,
+   so e.g. the m_new and l_new derivations sit side by side instead of
+   taking two full-height rows. */
+.updates-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   gap: 1rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.updates-row .calculation-step,
+.updates-row .computation-row {
+  flex: 1 1 320px;
+  margin-bottom: 0;
 }
 
 .computation-row {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.65rem;
   flex-wrap: wrap;
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.25rem;
+}
+
+/* Q @ K^T = S laid out as a multiplication grid: K^T's columns sit
+   above S's matching columns, Q's rows sit beside S's matching rows,
+   so the row/col highlighting visually lines up with the product. */
+.matmul-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  gap: 0.5rem;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.matmul-corner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.matmul-top,
+.matmul-left,
+.matmul-main {
+  display: flex;
+}
+
+.matmul-top {
+  align-items: flex-end;
+}
+
+.matmul-left {
+  align-items: flex-end;
+}
+
+.stage-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.stage-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stage-sep {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  align-self: stretch;
 }
 
 .matrix-container {
-  background-color: #fff;
-  padding: 1rem;
+  background-color: #2a2f35;
+  padding: 0.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: border-color 0.2s ease;
+}
+
+.matrix-container:hover {
+  border-color: rgba(80, 250, 123, 0.3);
+}
+
+@keyframes cellGlow {
+  0% {
+    box-shadow: 0 0 0 2px rgba(80, 250, 123, 0.8), 0 0 14px 3px rgba(80, 250, 123, 0.6);
+    background-color: rgba(80, 250, 123, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(80, 250, 123, 0);
+    background-color: transparent;
+  }
+}
+
+.cell-glow {
+  animation: cellGlow 1s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell-glow {
+    animation: none;
+  }
+}
+
+.matrix-container h4 {
+  margin: 0 0 0.35rem 0;
+  font-size: 0.78rem;
 }
 
 table {
   border-collapse: collapse;
   font-size: 0.9rem;
+  color: #CED4DA;
 }
 
 td {
-  border: 1px solid #ddd;
-  padding: 6px;
-  min-width: 45px;
-  height: 35px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 3px;
+  min-width: 30px;
+  height: 22px;
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
   text-align: center;
   position: relative;
 }
 
+/* Current query block (row range) — matches the "new row" accent used in
+   the Key-Value Caching post's matrix highlighting for visual consistency. */
 .highlight-row {
-  background-color: #fff8e1; /* light yellow */
+  background-color: rgba(255, 184, 108, 0.18);
 }
 
+/* Current key/value block (column range) — matches that post's "new col" accent. */
 tr > .highlight-col {
-  background-color: #e3f2fd; /* light blue */
+  background-color: rgba(189, 147, 249, 0.18);
 }
 
+/* The actual active block being computed right now. */
 .highlight-row > .highlight-col {
-  background-color: #dcedc8; /* light green */
+  background-color: rgba(80, 250, 123, 0.25);
   font-weight: bold;
 }
 
 .symbol {
-  font-size: 2.5rem;
+  font-size: 1.9rem;
   font-weight: bold;
-  color: #555;
+  color: #ADB5BD;
   align-self: center;
 }
 
@@ -130,10 +396,15 @@ tr > .highlight-col {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #555;
+  gap: 0.15rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ADB5BD;
   text-align: center;
+}
+
+.symbol-group .symbol {
+  font-size: 1.1rem;
 }
 
 .final-op {
@@ -146,9 +417,9 @@ tr > .highlight-col {
   align-items: center;
   gap: 1rem;
   padding: 0.5rem 1.5rem 0.5rem 2.5rem;
-  border: 2px solid #888;
+  border: 2px solid rgba(255, 255, 255, 0.25);
   border-radius: 15px;
-  background-color: rgba(0,0,0,0.02);
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .graphical-op::before {
@@ -160,7 +431,7 @@ tr > .highlight-col {
   transform-origin: left center;
   font-size: 1.1rem;
   font-weight: bold;
-  color: #555;
+  color: #ADB5BD;
   white-space: nowrap;
 }
 
@@ -169,20 +440,75 @@ tr > .highlight-col {
 }
 
 .calculation-step {
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 8px;
+    margin-bottom: 8px;
     border-radius: 8px;
     width: 100%;
     box-sizing: border-box;
 }
 
+.derivation-hint {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.8rem;
+    text-align: center;
+    color: #6C757D;
+}
+
+.derivation-details summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    color: #50FA7B;
+    font-size: 0.85rem;
+    font-weight: 600;
+    list-style: none;
+    padding: 6px 0;
+}
+
+.derivation-details summary::-webkit-details-marker {
+    display: none;
+}
+
+.derivation-details summary::after {
+    content: '▾';
+    font-size: 0.7rem;
+    transition: transform 0.15s ease;
+}
+
+.derivation-details[open] summary::after {
+    transform: rotate(180deg);
+}
+
+.derivation-details summary:hover {
+    color: #82fdd1;
+}
+
 .equation {
     font-family: 'Times New Roman', Times, serif;
-    font-size: 1.3em;
+    font-size: 1.05em;
+    line-height: 1.5;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     font-weight: bold;
-    color: #444;
+    color: #F8F9FA;
+}
+
+/* The axis-operation labels ("max(axis=1)", "sum(axis=1)") share
+   .symbol-group with the P = e^(...) equation, but only the equation
+   needs full readable size — restore it for the <p>-wrapped variant. */
+.symbol-group p {
+    margin: 0;
+    font-size: 1.4rem;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.equation sub,
+.equation sup,
+.symbol-group sub,
+.symbol-group sup {
+    font-size: 0.7em;
 }
 
 .visual-equation {
@@ -197,10 +523,10 @@ tr > .highlight-col {
     display: flex;
     align-items: center;
     gap: 5px;
-    border: 1px dashed #aaa;
+    border: 1px dashed rgba(255, 255, 255, 0.25);
     padding: 5px;
     border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: rgba(255, 255, 255, 0.03);
 }
 
 .visual-equation .symbol {
@@ -210,8 +536,7 @@ tr > .highlight-col {
 
 .matrix-container.small {
     padding: 0.5rem;
-    box-shadow: none;
-    border: 1px solid #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .matrix-container.small table {
@@ -276,7 +601,7 @@ tr > .highlight-col {
 }
 .fraction-line {
     height: 2px;
-    background-color: #333;
+    background-color: #CED4DA;
     width: 100%;
     border-radius: 1px;
 }
@@ -287,15 +612,15 @@ tr > .highlight-col {
     display: flex;
     align-items: center;
     gap: 5px;
-    border: 1px solid #aaa;
+    border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 8px;
     padding: 5px;
-    background-color: #f0f0f0;
+    background-color: rgba(255, 255, 255, 0.04);
 }
 
 .separator {
     width: 1px;
-    background-color: #ddd;
+    background-color: rgba(255, 255, 255, 0.15);
     align-self: stretch;
     margin: 0 1rem;
 }

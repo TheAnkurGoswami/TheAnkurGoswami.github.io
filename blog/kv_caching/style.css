@@ -5,6 +5,61 @@
     color: #CED4DA;
 }
 
+/* Intro worked-example layout: a token list beside its Q/K/V matrices */
+.matrices {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.tokens {
+    min-width: 80px;
+}
+
+.tokens-table {
+    border-collapse: collapse;
+}
+
+.token-cell {
+    padding: 0.35rem 0.5rem;
+    text-align: center;
+    height: 2.2rem;
+}
+
+.matrix-collection {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.matrix-block {
+    display: flex;
+    align-items: flex-start;
+    min-width: 200px;
+}
+
+.row-labels {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-right: 0.4rem;
+}
+
+.row-label-cell {
+    padding: 0.35rem 0.5rem;
+    text-align: center;
+    height: 2.2rem;
+}
+
+.example-cell {
+    border: 1px solid currentColor;
+    padding: 0.35rem 0.5rem;
+    text-align: center;
+    height: 2.2rem;
+}
+
 /* Valid / unmasked entries */
 .s-ok {
     background: transparent;
@@ -105,7 +160,49 @@ hr {
 
 #blog-post h3 {
   margin-top: 2.5rem;
+  color: #F8F9FA;
   /* margin-bottom: 0.8rem; */
+}
+
+/* Collapsed-by-default supplementary section, styled to match #blog-post h2
+   so the closed summary reads like a normal section heading. */
+#blog-post details.bonus-section summary {
+  cursor: pointer;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #CED4DA;
+  margin-top: 4rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #495057;
+  list-style: none;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+#blog-post details.bonus-section summary::-webkit-details-marker {
+  display: none;
+}
+
+#blog-post details.bonus-section summary::after {
+  content: '+';
+  margin-left: auto;
+  font-size: 1.5rem;
+  color: #50FA7B;
+  flex-shrink: 0;
+}
+
+#blog-post details.bonus-section[open] summary::after {
+  content: '\2212';
+}
+
+#blog-post details.bonus-section .bonus-label {
+  color: #50FA7B;
+}
+
+#blog-post details.bonus-section summary + p {
+  margin-top: 1.5rem;
 }
 
 
@@ -143,6 +240,14 @@ hr {
 
 .new-token {
   color: rgb(214, 195, 18);
+  font-weight: 500;
+}
+
+/* Value projections don't have an established color from the S-matrix
+   legend (attention_scores/query_proj/key_proj do) — pick a distinct
+   accent from the site's existing palette for it. */
+.v-proj-inline {
+  color: #8BE9FD;
   font-weight: 500;
 }
 pre {

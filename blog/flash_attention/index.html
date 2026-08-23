@@ -4,17 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flash Attention Visualization</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=13">
 </head>
 <body>
-    <header class="App-header">
-        <h1>Flash Attention Visualization</h1>
-        <div class="controls">
-            <button id="reset-btn">Reset</button>
-            <span id="step-info">Step: 0 / ?</span>
-            <button id="next-step-btn">Next Step</button>
+    <div class="sticky-header">
+        <header class="App-header">
+            <div class="header-title">
+                <a class="back-link" href="../">&larr; Blog</a>
+                <h1>Flash Attention Visualization</h1>
+            </div>
+            <div class="controls">
+                <button id="reset-btn">Reset</button>
+                <button id="play-btn" class="icon-btn" aria-label="Auto-play" title="Auto-play">
+                    <svg id="play-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+                    <svg id="pause-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><line x1="6" y1="4" x2="6" y2="20"></line><line x1="18" y1="4" x2="18" y2="20"></line></svg>
+                </button>
+                <span id="step-info">Step: 0 / ?</span>
+                <button id="next-step-btn">Next Step</button>
+            </div>
+        </header>
+        <div class="progress-bar"><div class="progress-bar-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="page-intro">
+        <div class="legend">
+            <div class="legend-item"><span class="legend-dot legend-dot-row"></span>Query block</div>
+            <div class="legend-item"><span class="legend-dot legend-dot-col"></span>Key/Value block</div>
+            <div class="legend-item"><span class="legend-dot legend-dot-active"></span>Active region</div>
         </div>
-    </header>
+        <p class="page-intro-text">Watch Flash Attention process Q in blocks of 2 against K/V in blocks of 3 &mdash; keeping a running max and sum instead of materializing the full attention matrix.</p>
+    </div>
 
     <div class="page-container">
         <aside class="sidebar">
@@ -29,37 +51,53 @@
 
         <main class="main-content">
             <div class="main-container">
-                <!-- Step 1: Logits -->
-                <div class="computation-row">
-                    <div id="q-matrix" class="matrix-container"><h4>Query (Q)</h4></div>
-                    <div class="symbol">@</div>
-                    <div id="k-matrix" class="matrix-container"><h4>Key Transposed (K^T)</h4></div>
-                    <div class="symbol">=</div>
-                    <div id="logits-matrix" class="matrix-container"><h4>Logits (S)</h4></div>
+                <div class="stage-row">
+                    <div class="stage-col">
+                        <p class="stage-kicker">1. Compute Attention Scores</p>
+                        <!-- Step 1: Logits -->
+                        <div class="matmul-grid">
+                            <div class="matmul-corner"><span class="symbol">@</span></div>
+                            <div class="matmul-top">
+                                <div id="k-matrix" class="matrix-container"><h4>Key Transposed (K^T)</h4></div>
+                            </div>
+                            <div class="matmul-left">
+                                <div id="q-matrix" class="matrix-container"><h4>Query (Q)</h4></div>
+                            </div>
+                            <div class="matmul-main">
+                                <div id="logits-matrix" class="matrix-container"><h4>Logits (S)</h4></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stage-sep"></div>
+                    <div class="stage-col">
+                        <p class="stage-kicker">2. Block Statistics</p>
+                        <!-- Step 2a: m_block derivation -->
+                        <div class="computation-row">
+                            <div id="s-block-for-m-calc" class="matrix-container"></div>
+                            <div class="symbol-group"><span class="symbol">&rarr;</span><br>max(axis=1)</div>
+                            <div id="m-block-result" class="matrix-container"></div>
+                        </div>
+                        <!-- Step 2b: S-m calculation -->
+                        <div class="computation-row">
+                            <div id="s-block-display" class="matrix-container"></div>
+                            <div class="symbol">-</div>
+                            <div id="m-block-display" class="matrix-container"></div>
+                            <div class="symbol">=</div>
+                            <div id="s-minus-m-matrix" class="matrix-container"></div>
+                        </div>
+                        <!-- Step 2c & 2d: P and l_block derivation -->
+                        <div class="computation-row">
+                            <div class="symbol-group"><p><i>P</i> = e<sup><i>S</i><sub>block</sub> - <i>m</i><sub>block</sub></sup></p></div>
+                            <div class="symbol">&rarr;</div>
+                            <div id="p-matrix" class="matrix-container"></div>
+                            <div class="symbol-group"><span class="symbol">&rarr;</span><br>sum(axis=1)</div>
+                            <div id="l-block-result" class="matrix-container"></div>
+                        </div>
+                    </div>
                 </div>
                 <hr>
-                <h4>Block Calculations &amp; Global Updates</h4>
-                <!-- Step 2a & 2b: m_block derivation and S-m calculation -->
-                <div class="computation-row">
-                    <div id="s-block-for-m-calc" class="matrix-container"></div>
-                    <div class="symbol-group"><span class="symbol">&rarr;</span><br>max(axis=1)</div>
-                    <div id="m-block-result" class="matrix-container"></div>
-                    <div class="separator"></div>
-                    <div id="s-block-display" class="matrix-container"></div>
-                    <div class="symbol">-</div>
-                    <div id="m-block-display" class="matrix-container"></div>
-                    <div class="symbol">=</div>
-                    <div id="s-minus-m-matrix" class="matrix-container"></div>
-                </div>
-                <!-- Step 2c & 2d: P and l_block derivation -->
-                <div class="computation-row">
-                    <div class="symbol-group"><p><i>P</i> = e<sup><i>S</i><sub>block</sub> - <i>m</i><sub>block</sub></sup></p></div>
-                    <div class="symbol">&rarr;</div>
-                    <div id="p-matrix" class="matrix-container"></div>
-                    <div class="symbol-group"><span class="symbol">&rarr;</span><br>sum(axis=1)</div>
-                    <div id="l-block-result" class="matrix-container"></div>
-                </div>
-                <hr>
+                <p class="stage-kicker">3. Update Running State</p>
+                <div class="updates-row">
                 <!-- Step 3a: m update -->
                 <div class="calculation-step">
                     <p class="equation"><i>m</i><sub>new</sub> = max(<i>m</i><sub>old</sub>, <i>m</i><sub>block</sub>)</p>
@@ -75,6 +113,9 @@
                 <!-- Step 3b: l update -->
                 <div class="calculation-step" id="l-new-calculation-step">
                     <p class="equation"><i>l</i><sub>new</sub> = e<sup><i>m</i><sub>old</sub> - <i>m</i><sub>new</sub></sup> &sdot; <i>l</i><sub>old</sub> + e<sup><i>m</i><sub>block</sub> - <i>m</i><sub>new</sub></sup> &sdot; <i>l</i><sub>block</sub></p>
+                    <p class="derivation-hint">The result already updated in the Row Sum (l) panel on the left &mdash; expand to see it worked out.</p>
+                    <details class="derivation-details">
+                    <summary>Show <i>l</i><sub>new</sub> derivation</summary>
                     <div class="visual-equation">
                         <div class="term">
                             <span class="base-e">e</span>
@@ -100,8 +141,12 @@
                         <div class="symbol">=</div>
                         <div id="l-new-matrix" class="matrix-container"></div>
                     </div>
+                    </details>
+                </div>
                 </div>
                 <hr>
+                <p class="stage-kicker">4. Compute Output</p>
+                <div class="updates-row">
                 <!-- Step 4: Block Output -->
                 <div class="computation-row">
                     <div id="p-matrix-for-o-calc" class="matrix-container"><h4>P</h4></div>
@@ -116,6 +161,9 @@
                     <p class="equation">
                         <span class="frac"><sup>(<i>l</i><sub>old</sub> &sdot; e<sup><i>m</i><sub>old</sub>-<i>m</i><sub>new</sub></sup> &sdot; <i>O</i><sub>old</sub>) + (e<sup><i>m</i><sub>block</sub>-<i>m</i><sub>new</sub></sup> &sdot; <i>O</i><sub>block</sub>)</sup><sub><i>l</i><sub>new</sub></sub></span> &longrightarrow; <i>O</i><sub>new</sub>
                     </p>
+                    <p class="derivation-hint">The result already updated in the Output (O) panel on the left — expand to see it worked out.</p>
+                    <details class="derivation-details">
+                    <summary>Show <i>O</i><sub>new</sub> derivation</summary>
                     <div class="visual-equation">
                         <div class="visual-fraction">
                             <div class="numerator">
@@ -151,6 +199,8 @@
                         <div class="symbol">=</div>
                         <div id="o-new-matrix" class="matrix-container"></div>
                     </div>
+                    </details>
+                </div>
                 </div>
             </div>
         </main>

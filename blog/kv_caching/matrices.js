@@ -1,5 +1,55 @@
 // matrices.js
+
+// --- Intro worked example: "a quick brown fox jumps [over]" ---
+const Q_data = [
+    [0.12, -0.34, 0.56],
+    [-0.23, 0.47, 0.01],
+    [0.88, -0.12, 0.03],
+    [-0.91, 0.32, -0.05],
+    [0.14, 0.99, -0.37],
+];
+const K_data = [
+    [-0.11, 0.33, -0.54],
+    [0.05, -0.77, 0.42],
+    [-0.02, 0.16, 0.88],
+    [0.29, -0.13, 0.37],
+    [-0.48, 0.02, 0.11],
+];
+const V_data = [
+    [0.44, -0.22, 0.19],
+    [-0.07, 0.60, -0.33],
+    [0.12, 0.81, -0.09],
+    [-0.55, 0.04, 0.27],
+    [0.36, -0.14, 0.05],
+];
+
+// New row for "over" — distinct values, not a copy of the previous row.
+const Q_prime_data = [...Q_data, [0.67, -0.28, 0.15]];
+const K_prime_data = [...K_data, [0.21, 0.58, -0.19]];
+const V_prime_data = [...V_data, [-0.31, 0.22, 0.48]];
+
+function exampleMatrix(data, { highlightLastRow = false } = {}) {
+    return {
+        rows: data.length,
+        cols: data[0].length,
+        cell: (i, j) => {
+            const v = data[i][j].toFixed(2);
+            return (highlightLastRow && i === data.length - 1)
+                ? `<span class="new-token">${v}</span>`
+                : v;
+        },
+        class: () => "example-cell"
+    };
+}
+
 export const matrices = {
+    Q_example: exampleMatrix(Q_data),
+    K_example: exampleMatrix(K_data),
+    V_example: exampleMatrix(V_data),
+    Q_prime_example: exampleMatrix(Q_prime_data, { highlightLastRow: true }),
+    K_prime_example: exampleMatrix(K_prime_data, { highlightLastRow: true }),
+    V_prime_example: exampleMatrix(V_prime_data, { highlightLastRow: true }),
+
     S: {
         rows: 5,
         cols: 5,

@@ -17,28 +17,122 @@ body {
     text-align: center;
     padding: 20px; /* For smaller screens */
     font-family: 'Inter', sans-serif; /* Ensure font is applied */
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- Hero Background: single restrained accent glow --- */
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    /* Fade the glow out well before the section boundary so it never gets a hard clip */
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 0%, black 78%, transparent 100%);
+}
+
+.hero-glow {
+    position: absolute;
+    top: 62%;
+    left: 68%;
+    width: 64vmax;
+    height: 64vmax;
+    max-width: 960px;
+    max-height: 960px;
+    border-radius: 50%;
+    /* A smooth multi-stop alpha ramp (not a hard 0%/70% stop) plus a moderate blur:
+       relying on either alone caused artifacts — a huge blur radius on a 2-stop
+       gradient produced visible ring banding, and no blur at all left a visible
+       hard-edged circle. This combination gives a soft edge with no banding. */
+    background: radial-gradient(circle,
+        rgba(80, 250, 123, 0.16) 0%,
+        rgba(80, 250, 123, 0.11) 20%,
+        rgba(80, 250, 123, 0.06) 40%,
+        rgba(80, 250, 123, 0.03) 60%,
+        rgba(80, 250, 123, 0.01) 80%,
+        transparent 100%);
+    filter: blur(70px);
+    transform: translate(-50%, -50%);
+    animation: heroGlowDrift 24s ease-in-out infinite;
+    will-change: transform;
+}
+
+@keyframes heroGlowDrift {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-46%, -54%) scale(1.08); }
+}
+
+/* Grain overlay to dither away any residual 8-bit banding on the glow gradient */
+.hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    mix-blend-mode: overlay;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes heroFadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-content > * {
+    opacity: 0;
+    animation: heroFadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-content > .hero-intro { animation-delay: 0.1s; }
+.hero-content > .hero-name { animation-delay: 0.25s; }
+.hero-content > .hero-designation { animation-delay: 0.42s; }
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-glow,
+    .hero-content > * {
+        animation: none;
+        opacity: 1;
+    }
 }
 
 .hero-intro {
-    font-size: clamp(0.8rem, 2.5vw, 1.5rem); /* Adjusted responsive font size */
-    margin-bottom: 5px;
-    font-weight: 300; /* Lighter weight */
-    color: #CED4DA; /* Hero intro text color */
+    font-size: clamp(0.75rem, 1.4vw, 0.85rem);
+    margin: 0;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #ADB5BD;
 }
 
 .hero-name { /* This is an H1 */
-    font-size: clamp(2.5rem, 5vw, 4.5rem); /* Adjusted responsive font size */
-    font-weight: 700; /* Bold */
-    margin: 5px 0;
-    line-height: 1.1; /* Adjust line height for large text */
-    color: #FFFFFF; /* Hero name text color */
+    font-size: clamp(2.75rem, 7vw, 5.75rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 22px 0 0 0;
+    line-height: 1.05;
+    color: #FFFFFF;
 }
 
 .hero-designation {
-    font-size: clamp(1.2rem, 4vw, 2.5rem); /* Similar to intro */
-    margin-top: 10px;
-    font-weight: 300; /* Lighter weight */
-    color: #50FA7B; /* Hero designation text color (green) */
+    display: inline-block;
+    margin-top: 22px;
+    padding: 10px 30px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(80, 250, 123, 0.10), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: #50FA7B;
 }
 
 /* #typing-designation will inherit styles from .hero-designation */
@@ -385,9 +479,99 @@ main {
     text-decoration: underline;
 }
 
-/* Specific override for blog post titles */
-#blog-list h3 {
-    color: #50FA7B; /* Accent green, matching hero designation */
+/* Blog list — post cards */
+#blog-list #posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 30px;
+    max-width: 780px;
+}
+
+#blog-list .post-card {
+    display: block;
+    padding: 28px 32px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+#blog-list .post-card:hover {
+    border-color: rgba(80, 250, 123, 0.4);
+    transform: translateY(-3px);
+    text-decoration: none;
+}
+
+#blog-list .post-card-meta {
+    margin: 0 0 10px 0;
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: #6C757D;
+}
+
+#blog-list .post-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #F8F9FA; /* Overrides the general link-color rule for headings inside cards */
+}
+
+#blog-list .post-card:hover h3 {
+    color: #50FA7B;
+}
+
+#blog-list .post-card-description {
+    margin: 0 0 16px 0;
+    font-size: 0.98rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #ADB5BD;
+}
+
+#blog-list .post-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+#blog-list .post-card-tag {
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.78rem;
+    color: #ADB5BD;
+}
+
+#blog-list .post-card-read-more {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #50FA7B;
+}
+
+/* Blog post pages — back link and meta line above the title */
+.post-header-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.post-back-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #50FA7B !important;
+}
+
+.post-meta {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #6C757D;
 }
 
 /* Links within dark sections */
@@ -449,167 +633,119 @@ main {
     }
 }
 
+/* Section kicker — small tracked label above a section heading */
+.section-kicker {
+    margin: 0 0 20px 0;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #50FA7B;
+}
+
+#work-experience h2,
+#blog-list h2 {
+    margin: 0;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
 /* Work Experience Timeline Styles */
 #work-experience .timeline {
+    max-width: 900px;
+    margin: 30px auto 0;
+    margin-left: 49px;
+    padding-left: 40px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 20px 30px;
-    overflow-x: hidden; /* CHANGED */
-    box-sizing: border-box;
 }
 
-#work-experience .timeline::before {
-    content: '';
+#work-experience .timeline-entry {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 56px;
+    padding: 28px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+}
+
+#work-experience .timeline-entry:first-child {
+    border-top: none;
+    padding-top: 6px;
+}
+
+#work-experience .timeline-dot {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%); /* Accurately center the line */
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background-color: #495057; /* Muted grey for the line */
-    border-radius: 2px;
-}
-
-#work-experience .timeline-item {
-    position: relative; /* Already relative, good */
-    margin-bottom: 40px;
-    width: 50%;
-    clear: both; /* Clear floats */
-    box-sizing: border-box; /* Ensure padding doesn't affect width for positioning */
-}
-
-#work-experience .timeline-item:nth-child(odd) {
-    float: left;
-    text-align: right; /* Aligns the .timeline-content box edge */
-    padding-right: 40px; /* Space from content to central line */
-    clear: right;
-}
-
-#work-experience .timeline-item:nth-child(even) {
-    float: right;
-    text-align: left; /* Aligns the .timeline-content box edge */
-    padding-left: 40px; /* Space from content to central line */
-    clear: left;
-}
-
-#work-experience .timeline-item:last-child {
-    margin-bottom: 0;
-}
-
-/* Clearfix for floated timeline items */
-#work-experience .timeline-item::after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-#work-experience .timeline-marker {
-    position: absolute;
-    /* left: 10px; */ /* Removed, will be set by odd/even rules */
-    top: 5px;    /* Align with top of text or content box */
-    width: 20px;
-    height: 20px;
-    background-color: #50FA7B; /* Accent green */
+    left: -49px;
+    top: 34px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    border: 4px solid #212529; /* Section background color for a "punch-out" effect */
-    z-index: 1; /* Above the timeline's ::before line */
+    background-color: #50FA7B;
 }
 
-#work-experience .timeline-item:nth-child(odd) .timeline-marker {
-    right: -14px; /* (marker_width(20)/2 + marker_border(4)) = 10 + 4 = 14 */
-    left: auto;
+#work-experience .timeline-entry:first-child .timeline-dot {
+    top: 12px;
 }
 
-#work-experience .timeline-item:nth-child(even) .timeline-marker {
-    left: -14px; /* (marker_width(20)/2 + marker_border(4)) = 10 + 4 = 14 */
-    right: auto;
-}
-
-#work-experience .timeline-content {
-    background-color: #343A40; /* Slightly different dark shade */
-    padding: 20px;
-    border-radius: 6px;
-    position: relative;
-    color: #F8F9FA;
-    text-align: left !important; /* Ensure text inside content box is LTR */
+#work-experience .timeline-meta {
+    flex: 0 0 260px;
 }
 
 #work-experience .timeline-company {
-    margin: 0 0 8px 0;
-    font-size: 1.25rem;
+    margin: 0 0 4px 0;
+    font-size: 1.15rem;
+    font-weight: 600;
     color: #F8F9FA;
-    font-weight: 600;
 }
 
-/* New styles for absolutely positioned dates */
-#work-experience .timeline-dates {
-    position: absolute;
-    top: 7px; /* Align with marker's top + border, or adjust for best visual */
-    width: 120px; /* Adjust as needed */
-    font-size: 0.85rem;
-    color: #CED4DA;
-    opacity: 0.9;
-    padding: 0 5px; /* Add slight horizontal padding */
-    z-index: 2; /* Ensure it's above the timeline line if they overlap */
-    /* margin removed as it's now absolutely positioned */
-}
-
-#work-experience .timeline-item:nth-child(odd) .timeline-dates {
-    /* Content is on LEFT, dates go on RIGHT of center line */
-    left: calc(100% + 20px); /* Positioned relative to the parent .timeline-item's right edge */
-    text-align: left;
-}
-
-#work-experience .timeline-item:nth-child(even) .timeline-dates {
-    /* Content is on RIGHT, dates go on LEFT of center line */
-    right: calc(100% + 20px); /* Positioned relative to the parent .timeline-item's left edge */
-    text-align: right;
-}
-
-#work-experience .timeline-details {
-    margin-top: 10px;
-}
-
-#work-experience .timeline-details h4 {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #F8F9FA; /* Default color - light */
-    margin-top: 15px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-#work-experience .timeline-details h4:hover {
-    color: #50FA7B; /* Accent green on hover */
-}
-
-#work-experience .timeline-details ul {
-    list-style-type: disc;
-    padding-left: 20px;
-    /* margin: 0; -- Will be controlled by hover state */
-    display: block; /* Important for max-height transition */
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    margin-top: 0; /* No top margin when hidden */
-    margin-bottom: 0; /* No bottom margin when hidden */
-    transition: opacity 0.4s ease-in-out, max-height 0.4s ease-in-out, margin-top 0.4s ease-in-out, margin-bottom 0.4s ease-in-out;
-}
-
-#work-experience .timeline-details h4:hover + ul {
-    opacity: 1;
-    max-height: 1000px; /* Large enough to fit content */
-    margin-top: 8px;    /* Restore or set top margin when visible (matches original h4 margin-bottom) */
-    margin-bottom: 10px; /* Restore or set bottom margin when visible */
-}
-
-#work-experience .timeline-details li {
+#work-experience .timeline-role {
+    margin: 0 0 6px 0;
     font-size: 0.95rem;
+    font-weight: 400;
+    color: #ADB5BD;
+}
+
+#work-experience .timeline-dates {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #6C757D;
+}
+
+#work-experience .timeline-body {
+    flex: 1 1 380px;
+    min-width: 0;
+}
+
+#work-experience .timeline-highlight {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 400;
     line-height: 1.6;
-    margin-bottom: 6px;
-    color: #CED4DA; /* Slightly lighter than main paragraph text if desired */
+    color: #CED4DA;
+}
+
+#work-experience .timeline-projects {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+#work-experience .timeline-project-title {
+    margin: 0 0 3px 0;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: #E9ECEF;
+}
+
+#work-experience .timeline-project-desc {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 400;
+    line-height: 1.55;
+    color: #9AA1A9;
 }
 
 /* Skills Section Styles */
@@ -730,23 +866,6 @@ main {
     transform: translateX(0) translateY(0); /* Ensures both X and Y transforms end at 0 */
 }
 
-/* --- TEMPORARY DEBUG STYLES FOR TIMELINE (Commented Out) --- */
-/*
-#work-experience .timeline-item {
-    border: 2px dashed red !important;
-}
-
-#work-experience .timeline-content {
-    background-color: rgba(0, 0, 255, 0.3) !important;
-    border: 1px solid blue !important;
-}
-
-#work-experience .timeline-details ul li {
-    word-break: break-all;
-}
-*/
-/* --- END TEMPORARY DEBUG STYLES --- */
-
 /*
 --- Future Button Styles --- */
 
@@ -839,71 +958,21 @@ main {
 }
 
 @media (max-width: 768px) {
-    /* Reposition the main timeline bar to the left */
-    #work-experience .timeline::before {
-        left: 20px;
-        transform: translateX(0);
+    #work-experience .timeline {
+        margin-left: 20px;
+        padding-left: 24px;
     }
 
-    /* --- Refactored Timeline Item Layout for Mobile --- */
-    /* Remove padding from the item itself to simplify positioning context */
-    #work-experience .timeline-item,
-    #work-experience .timeline-item:nth-child(odd),
-    #work-experience .timeline-item:nth-child(even) {
-        width: 100%;
-        float: none;
-        clear: both;
-        padding-left: 0; /* REMOVED padding */
-        padding-right: 0; /* REMOVED padding */
-        text-align: left;
-        position: relative;
+    #work-experience .timeline-dot {
+        left: -29px;
     }
 
-    /* Indent the content and dates instead of padding the whole item */
-    #work-experience .timeline-content,
-    #work-experience .timeline-dates {
-        margin-left: 60px; /* NEW: Indent content */
-        margin-right: 15px; /* NEW: Add some right margin for spacing */
+    #work-experience .timeline-entry {
+        flex-direction: column;
+        gap: 6px;
     }
 
-    /* Position the marker simply, now that parent has no padding */
-    #work-experience .timeline-marker,
-    #work-experience .timeline-item:nth-child(odd) .timeline-marker,
-    #work-experience .timeline-item:nth-child(even) .timeline-marker {
-        left: -22px; /* Final correction accounting for parent container padding */
-        right: auto;
-        z-index: 2; /* Ensure marker is above the line */
-    }
-
-    /* Make dates static and position them within the new indented flow */
-    #work-experience .timeline-dates,
-    #work-experience .timeline-item:nth-child(odd) .timeline-dates,
-    #work-experience .timeline-item:nth-child(even) .timeline-dates {
-        position: static;
-        width: auto;
-        margin-bottom: 5px;
-        /* Revert font style to match desktop version */
-        font-weight: normal;
-        color: #CED4DA;
-        opacity: 0.9;
-        /* Reset properties from desktop view */
-        text-align: left !important;
-        left: auto !important;
-        right: auto !important;
-    }
-
-    /* --- Force Animation Properties --- */
-    /* Ensure all items slide in from the right */
-    #work-experience .timeline-item.js-scroll-animate.slide-from-left,
-    #work-experience .timeline-item.js-scroll-animate.slide-from-right {
-        opacity: 0;
-        transform: translateX(50px) !important;
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out !important;
-    }
-
-    /* The visible state just needs to reset the transform and opacity */
-    #work-experience .timeline-item.js-scroll-animate.is-visible {
-        opacity: 1;
-        transform: translateX(0) !important;
+    #work-experience .timeline-meta {
+        flex-basis: auto;
     }
 }
