@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Key-Value Caching</title>
     <link rel="stylesheet" href="../../style.css?v=4">
-    <link rel="stylesheet" href="./style.css?v=5">
+    <link rel="stylesheet" href="./style.css?v=6">
     <script>
         window.MathJax = {
             tex: {
@@ -536,6 +536,14 @@
             <p>This means we do <strong>not</strong> need to cache attention scores either.</p>
 
             <h2>Why Discarding Past Hidden States Does Not Lose Information</h2>
+
+            <p>
+                A token's <strong>hidden state</strong> at a given layer is what its attention
+                output \( O \) becomes after the rest of that layer (e.g. the MLP sublayer) — it
+                is exactly what feeds into the next layer. Below, "current token" means whichever
+                token is being processed at the present decoding step, and this reasoning applies
+                independently at <strong>every layer</strong>.
+            </p>
 
             <p>
                 At first glance, it may seem counterintuitive that during decoding we keep
