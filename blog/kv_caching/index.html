@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Key-Value Caching</title>
     <link rel="stylesheet" href="../../style.css?v=4">
-    <link rel="stylesheet" href="./style.css?v=6">
+    <link rel="stylesheet" href="./style.css?v=7">
     <script>
         window.MathJax = {
             tex: {
@@ -535,7 +535,8 @@
                 embedded in the <strong>last row</strong>.</p>
             <p>This means we do <strong>not</strong> need to cache attention scores either.</p>
 
-            <h2>Why Discarding Past Hidden States Does Not Lose Information</h2>
+            <details class="bonus-section">
+            <summary><span class="bonus-label">Bonus:</span> Why Discarding Past Hidden States Does Not Lose Information</summary>
 
             <p>
                 A token's <strong>hidden state</strong> at a given layer is what its attention
@@ -622,6 +623,7 @@
                 No information is lost—only redundant computation is avoided.
             </p>
 
+            </details>
             <hr>
             <p>So finally, the cache contains <strong>only</strong>:</p>
             <pre><code>cache = {
