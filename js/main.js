@@ -2,8 +2,9 @@
 // and renders into its own <section>; a failure in one does not stop the rest.
 
 import { initTitle } from './title.js';
+import { initAttention } from './attention.js';
 
-const sections = [initTitle];
+const sections = [initTitle, initAttention];
 
 for (const load of sections) {
   load().catch(err => console.error(err));

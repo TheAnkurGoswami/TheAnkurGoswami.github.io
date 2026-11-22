@@ -37,6 +37,38 @@ h3.sub { font-family: var(--display); font-size: 1.25rem; font-weight: 700; marg
 .title-meta { display: flex; justify-content: space-between; gap: 16px; margin-top: 14px; font-size: .88rem; color: var(--ink-soft); }
 @media (max-width: 900px) { .title-meta span:last-child { display: none; } }
 
+/* ---------- hero: decoded headline + attention map ---------- */
+.hero {
+  display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(28px, 5vw, 72px); align-items: center;
+  padding-top: clamp(32px, 6vh, 72px);
+}
+.headline {
+  font-family: var(--display); font-weight: 520; font-variation-settings: "wdth" 90;
+  font-size: clamp(2rem, 4.4vw, 3.8rem); line-height: 1; letter-spacing: -.03em; margin: 0 0 24px; min-height: 4em;
+}
+.tok { display: inline; border-radius: 4px; padding: 0 .04em; margin: 0 -.04em; cursor: default; transition: background .25s, color .25s; }
+.tok.lit { background: var(--ink); color: var(--paper); }
+.tok.near { background: var(--amber); color: #15183A; }
+.tok.pending { opacity: 0; }
+.caret {
+  display: inline-block; width: .08em; height: .82em; margin-left: .06em; vertical-align: -.05em;
+  background: var(--ember); animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.lede { max-width: 34em; color: var(--ink-soft); margin: 0 0 30px; font-size: 1.125rem; }
+
+.attention { margin: 0; }
+.attention canvas { width: 100%; aspect-ratio: 1 / 1; display: block; touch-action: none; }
+.attention figcaption { display: flex; justify-content: space-between; gap: 16px; font-size: .88rem; color: var(--ink-soft); margin-top: 12px; }
+.attention figcaption b { color: var(--ink); }
+.legend { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.legend i { display: inline-block; width: 72px; height: 10px; border-radius: 5px; background: linear-gradient(90deg, var(--cold), var(--violet), var(--ember), var(--amber)); }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .headline { min-height: 0; }
+}
+
 /* ---------- contact ---------- */
 .end { padding-bottom: 72px; }
 .end h2 {
