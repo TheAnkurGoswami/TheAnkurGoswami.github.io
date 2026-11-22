@@ -1,0 +1,52 @@
+/*
+ * Design tokens shared by the home page and the blog.
+ * Light is the default; [data-theme="dark"] on <html> switches palettes.
+ * theme.js sets that attribute before first paint.
+ */
+:root {
+  /* surfaces */
+  --paper: #E8EBF4;        /* cool silicon grey */
+  --paper-2: #DDE1EE;
+  --sheet: #F7F8FC;        /* raised surfaces: opened folders, panels */
+  --card: #15183A;         /* dark cards that stay dark in both themes */
+
+  /* text and lines */
+  --ink: #15183A;          /* deep die indigo */
+  --ink-soft: #4A4F78;
+  --ink-rgb: 21, 24, 58;   /* for rgba(var(--ink-rgb), a) */
+  --cold: #C9CEE3;         /* empty attention cell, hairlines */
+
+  /* accents: the attention heat ramp */
+  --amber: #FFB000;
+  --ember: #F2552C;
+  --violet: #5B3FE0;
+  --line: #5B3FE0;         /* chart strokes; lighter in dark mode */
+
+  /* navy folders need lifting in dark mode */
+  --folder-ink: #15183A;
+  --folder-ink2: #262B5C;
+
+  --display: "Bricolage Grotesque", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", system-ui, sans-serif;
+
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --paper: #0E1130;        /* the die at night */
+  --paper-2: #1A1E46;
+  --sheet: #161A3D;
+  --card: #22275E;
+
+  --ink: #E6E8F5;
+  --ink-soft: #A3A8D0;
+  --ink-rgb: 230, 232, 245;
+  --cold: #272C58;
+
+  --line: #9483FF;
+
+  --folder-ink: #2B3176;
+  --folder-ink2: #363D8C;
+
+  color-scheme: dark;
+}
