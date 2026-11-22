@@ -130,7 +130,7 @@ html { scroll-snap-type: y proximity; }
 .win .fig {
   margin: 0; color: var(--ink);
   font-family: var(--display); font-weight: 780; font-variation-settings: "wdth" 78;
-  font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1; letter-spacing: -.04em;
+  font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1; letter-spacing: -.01em;
   display: flex; flex-direction: column; gap: 6px;
 }
 .win .fig small { font-family: var(--body); font-size: 1rem; font-weight: 400; color: var(--ink-soft); letter-spacing: 0; }
