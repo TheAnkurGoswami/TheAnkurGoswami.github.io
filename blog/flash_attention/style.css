@@ -649,3 +649,33 @@ tr > .highlight-col {
         transform: rotate(90deg);
     }
 }
+
+/* ---- new design overrides ---- */
+body.fa{background:var(--paper);color:var(--ink)}
+.fa .a-head{padding-bottom:28px}
+.fa .sticky-header{top:var(--bar-h,67px);z-index:15;padding:0 clamp(20px,4vw,48px)}
+.fa .App-header{max-width:1084px;margin:0 auto;border-radius:14px 14px 0 0;background:#15183A;color:#E8EBF4;padding:10px 18px;justify-content:flex-end}
+.fa .controls button{border-color:rgba(var(--ink-rgb),0);background:rgba(232,235,244,.12);color:#E8EBF4;border-radius:999px;font-family:var(--display);font-weight:600}
+.fa .controls button:hover:not(:disabled),.fa .controls .icon-btn.is-playing{background:var(--amber);color:#15183A;border-color:var(--amber)}
+.fa #next-step-btn{background:var(--amber);color:#15183A}
+.fa #step-info{color:#E8EBF4;opacity:.75;font-variant-numeric:tabular-nums}
+.fa .progress-bar{max-width:1084px;margin:0 auto;background:rgba(var(--ink-rgb),.12)}
+.fa .progress-bar-fill{background:linear-gradient(90deg,var(--violet),var(--ember),var(--amber))}
+.fa .page-intro{max-width:1180px;margin:0 auto;align-items:flex-start;padding:22px clamp(20px,4vw,48px) 6px}
+.fa .page-intro-text{display:none}
+.fa .legend-item{color:var(--ink-soft)}
+.fa .page-container{max-width:1180px;margin:0 auto;padding:12px clamp(20px,4vw,48px) 80px;gap:18px}
+.fa .sidebar{background:var(--panel);border:1.5px solid var(--ink);border-radius:14px}
+.fa .sidebar h3{font-family:var(--display);font-weight:700;letter-spacing:-.01em}
+.fa .matrix-container{background:var(--panel);border-color:rgba(var(--ink-rgb),.16);border-radius:10px}
+.fa .matrix-container:hover{border-color:var(--c-col)}
+.fa .matrix-container h4{font-family:var(--display);font-weight:650}
+.fa .stage-kicker{font-family:var(--display);font-weight:700;font-size:1.05rem;letter-spacing:-.01em;text-transform:none;color:var(--ink)}
+.fa .equation,.fa .symbol-group p{font-family:"Times New Roman",Times,serif;color:var(--ink)}
+.fa .derivation-details summary{color:var(--violet)}
+[data-theme="dark"] .fa .derivation-details summary{color:var(--line)}
+.fa td{border-color:rgba(var(--ink-rgb),.18);color:var(--ink)}
+.fa .highlight-row > .highlight-col{background-color:rgba(var(--c-hit-rgb),.32)}
+.fa .controls button:disabled{opacity:.45}
+[data-theme="dark"] .fa .App-header{background:#22275E}
+@media (max-width:768px){.fa .sticky-header{padding:0}.fa .App-header{border-radius:0;flex-direction:row;justify-content:center;gap:8px}.fa .controls{gap:8px}}
