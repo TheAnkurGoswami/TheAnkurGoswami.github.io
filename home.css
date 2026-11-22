@@ -18,6 +18,14 @@ main > section:first-child { border-top: 0; }
 }
 .sec-head p { margin: 0; max-width: 36em; color: var(--ink-soft); align-self: end; }
 
+/* Headings rise into place on first view (js/reveal.js adds .reveal). */
+.sec-head.reveal h2, .sec-head.reveal p { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1); }
+.sec-head.reveal p { transition-delay: .12s; }
+.sec-head.reveal.is-in h2, .sec-head.reveal.is-in p { opacity: 1; transform: none; }
+
+/* Each section's top is a resting point when scrolling. */
+main > section:not(.intro):not(.about) { scroll-snap-align: start; scroll-margin-top: 67px; }
+
 h3.sub { font-family: var(--display); font-size: 1.25rem; font-weight: 700; margin: 0 0 16px; letter-spacing: -.01em; }
 
 /* ---------- buttons ---------- */
