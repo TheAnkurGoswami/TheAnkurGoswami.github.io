@@ -1,8 +1,6 @@
 /*
  * Home page styles. Needs tokens.css and chrome.css first.
  * One block per section, in page order.
- * (style.css and script.js are the previous design; the blog still uses
- * them until it moves to the shared chrome.)
  */
 
 /* ---------- layout ---------- */
