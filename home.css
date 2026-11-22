@@ -8,7 +8,7 @@
 /* ---------- layout ---------- */
 .wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
 
-main > section { padding: clamp(64px, 10vh, 112px) 0; border-top: 1.5px solid var(--ink); }
+main > section { padding: clamp(64px, 10vh, 112px) 0; border-top: 1.5px solid var(--ink); scroll-margin-top: 64px; }
 main > section:first-child { border-top: 0; }
 
 .sec-head { display: grid; grid-template-columns: minmax(180px, .36fr) 1fr; gap: 32px; margin-bottom: 48px; }
