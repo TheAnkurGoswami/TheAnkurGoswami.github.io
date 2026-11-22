@@ -1,73 +1,49 @@
 [
   {
-    "name": "Python",
-    "logoUrl": "logos/python.png"
+    "group": "Models",
+    "skills": [
+      { "name": "PyTorch", "logoUrl": "logos/pytorch.png" },
+      { "name": "Hugging Face", "logoUrl": "logos/huggingface.png" },
+      { "name": "scikit-learn", "logoUrl": "logos/scikit-learn.png" },
+      { "name": "OpenCV", "logoUrl": "logos/opencv.png" },
+      { "name": "YOLO" },
+      { "name": "ViT and SWIN" }
+    ]
   },
   {
-    "name": "PyTorch",
-    "logoUrl": "logos/pytorch.png"
+    "group": "LLM systems",
+    "skills": [
+      { "name": "vLLM" },
+      { "name": "LangChain", "logoUrl": "logos/langchain.png" },
+      { "name": "RAG" },
+      { "name": "Multi-agent orchestration" },
+      { "name": "ChromaDB" },
+      { "name": "Neo4j" }
+    ]
   },
   {
-    "name": "HuggingFace",
-    "logoUrl": "logos/huggingface.png"
+    "group": "Serving",
+    "skills": [
+      { "name": "FastAPI", "logoUrl": "logos/fastapi.png" },
+      { "name": "Docker", "logoUrl": "logos/docker.png" },
+      { "name": "AWS SageMaker", "logoUrl": "logos/aws.png" },
+      { "name": "Kubernetes" },
+      { "name": "Redis", "logoUrl": "logos/redis.png" },
+      { "name": "Gradio", "logoUrl": "logos/gradio.png" },
+      { "name": "Streamlit", "logoUrl": "logos/streamlit.png" }
+    ]
   },
   {
-    "name": "Langchain",
-    "logoUrl": "logos/langchain.png"
-  },
-  {
-    "name": "Git/GitHub",
-    "logoUrl": "logos/github.png"
-  },
-  {
-    "name": "Docker",
-    "logoUrl": "logos/docker.png"
-  },
-  {
-    "name": "AWS",
-    "logoUrl": "logos/aws.png"
-  },
-  {
-    "name": "OpenCV",
-    "logoUrl": "logos/opencv.png"
-  },
-  {
-    "name": "Gradio",
-    "logoUrl": "logos/gradio.png"
-  },
-  {
-    "name": "Kafka",
-    "logoUrl": "logos/kafka.png"
-  },
-  {
-    "name": "Elasticsearch",
-    "logoUrl": "logos/elasticsearch.png"
-  },
-  {
-    "name": "FastAPI",
-    "logoUrl": "logos/fastapi.png"
-  },
-  {"name": "RabbitMQ",
-    "logoUrl": "logos/rabbitmq.png"
-  },
-  {
-    "name": "Redis",
-    "logoUrl": "logos/redis.png"
-  },
-  {
-    "name": "NumPy",
-    "logoUrl": "logos/numpy.png"
-  },
-  {
-    "name": "Pandas",
-    "logoUrl": "logos/pandas.png"
-  },
-  {
-    "name": "Scikit-learn",
-    "logoUrl": "logos/scikit-learn.png"
-  },
-  {
-    "name": "Streamlit",
-    "logoUrl": "logos/streamlit.png"
+    "group": "Data plumbing",
+    "skills": [
+      { "name": "Python", "logoUrl": "logos/python.png" },
+      { "name": "Pandas", "logoUrl": "logos/pandas.png" },
+      { "name": "NumPy", "logoUrl": "logos/numpy.png" },
+      { "name": "Kafka", "logoUrl": "logos/kafka.png" },
+      { "name": "RabbitMQ", "logoUrl": "logos/rabbitmq.png" },
+      { "name": "Elasticsearch", "logoUrl": "logos/elasticsearch.png" },
+      { "name": "Snowflake" },
+      { "name": "Git and GitHub", "logoUrl": "logos/github.png" }
+    ]
   }
 ]
