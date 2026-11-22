@@ -46,7 +46,20 @@ h3.sub { font-family: var(--display); font-size: 1.25rem; font-weight: 700; marg
 
 
 /* ---------- hero: decoded headline + attention map ---------- */
-main > section.about { border-top: 0; padding-top: clamp(24px, 6vh, 64px); }
+/* The hero also fills a screen, so the next section's rule stays out of
+   sight until you scroll. */
+main > section.about {
+  border-top: 0;
+  min-height: calc(100vh - 67px);
+  min-height: calc(100svh - 67px);
+  display: flex; align-items: center;
+  padding: 32px 0;
+}
+.about > .hero { width: 100%; }
+
+/* Settle on whole screens: the title, the hero, then each section's top. */
+html { scroll-snap-type: y proximity; }
+.intro, .about { scroll-snap-align: start; scroll-margin-top: 67px; }
 .hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
 .headline {
   font-family: var(--display); font-weight: 520; font-variation-settings: "wdth" 90;
