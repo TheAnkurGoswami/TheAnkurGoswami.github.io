@@ -18,6 +18,7 @@
         <div class="topbar-inner">
             <a class="brand" href="#top" id="top">Ankur Goswami</a>
             <nav aria-label="Sections">
+                <a href="#work">Work</a>
                 <a href="#contact">Contact</a>
                 <a href="blog/">Writing</a>
                 <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">
@@ -58,6 +59,20 @@
                     </figcaption>
                 </figure>
             </div>
+        </section>
+
+        <section id="work" aria-labelledby="work-h">
+            <div class="sec-head">
+                <h2 id="work-h">Where I've built things</h2>
+                <p>My career as a training run. Move along the curve, or tap it, to see what shipped at each point.</p>
+            </div>
+            <div class="run" id="run-chart"></div>
+            <div class="run-legend" aria-hidden="true">
+                <span><i style="--c: var(--line)"></i>Train: what I learned</span>
+                <span><i style="--c: var(--ember)"></i>Validation: what I shipped</span>
+            </div>
+            <div class="run-readout" id="run-readout" aria-live="polite"></div>
+            <div id="role-panel" aria-live="polite"></div>
         </section>
 
         <section id="contact" class="end" aria-labelledby="contact-h">

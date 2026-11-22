@@ -91,6 +91,29 @@ html { scroll-snap-type: y proximity; }
   .headline { min-height: 0; }
 }
 
+/* ---------- experience: training run ---------- */
+.run { position: relative; margin-bottom: 8px; touch-action: pan-y; }
+.run svg { display: block; width: 100%; overflow: visible; cursor: crosshair; }
+.run svg:focus-visible { outline: 3px solid var(--violet); outline-offset: 6px; border-radius: 4px; }
+.run text { font-family: var(--body); font-size: 12px; fill: var(--ink-soft); }
+.run text.band { font-family: var(--display); font-weight: 650; font-size: 13px; fill: var(--ink); }
+.run text.note { font-family: var(--display); font-weight: 600; font-size: 12.5px; fill: var(--ink); }
+.run-legend { display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: center; font-size: .9rem; color: var(--ink-soft); margin: 6px 0 10px; }
+.run-legend i { display: inline-block; width: 20px; height: 3px; border-radius: 2px; background: var(--c); vertical-align: middle; margin-right: 8px; }
+.run-readout { font-size: .95rem; min-height: 1.5em; margin-bottom: 36px; }
+.run-readout b { font-family: var(--display); font-weight: 650; }
+
+.role { display: grid; grid-template-columns: minmax(180px, .36fr) 1fr; gap: 32px; }
+.role h3 { font-family: var(--display); font-size: 1.6rem; font-weight: 700; letter-spacing: -.02em; margin: 0 0 4px; line-height: 1.1; }
+.role .when { color: var(--ink-soft); font-size: .95rem; }
+.items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 40px; }
+.items h4 { font-family: var(--display); font-weight: 650; font-size: 1.12rem; margin: 0 0 6px; letter-spacing: -.01em; }
+.items p { margin: 0; color: var(--ink-soft); max-width: 40ch; }
+@media (max-width: 900px) {
+  .role { grid-template-columns: 1fr; gap: 12px; }
+  .items { grid-template-columns: 1fr; }
+}
+
 /* ---------- contact ---------- */
 .end { padding-bottom: 72px; }
 .end h2 {
