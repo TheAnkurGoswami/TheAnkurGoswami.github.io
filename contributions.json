@@ -1,16 +1,25 @@
 {
   "contributions": [
     {
-      "projectName": "Langchain",
+      "projectName": "LangChain",
       "projectUrl": "https://github.com/langchain-ai/langchain",
-      "description": "Bug Fixes & new feature additions.",
-      "role": "Contributor"
+      "role": "Contributor",
+      "icon": "chain",
+      "description": "Bug fixes and new features in the most widely used framework for building with LLMs.",
+      "highlights": ["Contributions merged upstream"],
+      "technologies": ["Python", "LLMs"]
     },
     {
       "projectName": "Accern Data Client",
       "projectUrl": "https://github.com/Accern/accern-data-client",
-      "description": "Created and maintained a public Python library hosted on PyPI for streamlined consumption of Accern’s data feed.",
-      "role": "Core Developer"
+      "role": "Core developer, on PyPI",
+      "icon": "package",
+      "description": "A public Python library for consuming Accern's financial data feed.",
+      "highlights": [
+        "Replaced hand-run ingestion, cutting manual work by 90%",
+        "Published on PyPI for Accern's customers"
+      ],
+      "technologies": ["Python", "PyPI", "REST APIs"]
     }
   ]
 }
