@@ -38,35 +38,5 @@
     "imageUrl": "path/to/mocr.jpg",
     "repoUrl": "https://github.com/TheAnkurGoswami/M-OCR",
     "liveUrl": null
-  },
-  {
-    "id": "cowintracker",
-    "title": "CoWIN-Tracker",
-    "description": "Telegram bot to track the availability of COVID-19 vaccines in India using CoWIN API.",
-    "technologies": ["Python", "Telegram Bot", "API"],
-    "tags": [],
-    "imageUrl": "path/to/cowin.jpg",
-    "repoUrl": "https://github.com/TheAnkurGoswami/CoWIN-Tracker",
-    "liveUrl": null
-  },
-  {
-    "id": "covidtrackerbot",
-    "title": "COVID19-Tracker-TG-bot",
-    "description": "Telegram bot for real-time COVID-19 case updates in India.",
-    "technologies": ["Python", "Telegram Bot", "API"],
-    "tags": [],
-    "imageUrl": "path/to/covidtracker.jpg",
-    "repoUrl": "https://github.com/TheAnkurGoswami/COVID19-Tracker-TG-bot",
-    "liveUrl": null
-  },
-  {
-    "id": "numwords",
-    "title": "NumWords",
-    "description": "A simple Python library to convert numbers into their semantic word representation.",
-    "technologies": ["Python"],
-    "tags": [],
-    "imageUrl": "path/to/numwords.jpg",
-    "repoUrl": "https://github.com/TheAnkurGoswami/NumWords",
-    "liveUrl": null
   }
 ]
