@@ -30,6 +30,13 @@ h3.sub { font-family: var(--display); font-size: 1.25rem; font-weight: 700; marg
 .btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
 .btn.ghost:hover { background: var(--ink); color: var(--paper); }
 
+/* ---------- title: letters built from attention cells ---------- */
+.intro { padding-top: 0; }
+.title { margin: clamp(28px, 6vh, 64px) 0 0; font-size: inherit; font-weight: inherit; }
+.title canvas { display: block; width: 100%; cursor: crosshair; }
+.title-meta { display: flex; justify-content: space-between; gap: 16px; margin-top: 14px; font-size: .88rem; color: var(--ink-soft); }
+@media (max-width: 900px) { .title-meta span:last-child { display: none; } }
+
 /* ---------- contact ---------- */
 .end { padding-bottom: 72px; }
 .end h2 {
