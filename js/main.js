@@ -2,7 +2,7 @@
 // and renders into its own <section>; a failure in one does not stop the rest.
 
 import { initTitle } from './title.js';
-import { initAttention } from './attention.js';
+import { initAttention } from './attention.js?v=2';
 
 const sections = [initTitle, initAttention];
 
