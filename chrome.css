@@ -1,0 +1,62 @@
+/*
+ * Site chrome shared by the home page and the blog: base reset,
+ * the sticky top bar and the theme toggle. Needs tokens.css first.
+ */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; border-radius: 2px; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* top bar */
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(var(--ink-rgb), .08);
+}
+.topbar-inner {
+  max-width: 1180px; margin: 0 auto;
+  padding: 14px clamp(20px, 4vw, 48px);
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+}
+.brand { font-family: var(--display); font-weight: 700; text-decoration: none; letter-spacing: -.01em; white-space: nowrap; }
+.topbar nav { display: flex; align-items: center; gap: clamp(14px, 2.4vw, 28px); }
+.topbar nav a { text-decoration: none; color: var(--ink-soft); font-size: .95rem; }
+.topbar nav a:hover, .topbar nav a[aria-current] { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+
+/* theme toggle */
+.theme-toggle {
+  all: unset; cursor: pointer; flex-shrink: 0;
+  width: 38px; height: 38px; border-radius: 50%;
+  display: grid; place-items: center;
+  box-shadow: inset 0 0 0 1.5px var(--ink); color: var(--ink);
+}
+.theme-toggle:hover { background: var(--ink); color: var(--paper); }
+.theme-toggle:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; }
+.theme-toggle svg { width: 17px; height: 17px; }
+.theme-toggle .icon-moon { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
+@media (max-width: 560px) {
+  .topbar nav a:not([aria-current]) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
