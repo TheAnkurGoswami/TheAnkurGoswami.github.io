@@ -4,9 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Key-Value Caching</title>
-    <link rel="stylesheet" href="../../style.css?v=4">
-    <link rel="stylesheet" href="./style.css?v=7">
+    <title>Key-value caching, from the matrices up — Ankur Goswami</title>
+    <script>try{var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../tokens.css?v=1">
+    <link rel="stylesheet" href="../../chrome.css?v=1">
+    <link rel="stylesheet" href="../blog.css?v=2">
+    <link rel="stylesheet" href="./style.css?v=8">
     <script>
         window.MathJax = {
             tex: {
@@ -23,21 +29,31 @@
 </head>
 
 <body>
-    <button id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    <aside id="sidebar">
-        <nav>
-            <ul>
-                <li><a href="../../">Home</a></li>
-                <li><a href="../">Blog</a></li>
-            </ul>
-        </nav>
-    </aside>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="../../">Ankur Goswami</a>
+            <nav aria-label="Site">
+                <a href="../../#work">Work</a>
+                <a href="../" aria-current="page">Writing</a>
+                <a href="../../#projects">Projects</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 14.6A8.5 8.5 0 0 1 9.4 4a8.5 8.5 0 1 0 10.6 10.6z"/></svg>
+                </button>
+            </nav>
+        </div>
+        <div class="reading-progress" aria-hidden="true"></div>
+    </header>
     <main>
-        <section id="blog-post">
+        <div class="article-head">
+            <p class="crumbs"><a href="../">Writing</a></p>
+            <h1>Key-value caching, from the matrices up</h1>
+            <p class="dek">Why a transformer doesn't have to recompute the past for every new token, worked through one matrix at a time.</p>
+            <div class="meta"><span>January 2026</span><span>8 min read</span><span class="tag">Transformers</span><span class="tag">Inference</span><span class="tag">Attention</span></div>
+        </div>
+        <div class="article-grid">
+        <nav class="toc" aria-label="On this page"><p>On this page</p><ol id="toc"></ol></nav>
+        <article id="blog-post">
             <div class="post-header-meta">
                 <a class="post-back-link" href="../">&larr; Back to blog</a>
                 <p class="post-meta">Jan 2026 · 8 min read</p>
@@ -535,7 +551,7 @@
                 embedded in the <strong>last row</strong>.</p>
             <p>This means we do <strong>not</strong> need to cache attention scores either.</p>
 
-            <details class="bonus-section">
+            <details class="bonus-section" data-toc="Bonus: why past hidden states are not lost">
             <summary><span class="bonus-label">Bonus:</span> Why Discarding Past Hidden States Does Not Lose Information</summary>
 
             <p>
@@ -632,9 +648,15 @@
 }</code></pre>
             <p>And that is <strong><i>Key-Value (KV) Caching</i></strong>.</p>
             
-        </section>
+            <nav class="next-posts" aria-label="More writing">
+                <a href="../">All writing<span>Back to the list</span></a>
+                <a href="../flash_attention/">Flash Attention, visualised<span>Next post</span></a>
+            </nav>
+        </article>
+        </div>
     </main>
-    <script src="../../script.js"></script>
+    <script src="../../theme.js?v=1" defer></script>
+    <script src="../blog.js?v=1" defer></script>
     <script type="module">
         import { matrices } from "./matrices.js?v=2";
         import { renderMatrix } from "./renderMatrix.js?v=2";

@@ -3,91 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>Ankur Goswami — Data Scientist</title>
+    <meta name="description" content="Ankur Goswami, senior data scientist. LLM agents, retrieval and vision models, served fast on real GPUs.">
+    <script>try{var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;}catch(e){}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="tokens.css?v=1">
+    <link rel="stylesheet" href="chrome.css?v=1">
+    <link rel="stylesheet" href="home.css?v=6">
 </head>
 <body>
-    <button id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    <aside id="sidebar">
-        <nav>
-            <ul>
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#about">About Me</a></li>
-                <li><a href="#work-experience">Work Experience</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#contributions">Contributions</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="blog/">Blog</a></li>
-            </ul>
-        </nav>
-    </aside>
-    <section id="hero">
-        <div class="hero-bg" aria-hidden="true">
-            <div class="hero-glow"></div>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="#top" id="top">Ankur Goswami</a>
+            <nav aria-label="Sections">
+                <a href="#work">Work</a>
+                <a href="#writing">Writing</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 14.6A8.5 8.5 0 0 1 9.4 4a8.5 8.5 0 1 0 10.6 10.6z"/></svg>
+                </button>
+            </nav>
         </div>
-        <div class="hero-content">
-            <p class="hero-intro">Hi, my name is</p>
-            <h1 class="hero-name">Ankur Goswami</h1>
-            <h2 class="hero-designation"><span id="typing-designation"></span></h2>
-        </div>
-    </section>
+    </header>
 
-    <main>
-        <section id="about" class="js-scroll-animate slide-from-bottom">
-            <h2>About Me</h2>
-            <div class="about-me-content">
-                <div class="about-me-column about-me-left">
-                    <p>Hi, I'm <span class="highlight-name">Ankur</span> — I teach machines to think, so we can spend more time doing what matters.</p>
+    <main class="wrap">
+        <section class="intro" aria-labelledby="title">
+            <h1 class="title" id="title">
+                <span class="visually-hidden">Ankur Goswami, data scientist and AI researcher</span>
+                <canvas id="title-canvas" data-titles="DATA SCIENTIST|AI RESEARCHER" aria-hidden="true"></canvas>
+            </h1>
+            <div class="title-meta">
+                <span>Agentic systems, retrieval and vision, served on real GPUs</span>
+                <span>Gartner</span>
+            </div>
+        </section>
+
+        <section class="about" id="about" aria-label="About">
+            <div class="hero">
+                <div>
+                    <p class="headline" id="headline" aria-label="I teach machines to think, so people can spend more time on what matters."></p>
+                    <p class="lede">I'm Ankur, a senior data scientist at Gartner. For five years I've built LLM agents, retrieval pipelines and vision models, and made them run fast on real GPUs in production.</p>
+                    <div class="row">
+                        <a class="btn" href="#contact">Get in touch</a>
+                        <a class="btn ghost" href="blog/">Read the blog</a>
+                    </div>
                 </div>
-                <div class="about-me-column about-me-right">
-                    <p>As a Data Scientist with 4 years of experience, I love transforming messy data into smart, automated solutions using the latest in AI. Whether it’s building models, optimizing workflows, or crafting data-driven products, I strive to make technology work for people. I’m excited by challenges that push the limits of what AI can do in the real world.</p>
+                <figure class="attention">
+                    <canvas id="attention-canvas" role="img" aria-label="Animated causal attention map over the words of the headline. Hover a cell to see which word attends to which."></canvas>
+                    <figcaption>
+                        <span id="attention-readout">Each cell is how much one word of the headline attends to an earlier one. Hover to read it.</span>
+                        <span class="legend" aria-hidden="true">low <i></i> high</span>
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section id="work" aria-labelledby="work-h">
+            <div class="sec-head">
+                <h2 id="work-h">Where I've built things</h2>
+                <p>My career as a training run. Move along the curve, or tap it, to see what shipped at each point.</p>
+            </div>
+            <div class="run" id="run-chart"></div>
+            <div class="run-legend" aria-hidden="true">
+                <span><i style="--c: var(--line)"></i>Train: what I learned</span>
+                <span><i style="--c: var(--ember)"></i>Validation: what I shipped</span>
+            </div>
+            <div class="run-readout" id="run-readout" aria-live="polite"></div>
+            <div id="role-panel" aria-live="polite"></div>
+        </section>
+
+        <section aria-labelledby="wins-h">
+            <div class="sec-head">
+                <h2 id="wins-h">Numbers I'm proud of</h2>
+                <p>The parts of the job that don't fit in a demo: utilisation, accuracy, and hours given back to people.</p>
+            </div>
+            <div class="wins">
+                <div class="win">
+                    <p class="fig">25→90%<small>GPU use</small></p>
+                    <div class="gpu" id="gpu-bar" aria-hidden="true"><span></span></div>
+                    <p>Re-staged a multi-step LLM pipeline over enterprise support tickets so the GPUs stopped waiting on each other.</p>
+                </div>
+                <div class="win">
+                    <p class="fig">93%<small>accuracy</small></p>
+                    <p>SWIN Transformer for roof attributes from aerial imagery, alongside a YOLOv8/v10 ensemble at about 87% precision. I led the team of four that put both in production.</p>
+                </div>
+                <div class="win">
+                    <p class="fig">90%<small>less manual work</small></p>
+                    <p>The Accern Data Client, a Python library on PyPI that replaced hand-run ingestion of Accern's data feed.</p>
                 </div>
             </div>
         </section>
-        <section id="work-experience">
-            <p class="section-kicker">Work Experience</p>
-            <h2>Where I've built things</h2>
-            <div class="timeline">
-                <!-- This div is now empty. JavaScript will populate it. -->
+
+        <section id="writing" aria-labelledby="writing-h">
+            <div class="sec-head">
+                <h2 id="writing-h">Writing</h2>
+                <p>I write about what makes transformers fast at inference time, with diagrams you can play with.</p>
+            </div>
+            <div class="posts" id="posts"></div>
+        </section>
+
+        <section id="projects" aria-labelledby="projects-h">
+            <div class="sec-head">
+                <h2 id="projects-h">Projects</h2>
+                <p>Side projects I built to understand something properly, and code I've shipped for other people. Open a folder to see what's inside.</p>
+            </div>
+            <div class="folders" id="folders"></div>
+            <div class="education">
+                <h3 class="sub">Education</h3>
+                <div id="education"></div>
             </div>
         </section>
-        <section id="projects" class="js-scroll-animate slide-from-bottom">
-            <div id="projects-container">
-                <!-- Projects will be loaded here by JavaScript -->
+
+        <section id="skills" aria-labelledby="skills-h">
+            <div class="sec-head">
+                <h2 id="skills-h">What I work with</h2>
+                <p>Grouped by the job each tool does, not by logo.</p>
             </div>
+            <div class="stack" id="skills-list"></div>
         </section>
-        <section id="skills" class="js-scroll-animate slide-from-bottom">
-            <h2>Skills</h2>
-            <div id="skills-grid" class="skills-grid">
-                <!-- This div is now empty. JavaScript will populate it. -->
+
+        <section id="contact" class="end" aria-labelledby="contact-h">
+            <h2 id="contact-h">Got a model that should be faster?</h2>
+            <div class="row">
+                <a class="btn" href="https://github.com/TheAnkurGoswami">GitHub</a>
+                <a class="btn ghost" href="blog/">Read the blog</a>
             </div>
-        </section>
-        <section id="education" class="js-scroll-animate slide-from-bottom">
-            <h2>Education</h2>
-            <p>Education details coming soon.</p>
-        </section>
-        <section id="contributions" class="js-scroll-animate slide-from-bottom">
-            <h2>Contributions</h2>
-            <div id="contributions-container">
-                <!-- Contributions will be loaded here by JavaScript -->
-            </div>
-        </section>
-        <section id="contact" class="js-scroll-animate slide-from-bottom">
-            <h2>Contact</h2>
-            <p>Contact section coming soon.</p>
         </section>
     </main>
 
-    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
-    <script src="script.js?v=4"></script>
+    <footer class="wrap">
+        <div class="site-footer">
+            <span>Ankur Goswami, Noida</span>
+            <a href="#top">Back to top</a>
+        </div>
+    </footer>
+
+    <script src="theme.js?v=1" defer></script>
+    <script src="js/reveal.js?v=1" defer></script>
+    <script type="module" src="js/main.js?v=3"></script>
 </body>
 </html>

@@ -1,10 +1,19 @@
 [
   {
+    "company": "Gartner",
+    "role": "Senior Data Scientist",
+    "location": "India",
+    "startDate": "Aug 2026",
+    "endDate": "Present",
+    "details": [],
+    "summary": "Joined as a senior data scientist in August 2026."
+  },
+  {
     "company": "EXL",
     "role": "Data Scientist",
     "location": "India",
     "startDate": "Aug 2024",
-    "endDate": "Present",
+    "endDate": "Aug 2026",
     "details": [
       {
         "title": "Agentic AI — Travel & Expense Compliance",
