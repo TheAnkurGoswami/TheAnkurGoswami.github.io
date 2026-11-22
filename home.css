@@ -196,7 +196,7 @@ html { scroll-snap-type: y proximity; }
   transform-origin: 50% 100%; transition: transform .45s cubic-bezier(.2, .8, .2, 1);
 }
 .folder .front svg { position: absolute; right: clamp(10px, 1.2vw, 16px); bottom: clamp(10px, 1.2vw, 16px); width: 24%; height: auto; opacity: .85; }
-.folder .ft { font-family: var(--display); font-weight: 760; font-variation-settings: "wdth" 80; font-size: clamp(1.05rem, 1.7vw, 1.45rem); line-height: .98; letter-spacing: -.02em; }
+.folder .ft { font-family: var(--display); font-weight: 760; font-variation-settings: "wdth" 80; font-size: clamp(1.05rem, 1.7vw, 1.45rem); line-height: .98; letter-spacing: -.008em; }
 .folder .fs { font-size: .84rem; opacity: .75; max-width: 70%; }
 
 .folder:hover .front, .folder:focus-visible .front { transform: rotateX(-16deg); }
@@ -213,7 +213,7 @@ html { scroll-snap-type: y proximity; }
 .sheet > div { padding: clamp(20px, 3vw, 34px); }
 .sheet > div + div { border-left: 1.5px dashed var(--cold); }
 .sheet .label { font-size: .84rem; color: var(--ink-soft); margin: 0 0 10px; }
-.sheet h3 { font-family: var(--display); font-weight: 760; font-variation-settings: "wdth" 82; font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -.03em; line-height: 1; margin: 0 0 14px; }
+.sheet h3 { font-family: var(--display); font-weight: 760; font-variation-settings: "wdth" 82; font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -.01em; line-height: 1; margin: 0 0 14px; }
 .sheet p { margin: 0 0 14px; color: var(--ink-soft); max-width: 36em; }
 .sheet ul { margin: 0; padding-left: 1.1em; color: var(--ink-soft); }
 .sheet li { margin: 4px 0; }
