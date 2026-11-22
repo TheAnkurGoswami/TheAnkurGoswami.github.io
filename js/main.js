@@ -5,8 +5,9 @@ import { initTitle } from './title.js';
 import { initAttention } from './attention.js?v=2';
 import { initTimeline } from './timeline.js';
 import { initHighlights } from './highlights.js';
+import { initWriting } from './writing.js';
 
-const sections = [initTitle, initAttention, initTimeline, initHighlights];
+const sections = [initTitle, initAttention, initTimeline, initHighlights, initWriting];
 
 for (const load of sections) {
   load().catch(err => console.error(err));

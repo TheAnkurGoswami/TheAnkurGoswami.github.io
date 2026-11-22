@@ -143,6 +143,24 @@ html { scroll-snap-type: y proximity; }
   .win:last-child { border-bottom: 0; }
 }
 
+/* ---------- writing ---------- */
+.posts { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.post {
+  display: block; position: relative; overflow: hidden; min-height: 250px;
+  padding: 30px; border-radius: 14px; text-decoration: none;
+  background: var(--card); color: #E8EBF4;
+}
+.post:nth-child(2) { background: var(--violet); }
+.post h3 {
+  font-family: var(--display); font-weight: 720; font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  letter-spacing: -.025em; line-height: 1.02; margin: 0 0 12px; max-width: 12ch;
+}
+.post p { margin: 0 0 18px; opacity: .82; max-width: 30ch; }
+.post .meta { font-size: .88rem; opacity: .7; }
+.post canvas { position: absolute; right: -6px; bottom: -6px; width: 150px; height: 150px; opacity: .9; }
+.post:hover h3 { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
+@media (max-width: 900px) { .posts { grid-template-columns: 1fr; } }
+
 /* ---------- contact ---------- */
 .end { padding-bottom: 72px; }
 .end h2 {
