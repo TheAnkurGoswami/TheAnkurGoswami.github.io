@@ -3,91 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>Ankur Goswami — Data Scientist</title>
+    <meta name="description" content="Ankur Goswami, senior data scientist. LLM agents, retrieval and vision models, served fast on real GPUs.">
+    <script>try{var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;}catch(e){}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="tokens.css?v=1">
+    <link rel="stylesheet" href="chrome.css?v=1">
+    <link rel="stylesheet" href="home.css?v=1">
 </head>
 <body>
-    <button id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    <aside id="sidebar">
-        <nav>
-            <ul>
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#about">About Me</a></li>
-                <li><a href="#work-experience">Work Experience</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#contributions">Contributions</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="blog/">Blog</a></li>
-            </ul>
-        </nav>
-    </aside>
-    <section id="hero">
-        <div class="hero-bg" aria-hidden="true">
-            <div class="hero-glow"></div>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="#top" id="top">Ankur Goswami</a>
+            <nav aria-label="Sections">
+                <a href="#contact">Contact</a>
+                <a href="blog/">Writing</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 14.6A8.5 8.5 0 0 1 9.4 4a8.5 8.5 0 1 0 10.6 10.6z"/></svg>
+                </button>
+            </nav>
         </div>
-        <div class="hero-content">
-            <p class="hero-intro">Hi, my name is</p>
-            <h1 class="hero-name">Ankur Goswami</h1>
-            <h2 class="hero-designation"><span id="typing-designation"></span></h2>
-        </div>
-    </section>
+    </header>
 
-    <main>
-        <section id="about" class="js-scroll-animate slide-from-bottom">
-            <h2>About Me</h2>
-            <div class="about-me-content">
-                <div class="about-me-column about-me-left">
-                    <p>Hi, I'm <span class="highlight-name">Ankur</span> — I teach machines to think, so we can spend more time doing what matters.</p>
-                </div>
-                <div class="about-me-column about-me-right">
-                    <p>As a Data Scientist with 4 years of experience, I love transforming messy data into smart, automated solutions using the latest in AI. Whether it’s building models, optimizing workflows, or crafting data-driven products, I strive to make technology work for people. I’m excited by challenges that push the limits of what AI can do in the real world.</p>
-                </div>
+    <main class="wrap">
+        <!-- sections are added here, one per module in js/ -->
+
+        <section id="contact" class="end" aria-labelledby="contact-h">
+            <h2 id="contact-h">Got a model that should be faster?</h2>
+            <div class="row">
+                <a class="btn" href="https://github.com/TheAnkurGoswami">GitHub</a>
+                <a class="btn ghost" href="blog/">Read the blog</a>
             </div>
-        </section>
-        <section id="work-experience">
-            <p class="section-kicker">Work Experience</p>
-            <h2>Where I've built things</h2>
-            <div class="timeline">
-                <!-- This div is now empty. JavaScript will populate it. -->
-            </div>
-        </section>
-        <section id="projects" class="js-scroll-animate slide-from-bottom">
-            <div id="projects-container">
-                <!-- Projects will be loaded here by JavaScript -->
-            </div>
-        </section>
-        <section id="skills" class="js-scroll-animate slide-from-bottom">
-            <h2>Skills</h2>
-            <div id="skills-grid" class="skills-grid">
-                <!-- This div is now empty. JavaScript will populate it. -->
-            </div>
-        </section>
-        <section id="education" class="js-scroll-animate slide-from-bottom">
-            <h2>Education</h2>
-            <p>Education details coming soon.</p>
-        </section>
-        <section id="contributions" class="js-scroll-animate slide-from-bottom">
-            <h2>Contributions</h2>
-            <div id="contributions-container">
-                <!-- Contributions will be loaded here by JavaScript -->
-            </div>
-        </section>
-        <section id="contact" class="js-scroll-animate slide-from-bottom">
-            <h2>Contact</h2>
-            <p>Contact section coming soon.</p>
         </section>
     </main>
 
-    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
-    <script src="script.js?v=4"></script>
+    <footer class="wrap">
+        <div class="site-footer">
+            <span>Ankur Goswami, Noida</span>
+            <a href="#top">Back to top</a>
+        </div>
+    </footer>
+
+    <script src="theme.js?v=1" defer></script>
+    <script type="module" src="js/main.js?v=1"></script>
 </body>
 </html>

@@ -1,0 +1,50 @@
+/*
+ * Home page styles. Needs tokens.css and chrome.css first.
+ * One block per section, in page order.
+ * (style.css and script.js are the previous design; the blog still uses
+ * them until it moves to the shared chrome.)
+ */
+
+/* ---------- layout ---------- */
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+
+main > section { padding: clamp(64px, 10vh, 112px) 0; border-top: 1.5px solid var(--ink); }
+main > section:first-child { border-top: 0; }
+
+.sec-head { display: grid; grid-template-columns: minmax(180px, .36fr) 1fr; gap: 32px; margin-bottom: 48px; }
+.sec-head h2 {
+  font-family: var(--display); font-weight: 720; font-variation-settings: "wdth" 85;
+  font-size: clamp(1.9rem, 3.6vw, 2.9rem); line-height: 1; letter-spacing: -.025em; margin: 0;
+}
+.sec-head p { margin: 0; max-width: 36em; color: var(--ink-soft); align-self: end; }
+
+h3.sub { font-family: var(--display); font-size: 1.25rem; font-weight: 700; margin: 0 0 16px; letter-spacing: -.01em; }
+
+/* ---------- buttons ---------- */
+.row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.btn {
+  display: inline-block; font-family: var(--display); font-weight: 600; text-decoration: none;
+  padding: 13px 22px; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: 1rem;
+}
+.btn:hover { background: var(--violet); color: #fff; }
+.btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.btn.ghost:hover { background: var(--ink); color: var(--paper); }
+
+/* ---------- contact ---------- */
+.end { padding-bottom: 72px; }
+.end h2 {
+  font-family: var(--display); font-weight: 780; font-variation-settings: "wdth" 80;
+  font-size: clamp(2.6rem, 8vw, 7rem); line-height: .92; letter-spacing: -.045em; margin: 0 0 36px; max-width: 11ch;
+}
+
+/* ---------- footer ---------- */
+.site-footer {
+  display: flex; justify-content: space-between; gap: 16px;
+  font-size: .88rem; color: var(--ink-soft);
+  padding-top: 22px; padding-bottom: 48px;
+  border-top: 1px solid var(--cold);
+}
+
+@media (max-width: 900px) {
+  .sec-head { grid-template-columns: 1fr; gap: 12px; }
+}
