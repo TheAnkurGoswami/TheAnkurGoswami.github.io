@@ -122,6 +122,27 @@ html { scroll-snap-type: y proximity; }
   .items { grid-template-columns: 1fr; }
 }
 
+/* ---------- highlights ---------- */
+.wins { display: grid; grid-template-columns: repeat(3, 1fr); border: 1.5px solid var(--ink); border-radius: 12px; overflow: hidden; }
+.win { padding: 28px 26px 30px; border-right: 1.5px solid var(--ink); }
+.win:last-child { border-right: 0; }
+.win p { margin: 16px 0 0; color: var(--ink-soft); font-size: .98rem; }
+.win .fig {
+  margin: 0; color: var(--ink);
+  font-family: var(--display); font-weight: 780; font-variation-settings: "wdth" 78;
+  font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1; letter-spacing: -.04em;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.win .fig small { font-family: var(--body); font-size: 1rem; font-weight: 400; color: var(--ink-soft); letter-spacing: 0; }
+.gpu { height: 12px; border-radius: 6px; background: var(--cold); margin: 16px 0 0; overflow: hidden; }
+.gpu span { display: block; height: 100%; width: 25%; background: var(--ember); transition: width 1.6s cubic-bezier(.2, .7, .2, 1); }
+.gpu.is-filled span { width: 91%; }
+@media (max-width: 900px) {
+  .wins { grid-template-columns: 1fr; }
+  .win { border-right: 0; border-bottom: 1.5px solid var(--ink); }
+  .win:last-child { border-bottom: 0; }
+}
+
 /* ---------- contact ---------- */
 .end { padding-bottom: 72px; }
 .end h2 {
