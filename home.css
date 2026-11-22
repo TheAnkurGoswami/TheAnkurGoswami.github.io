@@ -37,22 +37,13 @@ h3.sub { font-family: var(--display); font-size: 1.25rem; font-weight: 700; marg
   min-height: calc(100vh - 67px);   /* fallback for browsers without svh */
   min-height: calc(100svh - 67px);  /* 67px ≈ the sticky top bar */
   display: flex; flex-direction: column; justify-content: center;
-  padding: 48px 0 96px;
+  padding: 48px 0;
 }
 .title { margin: 0; font-size: inherit; font-weight: inherit; }
 .title canvas { display: block; width: 100%; cursor: crosshair; }
 .title-meta { display: flex; justify-content: space-between; gap: 16px; margin-top: 14px; font-size: .88rem; color: var(--ink-soft); }
 @media (max-width: 900px) { .title-meta span:last-child { display: none; } }
 
-.scroll-cue {
-  position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  font-size: .82rem; color: var(--ink-soft); text-decoration: none;
-}
-.scroll-cue svg { width: 16px; height: 24px; }
-.scroll-cue .wheel { animation: wheel 1.8s ease-in-out infinite; }
-.scroll-cue:hover { color: var(--ink); }
-@keyframes wheel { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(5px); opacity: 0; } 100% { opacity: 0; } }
 
 /* ---------- hero: decoded headline + attention map ---------- */
 main > section.about { border-top: 0; padding-top: clamp(24px, 6vh, 64px); }
