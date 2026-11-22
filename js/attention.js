@@ -38,6 +38,11 @@ export async function initAttention() {
   });
 
   // Headline tokens (visual only; the aria-label carries the sentence).
+  // The intro and buttons wait for the headline (class set here, so they
+  // stay visible if this script never runs).
+  const hero = headline.closest('.hero');
+  if (!reduceMotion) hero?.classList.add('is-waiting');
+
   const tokens = words.map(w => {
     const s = document.createElement('span');
     s.className = 'tok pending'; s.textContent = w; s.setAttribute('aria-hidden', 'true');
@@ -152,6 +157,7 @@ export async function initAttention() {
   let i = 0;
   const step = () => {
     if (i >= N) {
+      hero?.classList.remove('is-waiting');
       const total = Math.ceil(N / TILE) ** 2;
       let p = 0; tileProgress = 0;
       const sweep = () => { tileProgress = ++p; draw(); if (p < total) setTimeout(sweep, 70); else setTimeout(() => caret.remove(), 900); };
