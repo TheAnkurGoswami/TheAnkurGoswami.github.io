@@ -42,7 +42,7 @@ body { line-height: 1.6; }
 }
 .list-head h1 {
   font-family: var(--display); font-weight: 780; font-variation-settings: "wdth" 80;
-  font-size: clamp(3rem, 10vw, 8rem); line-height: .88; letter-spacing: -.045em; margin: 0;
+  font-size: clamp(3rem, 10vw, 8rem); line-height: .9; letter-spacing: -.01em; margin: 0;
 }
 .list-head p { margin: 0; color: var(--ink-soft); }
 .post-list { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; padding-bottom: 96px; }
@@ -52,7 +52,7 @@ body { line-height: 1.6; }
   background: var(--card); color: #E8EBF4;
 }
 .post-card:nth-child(2n) { background: var(--violet); }
-.post-card h2 { font-family: var(--display); font-weight: 740; font-size: clamp(1.8rem, 3.2vw, 2.6rem); letter-spacing: -.03em; line-height: 1; margin: 0 0 14px; max-width: 13ch; }
+.post-card h2 { font-family: var(--display); font-weight: 740; font-size: clamp(1.8rem, 3.2vw, 2.6rem); letter-spacing: -.015em; line-height: 1; margin: 0 0 14px; max-width: 13ch; }
 .post-card p { margin: 0 0 20px; opacity: .82; max-width: 32ch; }
 .post-card .meta { font-size: .88rem; opacity: .7; }
 .post-card .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
@@ -72,7 +72,7 @@ body { line-height: 1.6; }
 .article-head .crumbs a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .article-head h1 {
   font-family: var(--display); font-weight: 780; font-variation-settings: "wdth" 80;
-  font-size: clamp(2.8rem, 8vw, 6.6rem); line-height: .9; letter-spacing: -.045em; margin: 0 0 26px; max-width: 12ch;
+  font-size: clamp(2.8rem, 8vw, 6.6rem); line-height: .92; letter-spacing: -.01em; margin: 0 0 26px; max-width: 12ch;
 }
 .article-head .dek { font-size: clamp(1.1rem, 1.6vw, 1.3rem); color: var(--ink-soft); max-width: 36em; margin: 0 0 22px; }
 .article-head .meta { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; font-size: .92rem; color: var(--ink-soft); }
