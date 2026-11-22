@@ -6,8 +6,9 @@
 // and "time"); they are illustrative, not from a real model. After the
 // headline finishes, the map fills in tile by tile the way Flash Attention
 // visits blocks. Hovering a cell or a word shows who attends to whom.
+// The animation waits until the headline is on screen.
 
-import { reduceMotion, css, inkRGB, hexToRGB, esc } from './lib.js';
+import { reduceMotion, css, inkRGB, hexToRGB, esc, onVisible } from './lib.js';
 
 const TILE = 4;
 // For each query word, the earlier words it should attend to strongly.
@@ -146,6 +147,8 @@ export async function initAttention() {
   if (reduceMotion) { tokens.forEach(t => t.classList.remove('pending')); return; }
 
   // The one orchestrated moment: decode the headline, then sweep the tiles.
+  // It starts when the headline scrolls into view, since it sits below the
+  // full-screen title.
   let i = 0;
   const step = () => {
     if (i >= N) {
@@ -159,5 +162,5 @@ export async function initAttention() {
     revealed = i + 1; tileProgress = Infinity; draw();
     i++; setTimeout(step, 90 + Math.random() * 120);
   };
-  setTimeout(step, 350);
+  onVisible(headline, () => setTimeout(step, 250), 0.6);
 }
