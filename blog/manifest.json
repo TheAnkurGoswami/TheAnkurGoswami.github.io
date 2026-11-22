@@ -1,18 +1,19 @@
 [
     {
-        "title": "Key-Value Caching",
-        "description": "A deep dive into Key-Value Caching in transformers.",
+        "title": "Key-value caching, from the matrices up",
+        "description": "Why a transformer doesn't have to recompute the past for every new token.",
         "path": "blog/kv_caching/",
         "date": "2026-01-11",
         "readingTime": 8,
         "tags": ["Transformers", "Inference", "Attention"]
     },
     {
-        "title": "Flash Attention Visualization",
-        "description": "An interactive visualization of the Flash Attention mechanism.",
+        "title": "Flash Attention, visualised",
+        "description": "Watch attention get computed tile by tile, without ever holding the full matrix.",
         "path": "blog/flash_attention/",
         "date": "2025-08-23",
         "readingTime": 1,
+        "format": "Interactive",
         "tags": ["Attention", "GPU Kernels", "Transformers"]
     }
 ]
